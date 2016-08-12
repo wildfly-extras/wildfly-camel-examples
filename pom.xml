@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Wildfly Camel Testsuite
+  %%
+  Copyright (C) 2013 - 2014 RedHat
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>Wildfly Camel :: Example</name>
+
+    <groupId>org.wildfly.camel</groupId>
+    <artifactId>wildfly-camel-example</artifactId>
+    <packaging>pom</packaging>
+
+    <version>4.3.0-SNAPSHOT</version>
+
+    <description>WildFly Camel Integration</description>
+    <url>https://github.com/wildfly-extras/wildfly-camel</url>
+
+    <!-- Source Control -->
+    <scm>
+        <connection>scm:git:git://github.com/wildfly-extras/wildfly-camel.git</connection>
+        <developerConnection>scm:git:git@github.com:wildfly-extras/wildfly-camel.git</developerConnection>
+        <url>http://github.com/wildfly-extras/wildfly-camel</url>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <!-- Properties -->
+    <properties>
+        <!-- WildFly-Camel version -->
+        <version.wildfly.camel>4.2.0</version.wildfly.camel>
+        
+        <!-- WildFly version -->
+        <version.wildfly>10.0.0.Final</version.wildfly>
+        
+        <!-- Camel version -->
+        <version.apache.camel>2.17.3</version.apache.camel>
+        
+        <!-- Other versions -->
+        <version.greenmail>1.4.0</version.greenmail>
+        <version.jboss.shrinkwrap>1.2.2</version.jboss.shrinkwrap>
+        <version.wildfly.arquillian>1.0.2.Final</version.wildfly.arquillian>
+        
+        <!-- Plugin versions -->
+        <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
+        <version-maven-compiler-plugin>3.1</version-maven-compiler-plugin>
+        <version-maven-dependency-plugin>2.10</version-maven-dependency-plugin>
+        <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
+        <version-maven-war-plugin>2.5</version-maven-war-plugin>
+        <version-wildfly-maven-plugin>1.1.0.Alpha7</version-wildfly-maven-plugin>
+        
+        <deploy.skip>true</deploy.skip>
+    </properties>
+
+    <!-- Dependency Management -->
+    <dependencyManagement>
+        <dependencies>
+            
+            <!-- Camel -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-parent</artifactId>
+                <version>${version.apache.camel}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            
+            <!-- Greenmail -->
+            <dependency>
+                <groupId>com.icegreen</groupId>
+                <artifactId>greenmail-webapp</artifactId>
+                <version>${version.greenmail}</version>
+                <type>war</type>
+            </dependency>
+
+            <!-- Shrinkwrap -->
+            <!-- Needed because of https://github.com/wildfly/wildfly/blob/10.0.0.Final/pom.xml#L175 -->            
+            <dependency>
+                <groupId>org.jboss.shrinkwrap</groupId>
+                <artifactId>shrinkwrap-api</artifactId>
+                <version>${version.jboss.shrinkwrap}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap</groupId>
+                <artifactId>shrinkwrap-impl-base</artifactId>
+                <version>${version.jboss.shrinkwrap}</version>
+            </dependency>
+            
+            <!-- WildFly Camel -->
+            <dependency>
+                <groupId>org.wildfly.camel</groupId>
+                <artifactId>wildfly-camel-itests-common</artifactId>
+                <version>${version.wildfly.camel}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.camel</groupId>
+                <artifactId>wildfly-camel-patch</artifactId>
+                <version>${version.wildfly.camel}</version>
+                <type>pom</type>
+            </dependency>
+            
+            <!-- WildFly -->
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-parent</artifactId>
+                <version>${version.wildfly}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.arquillian</groupId>
+                <artifactId>wildfly-arquillian-container-domain-managed</artifactId>
+                <version>${version.wildfly.arquillian}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.arquillian</groupId>
+                <artifactId>wildfly-arquillian-container-managed</artifactId>
+                <version>${version.wildfly.arquillian}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.arquillian</groupId>
+                <artifactId>wildfly-arquillian-container-remote</artifactId>
+                <version>${version.wildfly.arquillian}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.arquillian</groupId>
+                <artifactId>wildfly-arquillian-protocol-jmx</artifactId>
+                <version>${version.wildfly.arquillian}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <!-- Plugin Management -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version-maven-compiler-plugin}</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${version-maven-dependency-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version-maven-surefire-plugin}</version>
+                    <configuration>
+                        <failIfNoTests>false</failIfNoTests>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${version-maven-war-plugin}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${version-exec-maven-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version-wildfly-maven-plugin}</version>
+                    <configuration>
+                        <version>${version.wildfly}</version>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+        
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly.camel</groupId>
+            <artifactId>wildfly-camel-subsystem-core</artifactId>
+            <version>${version.wildfly.camel}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    
+    <!-- Repositories -->
+    <repositories>
+        <repository>
+            <id>jboss-public-repository</id>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <!-- Modules -->
+    <modules>
+        <module>camel-activemq</module>
+        <module>camel-cdi</module>
+        <module>camel-cxf-jaxrs</module>
+        <module>camel-cxf-jaxws</module>
+        <module>camel-mail</module>
+        <module>camel-jms</module>
+        <module>camel-jpa</module>
+        <module>camel-transacted-jms</module>
+        <module>itests</module>
+    </modules>
+
+</project>
