@@ -25,20 +25,20 @@
 
     <name>Wildfly Camel :: Example</name>
 
-    <groupId>org.wildfly.camel</groupId>
-    <artifactId>wildfly-camel-example</artifactId>
+    <groupId>org.wildfly.camel.example</groupId>
+    <artifactId>example-camel</artifactId>
     <packaging>pom</packaging>
 
     <version>4.3.0-SNAPSHOT</version>
 
-    <description>WildFly Camel Integration</description>
-    <url>https://github.com/wildfly-extras/wildfly-camel</url>
+    <description>WildFly Camel Examples</description>
+    <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
 
     <!-- Source Control -->
     <scm>
-        <connection>scm:git:git://github.com/wildfly-extras/wildfly-camel.git</connection>
-        <developerConnection>scm:git:git@github.com:wildfly-extras/wildfly-camel.git</developerConnection>
-        <url>http://github.com/wildfly-extras/wildfly-camel</url>
+        <connection>scm:git:https://github.com/wildfly-extras/wildfly-camel-examples.git</connection>
+        <developerConnection>scm:git:https://github.com/wildfly-extras/wildfly-camel-examples.git</developerConnection>
+        <url>http://github.com/wildfly-extras/wildfly-camel-examples</url>
         <tag>HEAD</tag>
     </scm>
     
