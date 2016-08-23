@@ -190,7 +190,7 @@
                                 <artifactItem>
                                     <groupId>org.wildfly.camel</groupId>
                                     <artifactId>wildfly-camel-patch</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${version.wildfly.camel}</version>
                                     <type>tar.gz</type>
                                     <outputDirectory>${jboss.home}</outputDirectory>
                                     <overWrite>false</overWrite>

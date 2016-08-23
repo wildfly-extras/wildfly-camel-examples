@@ -45,10 +45,10 @@
     <!-- Properties -->
     <properties>
         <!-- WildFly-Camel version -->
-        <version.wildfly.camel>4.2.0</version.wildfly.camel>
+        <version.wildfly.camel>4.2.1</version.wildfly.camel>
         
         <!-- WildFly version -->
-        <version.wildfly>10.0.0.Final</version.wildfly>
+        <version.wildfly>10.1.0.CR1</version.wildfly>
         
         <!-- Camel version -->
         <version.apache.camel>2.17.3</version.apache.camel>
@@ -65,7 +65,7 @@
         <version-maven-release-plugin>2.5</version-maven-release-plugin>
         <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
         <version-maven-war-plugin>2.5</version-maven-war-plugin>
-        <version-wildfly-maven-plugin>1.1.0.Alpha7</version-wildfly-maven-plugin>
+        <version-wildfly-maven-plugin>1.1.0.Alpha10</version-wildfly-maven-plugin>
         
         <deploy.skip>true</deploy.skip>
     </properties>
