@@ -15,4 +15,4 @@ Each example aims to be interactive to help you learn how to get started with th
 can be accessed by changing into the example source directory, building the project `mvn clean install` and then deploying
 to a running application server `mvn install -Pdeploy`.
 
-Examples can be undeployed from a running application server by running `mvn install -Pdeploy`.
+Examples can be undeployed from a running application server by running `mvn clean -Pdeploy`.
