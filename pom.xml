@@ -44,14 +44,10 @@
     
     <!-- Properties -->
     <properties>
-        <!-- WildFly-Camel version -->
-        <version.wildfly.camel>4.2.1</version.wildfly.camel>
-        
-        <!-- WildFly version -->
+        <!-- WildFly-Camel versions -->
+        <version.wildfly.camel>4.3.0</version.wildfly.camel>
         <version.wildfly>10.1.0.Final</version.wildfly>
-        
-        <!-- Camel version -->
-        <version.apache.camel>2.17.3</version.apache.camel>
+        <version.apache.camel>2.18.0</version.apache.camel>
         
         <!-- Other versions -->
         <version.greenmail>1.4.0</version.greenmail>
