@@ -64,7 +64,7 @@
         <version-maven-dependency-plugin>2.10</version-maven-dependency-plugin>
         <version-maven-release-plugin>2.5</version-maven-release-plugin>
         <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
-        <version-maven-war-plugin>2.5</version-maven-war-plugin>
+        <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
         <version-wildfly-maven-plugin>1.1.0.Alpha10</version-wildfly-maven-plugin>
         
         <deploy.skip>true</deploy.skip>
@@ -187,9 +187,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>${version-maven-war-plugin}</version>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
