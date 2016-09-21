@@ -20,5 +20,5 @@
   -->
 
 <jboss-web>
-    <context-root>example-camel-transacted-jms</context-root>
+    <context-root>example-camel-jms-tx</context-root>
 </jboss-web>

@@ -104,6 +104,12 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-jms-tx</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-jpa</artifactId>
             <version>${project.version}</version>
             <type>war</type>
@@ -111,12 +117,6 @@
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-mail</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.camel.example</groupId>
-            <artifactId>example-camel-transacted-jms</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>

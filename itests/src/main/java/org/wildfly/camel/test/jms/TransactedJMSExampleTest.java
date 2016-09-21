@@ -69,7 +69,7 @@ public class TransactedJMSExampleTest {
 
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-transacted-jms.war"));
+        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-jms-tx.war"));
     }
 
     @After
@@ -106,7 +106,7 @@ public class TransactedJMSExampleTest {
         // Give camel a chance to consume the test order file
         Thread.sleep(2000);
 
-        HttpResponse result = HttpRequest.get(getEndpointAddress("/example-camel-transacted-jms/orders")).getResponse();
+        HttpResponse result = HttpRequest.get(getEndpointAddress("/example-camel-jms-tx/orders")).getResponse();
 
         Assert.assertTrue(result.getBody().contains("Test Product"));
     }
