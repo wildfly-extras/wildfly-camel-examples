@@ -48,7 +48,7 @@
         <version.wildfly.camel>4.2.1</version.wildfly.camel>
         
         <!-- WildFly version -->
-        <version.wildfly>10.1.0.CR1</version.wildfly>
+        <version.wildfly>10.1.0.Final</version.wildfly>
         
         <!-- Camel version -->
         <version.apache.camel>2.17.3</version.apache.camel>
