@@ -211,6 +211,21 @@
         </dependency>
     </dependencies>
     
+    <!-- Licenses -->
+    <licenses>
+        <license>
+            <name>apache_v2</name>
+            <url>http://repository.jboss.org/licenses/apache-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <!-- Developers -->
+    <developers>
+        <developer>
+            <name>WildFly Camel Committers</name>
+        </developer>
+    </developers>
+
     <!-- Distribution Management -->
     <distributionManagement>
         <repository>
