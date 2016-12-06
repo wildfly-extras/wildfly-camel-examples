@@ -85,8 +85,8 @@ public class JmsRouteBuilder extends RouteBuilder {
          * queue.
          */
         from("jms:queue:OrdersQueue")
-                .unmarshal(jaxbDataFormat)
-                .to("jpa:Order")
+            .unmarshal(jaxbDataFormat)
+            .to("jpa:Order")
                 .choice()
                 .when(simple("${body.quantity} > 10"))
                     .log("Order quantity is greater than 10 - rolling back transaction!")

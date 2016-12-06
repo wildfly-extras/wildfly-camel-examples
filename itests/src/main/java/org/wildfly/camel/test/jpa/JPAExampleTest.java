@@ -20,77 +20,43 @@
 package org.wildfly.camel.test.jpa;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Paths;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.camel.test.common.FileConsumingTestSupport;
 import org.wildfly.camel.test.common.http.HttpRequest;
 import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 
 @RunAsClient
 @RunWith(Arquillian.class)
-public class JPAExampleTest {
+public class JPAExampleTest extends FileConsumingTestSupport {
 
-    private File destination = new File(System.getProperty("jboss.home") + "/standalone/data/customers");
-
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-jpa.war"));
     }
 
-    @After
-    public void tearDown () throws IOException {
-        Files.walkFileTree(destination.toPath(), new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.delete(file);
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exception) throws IOException {
-                exception.printStackTrace();
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exception) throws IOException {
-                if (exception == null) {
-                    Files.delete(dir);
-                }
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
     @Test
-    public void testFileToJpaRoute() throws Exception {
-        InputStream input = getClass().getResourceAsStream("/jpa/customer.xml");
-        Files.copy(input, destination.toPath().resolve("customer.xml"));
-        input.close();
-
-        // Give camel a chance to consume the test customer file
-        Thread.sleep(2000);
-
-        HttpResponse result = HttpRequest.get(getEndpointAddress("/example-camel-jpa/customers")).getResponse();
+    public void testFileToJPARoute() throws Exception {
+        HttpResponse result = HttpRequest.get("http://localhost:8080/example-camel-jpa/customers").getResponse();
         Assert.assertTrue(result.getBody().contains("John Doe"));
     }
 
-    private String getEndpointAddress(String contextPath) throws MalformedURLException {
-        return "http://localhost:8080" + contextPath;
+    @Override
+    protected String sourceFilename() {
+        return "customer.xml";
+    }
+
+    @Override
+    protected Path destinationPath() {
+        return Paths.get(System.getProperty("jboss.home") + "/standalone/data/customers");
     }
 }

@@ -20,14 +20,8 @@
 package org.wildfly.camel.test.jms;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Paths;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -37,10 +31,10 @@ import org.jboss.as.arquillian.api.ServerSetupTask;
 import org.jboss.as.arquillian.container.ManagementClient;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.camel.test.common.FileConsumingTestSupport;
 import org.wildfly.camel.test.common.http.HttpRequest;
 import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 import org.wildfly.camel.test.common.utils.JMSUtils;
@@ -48,11 +42,10 @@ import org.wildfly.camel.test.common.utils.JMSUtils;
 @RunAsClient
 @RunWith(Arquillian.class)
 @ServerSetup({ JMSExampleTest.JmsQueueSetup.class })
-public class JMSExampleTest {
+public class JMSExampleTest extends FileConsumingTestSupport {
 
     private static String ORDERS_QUEUE = "OrdersQueue";
     private static String ORDERS_QUEUE_JNDI = "java:/jms/queue/OrdersQueue";
-    private File destination = new File(System.getProperty("jboss.home") + "/standalone/data/orders");
 
     static class JmsQueueSetup implements ServerSetupTask {
 
@@ -67,50 +60,24 @@ public class JMSExampleTest {
         }
     }
 
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-jms.war"));
     }
 
-    @After
-    public void tearDown () throws IOException {
-        Files.walkFileTree(destination.toPath(), new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.delete(file);
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exception) throws IOException {
-                exception.printStackTrace();
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exception) throws IOException {
-                if (exception == null) {
-                    Files.delete(dir);
-                }
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
     @Test
     public void testFileToJmsRoute() throws Exception {
-        InputStream input = getClass().getResourceAsStream("/jms/order.xml");
-        Files.copy(input, destination.toPath().resolve("order.xml"));
-        input.close();
-
-        // Give camel a chance to consume the test order file
-        Thread.sleep(2000);
-
-        HttpResponse result = HttpRequest.get(getEndpointAddress("/example-camel-jms/orders")).getResponse();
+        HttpResponse result = HttpRequest.get("http://localhost:8080/example-camel-jms/orders").getResponse();
         Assert.assertTrue(result.getBody().contains("UK: 1"));
     }
 
-    private String getEndpointAddress(String contextPath) throws MalformedURLException {
-        return "http://localhost:8080" + contextPath;
+    @Override
+    protected String sourceFilename() {
+        return "order.xml";
+    }
+
+    @Override
+    protected Path destinationPath() {
+        return Paths.get(System.getProperty("jboss.home") + "/standalone/data/orders");
     }
 }
