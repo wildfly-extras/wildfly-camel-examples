@@ -47,13 +47,7 @@
         <!-- WildFly-Camel versions -->
         <version.wildfly.camel>4.4.0</version.wildfly.camel>
         <version.wildfly>10.1.0.Final</version.wildfly>
-        <version.apache.camel>2.18.1</version.apache.camel>
-        
-        <!-- Other versions -->
-        <version.greenmail>1.4.0</version.greenmail>
-        <version.jboss.shrinkwrap>1.2.2</version.jboss.shrinkwrap>
-        <version.wildfly.arquillian>1.0.2.Final</version.wildfly.arquillian>
-        
+
         <!-- Plugin versions -->
         <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
         <version-maven-compiler-plugin>3.1</version-maven-compiler-plugin>
@@ -69,42 +63,13 @@
     <!-- Dependency Management -->
     <dependencyManagement>
         <dependencies>
-            
-            <!-- Camel -->
-            <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-parent</artifactId>
-                <version>${version.apache.camel}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            
-            <!-- Greenmail -->
-            <dependency>
-                <groupId>com.icegreen</groupId>
-                <artifactId>greenmail-webapp</artifactId>
-                <version>${version.greenmail}</version>
-                <type>war</type>
-            </dependency>
-
-            <!-- Shrinkwrap -->
-            <!-- Needed because of https://github.com/wildfly/wildfly/blob/10.0.0.Final/pom.xml#L175 -->            
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-api</artifactId>
-                <version>${version.jboss.shrinkwrap}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-impl-base</artifactId>
-                <version>${version.jboss.shrinkwrap}</version>
-            </dependency>
-            
             <!-- WildFly Camel -->
             <dependency>
                 <groupId>org.wildfly.camel</groupId>
-                <artifactId>wildfly-camel-itests-common</artifactId>
+                <artifactId>wildfly-camel</artifactId>
                 <version>${version.wildfly.camel}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.wildfly.camel</groupId>
@@ -112,37 +77,17 @@
                 <version>${version.wildfly.camel}</version>
                 <type>pom</type>
             </dependency>
-            
-            <!-- WildFly -->
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-parent</artifactId>
-                <version>${version.wildfly}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.arquillian</groupId>
-                <artifactId>wildfly-arquillian-container-domain-managed</artifactId>
-                <version>${version.wildfly.arquillian}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.arquillian</groupId>
-                <artifactId>wildfly-arquillian-container-managed</artifactId>
-                <version>${version.wildfly.arquillian}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.arquillian</groupId>
-                <artifactId>wildfly-arquillian-container-remote</artifactId>
-                <version>${version.wildfly.arquillian}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.arquillian</groupId>
-                <artifactId>wildfly-arquillian-protocol-jmx</artifactId>
-                <version>${version.wildfly.arquillian}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly.camel</groupId>
+            <artifactId>wildfly-camel-subsystem-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <!-- Plugin Management -->
@@ -201,16 +146,6 @@
         </pluginManagement>
     </build>
         
-    <!-- Dependencies -->
-    <dependencies>
-        <dependency>
-            <groupId>org.wildfly.camel</groupId>
-            <artifactId>wildfly-camel-subsystem-core</artifactId>
-            <version>${version.wildfly.camel}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-    
     <!-- Licenses -->
     <licenses>
         <license>

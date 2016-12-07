@@ -55,7 +55,6 @@
         <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail-webapp</artifactId>
-            <version>${version.greenmail}</version>
             <type>war</type>
             <scope>provided</scope>
         </dependency>
@@ -91,8 +90,6 @@
                         <configuration>
                             <groupId>com.icegreen</groupId>
                             <artifactId>greenmail-webapp</artifactId>
-                            <version>${version.greenmail}</version>
-                            <type>war</type>
                         </configuration>
                     </execution>
                     <execution>
@@ -130,7 +127,7 @@
                             <goal>undeploy</goal>
                         </goals>
                         <configuration>
-                            <matchPattern>greenmail-webapp-${version.greenmail}.war</matchPattern>
+                            <matchPattern>greenmail-webapp-.*.war</matchPattern>
                         </configuration>
                     </execution>
                 </executions>
