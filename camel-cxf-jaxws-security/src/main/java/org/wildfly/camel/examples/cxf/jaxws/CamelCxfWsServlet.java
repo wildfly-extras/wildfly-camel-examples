@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.CamelExecutionException;
 import org.apache.camel.ProducerTemplate;
 
 @SuppressWarnings("serial")
@@ -64,7 +65,8 @@ public class CamelCxfWsServlet extends HttpServlet {
         Object[] serviceParams = new Object[] {message, name};
         String result = producer.requestBody("direct:start", serviceParams, String.class);
 
-        request.setAttribute("greeting", result);
+
+        request.setAttribute("greeting", result);        
         request.getRequestDispatcher("/greeting.jsp").forward(request, response);
     }
 }
