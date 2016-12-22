@@ -19,10 +19,10 @@
 	<ear-subdeployments-isolated>false</ear-subdeployments-isolated>
 	<deployment>
 		<dependencies>
-			<!--
+			<!-- -->
 			<module name="org.wildfly.extension.camel.cxf.undertow" export="true" />
 			<module name="org.wildfly.extension.camel.security" export="true" />
-			-->
+			
 			<!--
 			<module name="org.jboss.security.negotiation" export="true" />			
 			<module name="de.lbank.security" export="true" services="import" />			
