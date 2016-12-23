@@ -33,7 +33,7 @@ Testing Camel CXF JAX-WS
 Web UI
 ------
 
-Browse to http://localhost:8080/example-camel-cxfws/.
+Browse to http://localhost:8080/example-camel-cxfws-security/.
 
 From the 'Send A Greeting' web form, enter a 'message' and 'name' into the text fields and press the 'send' button. You'll then
 see the information you entered combined to display a greeting on the UI.

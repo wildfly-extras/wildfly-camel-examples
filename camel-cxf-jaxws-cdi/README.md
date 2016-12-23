@@ -1,5 +1,19 @@
-Camel CXF JAX-WS Example
+Camel CXF JAX-WS Example changed to using CDI and tried to add CXF Authentication and Authorization
 ------------------------
+
+Starting from the "Camel CXF JAX-WS Example" I replaced the spring configuration "cxfws-camel-context.xml" with "org.wildfly.camel.examples.cxf.jaxws.JavaDSLRouteBuilder.java". This change worked fine.
+
+Unfortunately this example doesn't work any more after adding the "org.apache.cxf.interceptor.security.JAASLoginInterceptor" to the CXF endpoint. I think it's a classloader issue, because the JAASLoginInterceptor has this cause in the LoginException, if the security domain "other" is used:
+
+javax.security.auth.login.LoginException: LoginModule-Klasse kann nicht gefunden werden: org.jboss.as.security.remoting.RemotingLoginModule from [Module "org.wildfly.extension.camel.cxf.undertow:main" from local module loader @4b53f538 (finder: local module finder @134593bf (roots: C:\daten\wildfly-10.1.0.Final\modules,C:\daten\wildfly-10.1.0.Final\modules\system\layers\fuse,C:\daten\wildfly-10.1.0.Final\modules\system\layers\base))]
+
+I tried with other security domains and custom LoginModules configured within Wildfly, but I always get a "LoginModule-Class not found" as exception message.
+I also tried to put some more modules in "jboss-deployment-structure.xml" and/or "jboss-all.xml", but couldn't solve the issue.
+
+
+Putting the same security configuration in the original spring based "Camel CXF JAX-WS Example" (see: https://github.com/jochenr/wildfly-camel-examples/tree/master/camel-cxf-jaxws-security) it works and all classes are found. So I think there's a classloading issue with camel-cdi in wildfly.....
+
+
 
 This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web services.
 
@@ -16,13 +30,13 @@ Running the example
 -------------------
 
 To run the example.
-
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
-2. Build and deploy the project `mvn install -Pdeploy`
-3. Browse to http://localhost:8080/example-camel-cxfws/
+1. Add user "testUser" with password "testPassword1+" that has the role "testRole" with the add-user script (${JBOSS_HOME}/bin/add-user.sh ...)
+2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+3. Build and deploy the project `mvn install -Pdeploy`
+4. Browse to http://localhost:8080/example-camel-cxfws-cdi/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
-started. The service WSDL is available at http://localhost:8080/example-camel-cxfws/greeting?wsdl.
+started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-cdi/greeting?wsdl.
 
 There is a single service operation named 'greet' which takes 2 String parameters named 'message' and 'name'. Invoking the web service will return
 a response where these values have been concatenated together.
@@ -33,7 +47,7 @@ Testing Camel CXF JAX-WS
 Web UI
 ------
 
-Browse to http://localhost:8080/example-camel-cxfws/.
+Browse to http://localhost:8080/example-camel-cxfws-cdi/.
 
 From the 'Send A Greeting' web form, enter a 'message' and 'name' into the text fields and press the 'send' button. You'll then
 see the information you entered combined to display a greeting on the UI.
