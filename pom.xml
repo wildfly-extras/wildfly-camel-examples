@@ -44,8 +44,9 @@
     
     <!-- Properties -->
     <properties>
+    
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>4.4.0</version.wildfly.camel>
+        <version.wildfly.camel>4.5.0</version.wildfly.camel>
         <version.wildfly>10.1.0.Final</version.wildfly>
 
         <!-- Plugin versions -->
