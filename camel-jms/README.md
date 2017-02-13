@@ -69,5 +69,5 @@ To undeploy the example run `mvn clean -Pdeploy`.
 Learn more
 ----------
 
-Additional camel-jms documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jms.html
+Additional camel-jms documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_jms
 ) site.

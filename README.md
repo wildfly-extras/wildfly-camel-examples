@@ -11,8 +11,8 @@ Their aim is to provide small, specific and working examples that can be used fo
 
 ### Prerequisites
 
-Please refer to the project [README documentation](../README.md) for information on how to build and test the project.
-Please take into consideration the minimum Java and Maven requirements. The examples also require a running application server 
+Please refer to the project [README documentation](https://github.com/wildfly-extras/wildfly-camel/blob/master/README.md) for information on how to build and test the project.
+Please take into consideration the minimum Java and Maven requirements. The examples also require a running application server
 with the wildfly-camel subsystem deployed.
 
 ### Running Examples

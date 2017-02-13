@@ -27,7 +27,7 @@ of orders per country will be listed on this page.
 
 Testing Camel ActiveMQ
 ----------------------
-        
+
 There are some example order XML files within the `src/main/resources` directory. To make Camel
 consume them and send them to the 'OrdersQueue' JMS destination, simply copy them to the orders input
 director.
@@ -65,6 +65,6 @@ To undeploy the example run `mvn clean -Pdeploy`.
 
 Learn more
 ----------
- 
+
 Additional camel-activemq documentation can be
-found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/components/camel-activemq.html) site.
+found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_activemq) site.

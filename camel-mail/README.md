@@ -29,8 +29,8 @@ There are also some custom socket bindings to ensure that the mail session can c
 </outbound-socket-binding>
 ```
 
-The Greenmail `mail-session` is discovered from the Camel CDI bean registry by referencing it by name on the camel-mail endpoint configuration. 
-See class `MailSessionProducer` for further details. 
+The Greenmail `mail-session` is discovered from the Camel CDI bean registry by referencing it by name on the camel-mail endpoint configuration.
+See class `MailSessionProducer` for further details.
 
 Two Camel mail endpoints are configured. One to send email via SMTP and another to receive email with POP3.
 
@@ -90,4 +90,4 @@ Learn more
 ----------
 
 Additional camel-mail documentation can be
-found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/components/camel-mail.html) site.
+found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_mail) site.

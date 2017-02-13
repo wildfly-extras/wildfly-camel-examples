@@ -54,4 +54,4 @@ To undeploy the example run `mvn clean -Pdeploy`.
 Learn more
 ----------
 
-Additional camel-jpa documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/components/camel-jpa.html) site.
+Additional camel-jpa documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_jpa) site.

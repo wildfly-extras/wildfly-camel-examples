@@ -58,4 +58,4 @@ To undeploy the example run `mvn clean -Pdeploy`.
 ## Learn more
 
 Additional camel-cdi documentation can be
-found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/components/camel-cdi.html) site.
+found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_cdi) site.
