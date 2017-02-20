@@ -1,6 +1,6 @@
 ## WildFly Camel Examples
 
-[![Jenkins](https://img.shields.io/jenkins/s/https/ci.fabric8.io/wildfly-camel.svg?maxAge=600)](https://fabric8-ci.fusesource.com/view/wildfly-camel/job/wildfly-camel-eamples)
+[![Jenkins](https://img.shields.io/jenkins/s/https/ci.fabric8.io/wildfly-camel.svg?maxAge=600)](https://fabric8-ci.fusesource.com/view/wildfly-camel/job/wildfly-camel-examples)
 [![License](https://img.shields.io/:license-Apache2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Join the chat at freenode:wildfly-camel](https://img.shields.io/badge/irc-freenode%3A%20%23wildfly--camel-blue.svg)](http://webchat.freenode.net/?channels=%23wildfly-camel)
 
