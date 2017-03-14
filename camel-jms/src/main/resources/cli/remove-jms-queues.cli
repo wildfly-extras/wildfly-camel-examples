@@ -1,9 +1,9 @@
 batch
 
-# Configure max-delivery-attempts
-/subsystem=messaging-activemq/server=default/address-setting=jms.queue.OrdersQueue:remove(max-delivery-attempts=1)
+# Remove max-delivery-attempts
+/subsystem=messaging-activemq/server=default/address-setting=jms.queue.OrdersQueue:remove
 
-# Configure the JMS test queue
+# Remove the JMS test queue
 /subsystem=messaging-activemq/server=default/jms-queue=OrdersQueue:remove
 
 run-batch
