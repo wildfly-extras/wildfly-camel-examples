@@ -19,15 +19,13 @@
  */
 package org.wildfly.camel.examples.jpa;
 
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.wildfly.extension.camel.CamelAware;
+import org.apache.camel.cdi.ContextName;
 
-@Startup
-@CamelAware
 @ApplicationScoped
+@ContextName("camel-jpa-context")
 public class JPARouteBuilder extends RouteBuilder {
 
     @Override
@@ -40,6 +38,7 @@ public class JPARouteBuilder extends RouteBuilder {
         from("file://{{jboss.server.data.dir}}/customers")
         .unmarshal("jaxb")
         .to("jpa:org.wildfly.camel.examples.jpa.model.Customer")
-        .to("log:input?showAll=true");
+        .to("log:input?showAll=true")
+        .to("file://{{jboss.server.data.dir}}/customers/processed");
     }
 }

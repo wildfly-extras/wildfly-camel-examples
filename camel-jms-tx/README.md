@@ -30,7 +30,7 @@ To run the example.
 You should see a page titled 'Orders Received'. As we send orders to the example application, a list
 of processed orders will be listed on this page.
 
-Testing Transacted Camel JMS
+Testing Camel Transacted JMS
 ----------------------------
 
 There are some example order XML files within the `src/main/resources/orders` directory.
@@ -75,9 +75,3 @@ Undeploy
 --------
 
 To undeploy the example run `mvn clean -Pdeploy`.
-
-Learn more
-----------
-
-Additional camel-jms documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_jms
-) site.

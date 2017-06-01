@@ -46,7 +46,7 @@
     <properties>
     
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>4.6.0</version.wildfly.camel>
+        <version.wildfly.camel>4.7.0</version.wildfly.camel>
         <version.wildfly>10.1.0.Final</version.wildfly>
 
         <!-- Plugin versions -->
@@ -86,6 +86,7 @@
         <dependency>
             <groupId>org.wildfly.camel</groupId>
             <artifactId>wildfly-camel-subsystem-core</artifactId>
+            <version>${version.wildfly.camel}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -198,10 +199,16 @@
         <module>camel-cdi</module>
         <module>camel-cxf-jaxrs</module>
         <module>camel-cxf-jaxws</module>
-        <module>camel-mail</module>
         <module>camel-jms</module>
+        <module>camel-jms-mdb</module>
+        <module>camel-jms-spring</module>
         <module>camel-jms-tx</module>
+        <module>camel-jms-tx-spring</module>
         <module>camel-jpa</module>
+        <module>camel-jpa-spring</module>
+        <module>camel-mail</module>
+        <module>camel-mail-spring</module>
+        <module>camel-rest-swagger</module>
         <module>itests</module>
     </modules>
 

@@ -20,17 +20,15 @@
 package org.wildfly.camel.examples.jms;
 
 import javax.annotation.Resource;
-import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.jms.ConnectionFactory;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.cdi.ContextName;
 import org.apache.camel.component.jms.JmsComponent;
-import org.wildfly.extension.camel.CamelAware;
 
-@Startup
-@CamelAware
 @ApplicationScoped
+@ContextName("camel-jms-context")
 public class JmsRouteBuilder extends RouteBuilder {
 
     @Resource(mappedName = "java:jboss/DefaultJMSConnectionFactory")
