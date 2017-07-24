@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.8.0-SNAPSHOT</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Testsuite</name>
@@ -42,6 +42,19 @@
     <!-- Dependencies -->
     <dependencies>
         <dependency>
+            <groupId>org.wildfly.camel</groupId>
+            <artifactId>wildfly-camel-itests-common</artifactId>
+            <version>${version.wildfly.camel}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel</groupId>
+            <artifactId>wildfly-camel-patch</artifactId>
+            <version>${version.wildfly.camel}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -58,14 +71,9 @@
             <artifactId>wildfly-arquillian-container-managed</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.camel</groupId>
-            <artifactId>wildfly-camel-itests-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.camel</groupId>
-            <artifactId>wildfly-camel-patch</artifactId>
-            <scope>provided</scope>
-            <type>pom</type>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-rar</artifactId>
+            <type>rar</type>
         </dependency>
         <dependency>
             <groupId>com.icegreen</groupId>
@@ -104,7 +112,25 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-jms-spring</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-jms-mdb</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-jms-tx</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-jms-tx-spring</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -116,7 +142,25 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-jpa-spring</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-mail</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-mail-spring</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-rest-swagger</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -154,8 +198,8 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeGroupIds>org.wildfly.camel.example,com.icegreen</includeGroupIds>
-                            <includeTypes>war</includeTypes>
+                            <includeGroupIds>org.apache.activemq,org.wildfly.camel,com.icegreen</includeGroupIds>
+                            <includeTypes>rar,war</includeTypes>
                             <stripVersion>true</stripVersion>
                             <outputDirectory>${project.build.directory}/examples</outputDirectory>
                         </configuration>

@@ -1,7 +1,7 @@
 camel-mail example
 ------------------
 
-This example demonstrates using the camel-email component with WildFly Camel susbsystem to send and receive email.
+This example demonstrates using the camel-mail component with WildFly Camel susbsystem to send and receive email.
 
 The example uses [Greenmail](http://www.icegreen.com/greenmail/) to configure a local mail server on your machine. This eliminates the need to
 use external mail services. The configuration for the WildFly mail subsystem can be found within CLI scripts at `src/main/resources/cli`.
@@ -29,8 +29,8 @@ There are also some custom socket bindings to ensure that the mail session can c
 </outbound-socket-binding>
 ```
 
-The Greenmail `mail-session` is discovered from the Camel CDI bean registry by referencing it by name on the camel-mail endpoint configuration. 
-See class `MailSessionProducer` for further details. 
+The Greenmail `mail-session` is discovered from the Camel CDI bean registry by referencing it by name on the camel-mail endpoint configuration.
+See class `MailSessionProducer` for further details.
 
 Two Camel mail endpoints are configured. One to send email via SMTP and another to receive email with POP3.
 
@@ -57,7 +57,7 @@ To run the example.
 
 You should see a form from which you can test sending emails with Camel.
 
-Testing Camel email
+Testing Camel Mail
 -------------------
 
 Enter a 'from' address, subject and email message body and click the 'send button'. Note that the pop3 mail endpoint was configured
@@ -90,4 +90,4 @@ Learn more
 ----------
 
 Additional camel-mail documentation can be
-found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/components/camel-mail.html) site.
+found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_mail) site.

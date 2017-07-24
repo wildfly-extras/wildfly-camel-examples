@@ -42,7 +42,7 @@ So what just happened there?
 
 `CamelCxfRsServlet` handles the POST request from the web UI. It retrieves the name form parameter value and constructs an
 object array. This object array will be the message payload that is sent to the `direct:start` endpoint. A `ProducerTemplate`
-sends the message payload to Camel. `The direct:start` endpoint passes the object array to a `cxfrs:bean` REST service producer. 
+sends the message payload to Camel. `The direct:start` endpoint passes the object array to a `cxfrs:bean` REST service producer.
 The REST service response is used by `CamelCxfRsServlet` to display the greeting on the web UI.
 
 The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfrs-camel-context.xml`.
@@ -53,5 +53,5 @@ To undeploy the example run `mvn clean -Pdeploy`.
 
 ## Learn more
 
-Additional camel-cxf documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jaxrs.html
+Additional camel-cxf documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_jax_rs
 ) site.

@@ -22,7 +22,7 @@ To run the example.
 2. Build and deploy the project `mvn install -Pdeploy`
 3. Browse to http://localhost:8080/example-camel-jpa/customers
 
-Testing Camel JMS
+Testing Camel JPA
 -----------------
 
 There are some example customer XML files within the `src/main/resources/customers` directory. To make Camel
@@ -54,4 +54,4 @@ To undeploy the example run `mvn clean -Pdeploy`.
 Learn more
 ----------
 
-Additional camel-jpa documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/components/camel-jpa.html) site.
+Additional camel-jpa documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_jpa) site.
