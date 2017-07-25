@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
   Wildfly Camel :: Example :: Camel CXF JAX-WS
@@ -16,22 +17,20 @@
   #L%
   -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:cxf="http://camel.apache.org/schema/cxf"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
-        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    <cxf:cxfEndpoint id="cxfConsumer"
-                     address="http://localhost:8080/webservices/greeting"
-                     serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService" />
+    <!-- now producedd in org.wildfly.camel.examples.cxf.jaxws.Application as CDI beans
+    <cxf:cxfEndpoint
+        address="http://localhost:8080/webservices/greeting"
+        id="cxfConsumer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService"/>
+    <cxf:cxfEndpoint
+        address="http://localhost:8080/webservices/greeting"
+        id="cxfProducer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService"/>
+    <bean
+        class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
 
-    <cxf:cxfEndpoint id="cxfProducer"
-                     address="http://localhost:8080/webservices/greeting"
-                     serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService" />
-
-    <bean id="greetingsProcessor" class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" />
+    -->
 
     <camelContext id="cxfws-camel-context" xmlns="http://camel.apache.org/schema/spring">
         <!--
@@ -40,20 +39,18 @@
          CamelCxfWsServlet sends the required message and name parameters to the service by populating them
          within the message exchange body.
         -->
-        <route>
-            <from uri="direct:start" />
-            <to uri="cxf:bean:cxfProducer" />
+        <route id="_route1">
+            <from id="_from1" uri="direct:start"/>
+            <to id="_to1" uri="cxf:bean:cxfProducer"/>
         </route>
-
         <!--
         This route defines a CXF consumer endpoint which handles requests made to the greeting web service.
 
         GreetingsProcessor constructs a String greeting response to return back to the JAX-WS client.
         -->
-        <route>
-            <from uri="cxf:bean:cxfConsumer" />
-            <process ref="greetingsProcessor" />
+        <route id="_route2">
+            <from id="_from2" uri="cxf:bean:cxfConsumer"/>
+            <process id="_process1" ref="greetingsProcessor"/>
         </route>
     </camelContext>
-
 </beans>
