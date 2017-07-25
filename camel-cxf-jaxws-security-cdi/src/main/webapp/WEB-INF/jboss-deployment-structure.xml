@@ -37,69 +37,7 @@
 			<module name="org.jboss.ws.cxf.jbossws-cxf-client" export="true" />
 			<module name="org.jboss.ws.cxf.jbossws-cxf-server" export="true" />
 			<module name="org.apache.ws.security" export="true" />
-			<module name="org.opensaml" export="true" />
-			
-			
-			<!-- für Auditing...wird genutzt in:
-				de.lbank.framework.ws.server.security.saml.SubjectCreatingSAMLPolicyInterceptor
-			
-			<module name="org.jboss.msc" export="true" />
-			<module name="org.jboss.as.server" export="true" />
-			-->
-
-			<!-- lt. Jochen fuer  Framework-Switchyard-Workaround 
-			<module name="org.switchyard.component.soap" export="true" />
-			<module name="org.switchyard.component.common" export="true" />
-			<module name="org.switchyard.common" export="true" />
-			-->
-			<!-- de.lbank.esb.framework.switchyard.audit.LBankAuditor -->
-			<!--
-			<module name="org.switchyard.api.extensions.wsdl" export="true" />
-			<module name="org.switchyard.common.camel" export="true" />
-			-->
-
-			<!-- lt. Jochen fuer Anbinding an A-MQ 
-			<module name="org.switchyard.config" export="true" />
-            <module name="deployment.activemq-rar.rar"/>
-			<module name="org.switchyard.component.jca" export="true" />
-			<module name="javax.jms.api" export="true" />
-			-->
-			<!-- wegen
-				https://jira.l-bank.intern.ads/browse/LPB-255
-				aber was ist richtig??
-			-->
-			<!--
-			<module name="org.jboss.ws.saaj-impl" export="true" />
-			<module name="javax.activation.api" export="true" />
-			<module name="com.sun.xml.messaging.saaj" export="true" />
-			-->
-
-			<!--  geht doch ohne
-			<module name="org.springframework.spring" export="true" meta-inf="export"/>
-			-->
-
-			<!-- lt. Simon fuer Framework-Errorhandler 
-			<module name="org.switchyard.api" export="true" />
-			<module name="org.switchyard.component.camel" export="true" />
-			<module name="org.switchyard.component.camel.cxf" export="true" />
-			<module name="org.switchyard.component.common" export="true" />
-			<module name="org.switchyard.component.soap" export="true" />
-			<module name="org.switchyard.bus.camel" export="true" />
-			-->
-			
-			<!-- SOAPFault Interceptor 
-			<module name="com.sun.xml.messaging.saaj" export="true" />
-			-->
-			
-			
-			<!-- Fuer Zugriff auf JBoss Management API (CLI aus Java) -->
-			<!--  https://planet.jboss.org/post/co_located_management_client_for_jbossas_7 -->
-			<!--
-			<module name="org.jboss.as.controller-client"/>
-			<module name="org.jboss.dmr"/>
-			<module name="org.jboss.msc"/>
-			<module name="org.jboss.as.server"/>
-			-->
+			<module name="org.opensaml" export="true" />			
 
 		</dependencies>
 	</deployment>
