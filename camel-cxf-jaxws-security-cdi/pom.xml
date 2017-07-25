@@ -26,12 +26,12 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.8.0-SNAPSHOT</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Camel CXF JAX-WS</name>
 
-    <artifactId>example-camel-cxf-jaxws-cdi</artifactId>
+    <artifactId>example-camel-cxf-jaxws-security-cdi</artifactId>
     <packaging>war</packaging>
 
     <dependencies>

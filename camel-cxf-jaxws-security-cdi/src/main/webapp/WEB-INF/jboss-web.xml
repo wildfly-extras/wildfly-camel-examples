@@ -20,5 +20,5 @@
   -->
 
 <jboss-web>
-    <context-root>example-camel-cxfws-cdi</context-root>
+    <context-root>example-camel-cxfws-security-cdi</context-root>
 </jboss-web>

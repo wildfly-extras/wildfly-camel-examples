@@ -33,10 +33,10 @@ To run the example.
 1. Add user "testUser" with password "testPassword1+" that has the role "testRole" with the add-user script (${JBOSS_HOME}/bin/add-user.sh ...)
 2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
 3. Build and deploy the project `mvn install -Pdeploy`
-4. Browse to http://localhost:8080/example-camel-cxfws-cdi/
+4. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
-started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-cdi/greeting?wsdl.
+started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-security-cdi/greeting?wsdl.
 
 There is a single service operation named 'greet' which takes 2 String parameters named 'message' and 'name'. Invoking the web service will return
 a response where these values have been concatenated together.
@@ -47,7 +47,7 @@ Testing Camel CXF JAX-WS
 Web UI
 ------
 
-Browse to http://localhost:8080/example-camel-cxfws-cdi/.
+Browse to http://localhost:8080/example-camel-cxfws-security-cdi/.
 
 From the 'Send A Greeting' web form, enter a 'message' and 'name' into the text fields and press the 'send' button. You'll then
 see the information you entered combined to display a greeting on the UI.
