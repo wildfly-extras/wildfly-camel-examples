@@ -51,12 +51,13 @@
 
         <!-- Plugin versions -->
         <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
+        <version-maven-assembly-plugin>2.4</version-maven-assembly-plugin>
         <version-maven-compiler-plugin>3.1</version-maven-compiler-plugin>
         <version-maven-dependency-plugin>2.10</version-maven-dependency-plugin>
         <version-maven-release-plugin>2.5</version-maven-release-plugin>
         <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
         <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
-        <version-wildfly-maven-plugin>1.2.0.Alpha3</version-wildfly-maven-plugin>
+        <version-wildfly-maven-plugin>1.2.0.Alpha6</version-wildfly-maven-plugin>
         
         <deploy.skip>true</deploy.skip>
     </properties>
@@ -72,29 +73,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.wildfly.camel</groupId>
-                <artifactId>wildfly-camel-patch</artifactId>
-                <version>${version.wildfly.camel}</version>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <!-- Dependencies -->
-    <dependencies>
-        <dependency>
-            <groupId>org.wildfly.camel</groupId>
-            <artifactId>wildfly-camel-subsystem-core</artifactId>
-            <version>${version.wildfly.camel}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <!-- Plugin Management -->
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${version-maven-assembly-plugin}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -210,6 +200,7 @@
         <module>camel-mail-spring</module>
         <module>camel-rest-swagger</module>
         <module>itests</module>
+        <module>distro</module>
     </modules>
 
 </project>
