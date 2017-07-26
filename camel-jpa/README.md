@@ -1,7 +1,7 @@
 Camel JPA example
 -----------------
 
-This example demonstrates using the camel-jpa component with WildFly Camel susbsystem to persist entities to a database.
+This example demonstrates using the camel-jpa component with JBoss Fuse on EAP to persist entities to a database.
 
 In this example, a Camel route creates order entities and persists them to a database. The Camel REST DSL is used to expose endpoints for
 retrieving records from the database.
@@ -10,14 +10,14 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with JBoss Fuse installed
 
 Running the example
 -------------------
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-camel.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
 
 Testing Camel JPA
@@ -43,8 +43,3 @@ Undeploy
 --------
 
 To undeploy the example run `mvn clean -Pdeploy`.
-
-Learn more
-----------
-
-Additional camel-jpa documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_jpa) site.

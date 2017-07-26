@@ -34,13 +34,7 @@
     <artifactId>example-camel-cxf-jaxrs</artifactId>
 	<packaging>war</packaging>
 	
-    <!-- Properties -->
-    <properties>
-        <docker.image.name>wildflyext/example-camel-rest</docker.image.name>
-        <docker.removeAll>true</docker.removeAll>
-    </properties>
-
-    <!-- Dependencies -->    
+    <!-- Dependencies -->
 	<dependencies>
 	
 		<!-- Provided -->
@@ -104,60 +98,6 @@
             <properties>
                 <deploy.skip>false</deploy.skip>
             </properties>
-        </profile>
-        <profile>
-            <!-- Requires DOCKER_HOST -->
-            <id>docker</id>
-            <activation>
-                <property>
-                    <name>docker</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>remove-images</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>remove</goal>
-                                </goals>
-                                <configuration>
-                                    <images>
-                                        <image>
-                                            <name>${docker.image.name}</name>
-                                        </image>
-                                    </images>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>build-docker-image</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <images>
-                                        <image>
-                                            <name>${docker.image.name}</name>
-                                            <build>
-                                                <from>wildflyext/wildfly-camel</from>
-                                                <assembly>
-                                                    <basedir>/wildfly/standalone/deployments</basedir>
-                                                    <descriptorRef>artifact</descriptorRef>
-                                                </assembly>
-                                            </build>
-                                        </image>
-                                    </images>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>openshift</id>

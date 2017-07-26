@@ -1,7 +1,7 @@
 Camel Mail Spring example
 -------------------------
 
-This example demonstrates using the camel-mail component with Spring and the WildFly Camel susbsystem to send and receive email.
+This example demonstrates using the camel-mail component with Spring and JBoss Fuse on EAP to send and receive email.
 
 The example uses [Greenmail](http://www.icegreen.com/greenmail/) to configure a local mail server on your machine. This eliminates the need to
 use external mail services. The configuration for the WildFly mail subsystem can be found within CLI scripts at `src/main/resources/cli`.
@@ -60,7 +60,7 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-camel.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
 3. Browse to http://localhost:8080/example-camel-mail-spring/
 
@@ -94,9 +94,3 @@ To undeploy the example run `mvn clean -Pdeploy`.
 
 > **NOTE:** If you want to deploy this example application multiple times, you should ensure that you run the undeploy
 step mentioned above and restart the application server afterwards.
-
-Learn more
-----------
-
-Additional camel-mail documentation can be
-found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_camel_mail) site.
