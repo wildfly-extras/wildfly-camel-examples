@@ -1,5 +1,21 @@
-/**
+/*
+ * #%L
+ * Wildfly Camel :: Example :: Camel CXF JAX-WS CXF CDI XML-Configuration
+ * %%
+ * Copyright (C) 2013 - 2014 RedHat
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
  */
 package org.wildfly.camel.examples.cxf.jaxws;
 
@@ -15,15 +31,11 @@ import org.apache.camel.component.cxf.CxfComponent;
 import org.apache.camel.component.cxf.CxfEndpoint;
 
 /**
- * Based on https://github.com/apache/camel/blob/master/examples/camel-example-cdi-xml/src/main/java/org/apache/camel/example/cdi/xml/Application.java
  *
  * This example imports a Camel XML configuration file from the classpath using the {@code ImportResource} annotation.
  * <p>
  *
  * The imported Camel XML file configures a Camel context that references CDI beans declared in this class.
- *
- *
- * @author Jochen Riedlinger
  *
  */
 @Named("cxf_cdi_xml_app")
@@ -33,19 +45,6 @@ public class Application {
 	@Inject
 	@ContextName("cxfws-camel-context")
 	CamelContext context;
-
-	// <!-- now producedd in org.wildfly.camel.examples.cxf.jaxws.Application as CDI beans
-	// <cxf:cxfEndpoint
-	// address="http://localhost:8080/webservices/greeting"
-	// id="cxfConsumer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService"/>
-	// <cxf:cxfEndpoint
-	// address="http://localhost:8080/webservices/greeting"
-	// id="cxfProducer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService"/>
-	// <bean
-	// class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
-	//
-	// -->
-
 
 	@Named("greetingsProcessor")
 	@Produces

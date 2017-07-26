@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  Wildfly Camel :: Example :: Camel CXF JAX-WS
+  Wildfly Camel :: Example :: Camel CXF JAX-WS CXF CDI XML-Configuration
   %%
   Copyright (C) 2013 - 2016 RedHat
   %%
@@ -19,18 +19,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:cxf="http://camel.apache.org/schema/cxf"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-
-    <!-- now producedd in org.wildfly.camel.examples.cxf.jaxws.Application as CDI beans
-    <cxf:cxfEndpoint
-        address="http://localhost:8080/webservices/greeting"
-        id="cxfConsumer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService"/>
-    <cxf:cxfEndpoint
-        address="http://localhost:8080/webservices/greeting"
-        id="cxfProducer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService"/>
-    <bean
-        class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
-
-    -->
 
     <camelContext id="cxfws-camel-context" xmlns="http://camel.apache.org/schema/spring">
         <!--
