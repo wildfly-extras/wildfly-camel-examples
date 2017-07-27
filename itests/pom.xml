@@ -109,6 +109,12 @@
             <artifactId>example-camel-cxf-jaxws-cdi-xml</artifactId>
             <version>${project.version}</version>
             <type>war</type>
+        </dependency>		
+		<dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-cxf-jaxws-security</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
@@ -266,6 +272,20 @@
                                 <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
                             </environmentVariables>
                             <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.wildfly.extras.config --configs camel --enable</commandlineArgs>
+                        </configuration>
+                    </execution>
+					<execution>
+                        <id>add-test-user</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <environmentVariables>
+                                <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
+                            </environmentVariables>
+                            <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.jboss.as.domain-add-user -a -s -u testUser -p testPassword1+ -g testRole</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,6 +1,6 @@
 /*
  * #%L
- * Wildfly Camel :: Example :: Camel CXF JAX-WS
+ * Wildfly Camel :: Example :: Camel CXF JAX-WS Security
  * %%
  * Copyright (C) 2013 - 2016 RedHat
  * %%
@@ -66,7 +66,7 @@ public class CamelCxfWsServlet extends HttpServlet {
         String result = producer.requestBody("direct:start", serviceParams, String.class);
 
 
-        request.setAttribute("greeting", result);        
+        request.setAttribute("greeting", result);
         request.getRequestDispatcher("/greeting.jsp").forward(request, response);
     }
 }
