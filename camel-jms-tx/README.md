@@ -38,17 +38,11 @@ There are some example order XML files within the `src/main/resources/orders` di
 * order-1.xml - Wireless keyboard, quantity 4
 * order-2.xml - Wireless mouse, quantity 12
 * order-3.xml - HDMI cable, quantity 1
+* order-4.xml - Network cable, quantity 6
+* order-5.xml - Power cable, quantity 2
 
-To make Camel consume these files and send them to the 'OrdersQueue' JMS destination, simply copy them to the orders input
-directory.
 
-For Linux / Mac users:
-
-    cp src/main/resources/orders/*.xml ${JBOSS_HOME}/standalone/data/orders/
-
-For Windows users:
-
-    copy src\main\resources\orders\*.xml %JBOSS_HOME%\standalone\data\orders\
+Camel will choose a file at random every 15 seconds and will copy it into ${JBOSS_HOME}/standalone/data/orders for processing.
 
 Once the files have been consumed, you can return to http://localhost:8080/example-camel-jms-tx/orders. You should see that only the wireless keyboard
 and HDMI cable product orders were processed. What happened to the order contained within order-2.xml for the wireless mouse?

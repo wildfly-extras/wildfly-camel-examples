@@ -21,6 +21,7 @@ package org.wildfly.camel.examples.activemq;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 
@@ -32,8 +33,16 @@ public class ActiveMQRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
         /**
+         * This route generates a random order every 5 seconds
+         */
+        from("timer:order?period=5s")
+        .bean("orderGenerator", "generateOrder")
+        .setHeader(Exchange.FILE_NAME).method("orderGenerator", "generateFileName")
+        .to("file://{{jboss.server.data.dir}}/orders");
+
+        /**
          * This route reads files placed within JBOSS_HOME/standalone/data/orders
-         * and places them onto ActiveMQ queue 'ordersQueue'
+         * and sends them to ActiveMQ queue 'ordersQueue'
          */
         from("file://{{jboss.server.data.dir}}/orders")
         .convertBodyTo(String.class)
@@ -49,13 +58,13 @@ public class ActiveMQRouteBuilder extends RouteBuilder {
         from("activemq:queue:OrdersQueue")
             .choice()
                 .when(xpath("/order/customer/country = 'UK'"))
-                    .log("Sending order ${file:name} to the UK")
+                    .log("Sending order to the UK")
                     .to("file:{{jboss.server.data.dir}}/orders/processed/UK")
                 .when(xpath("/order/customer/country = 'US'"))
-                    .log("Sending order ${file:name} to the US")
+                    .log("Sending order to the US")
                     .to("file:{{jboss.server.data.dir}}/orders/processed/US")
                 .otherwise()
-                    .log("Sending order ${file:name} to another country")
-                    .to("file://{{jboss.server.data.dir}}/orders/processed/Others");
+                    .log("Sending order to another country")
+                    .to("file://{{jboss.server.data.dir}}/orders/processed/Other");
     }
 }

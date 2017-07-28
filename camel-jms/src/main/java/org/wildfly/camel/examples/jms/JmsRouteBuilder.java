@@ -23,9 +23,9 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.jms.ConnectionFactory;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
-import org.apache.camel.component.jms.JmsComponent;
 
 @ApplicationScoped
 @ContextName("camel-jms-context")
@@ -36,14 +36,14 @@ public class JmsRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        /**
-         * Configure the JMSComponent to use the connection factory
-         * injected into this class
-         */
-        JmsComponent component = new JmsComponent();
-        component.setConnectionFactory(connectionFactory);
 
-        getContext().addComponent("jms", component);
+        /**
+         * This route generates a random order every 5 seconds
+         */
+        from("timer:order?period=5s")
+        .bean("orderGenerator", "generateOrder")
+        .setHeader(Exchange.FILE_NAME).method("orderGenerator", "generateFileName")
+        .to("file://{{jboss.server.data.dir}}/orders");
 
         /**
          * This route reads files placed within JBOSS_HOME/standalone/data/orders
@@ -64,13 +64,13 @@ public class JmsRouteBuilder extends RouteBuilder {
         from("jms:queue:OrdersQueue")
             .choice()
                 .when(xpath("/order/customer/country = 'UK'"))
-                    .log("Sending order ${file:name} to the UK")
+                    .log("Sending order to the UK")
                     .to("file:{{jboss.server.data.dir}}/orders/processed/UK")
                 .when(xpath("/order/customer/country = 'US'"))
-                    .log("Sending order ${file:name} to the US")
+                    .log("Sending order to the US")
                     .to("file:{{jboss.server.data.dir}}/orders/processed/US")
                 .otherwise()
-                    .log("Sending order ${file:name} to another country")
-                    .to("file://{{jboss.server.data.dir}}/orders/processed/others");
+                    .log("Sending order to another country")
+                    .to("file://{{jboss.server.data.dir}}/orders/processed/other");
     }
 }

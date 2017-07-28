@@ -1,6 +1,6 @@
 /*
  * #%L
- * Wildfly Camel :: Testsuite
+ * Wildfly Camel :: Example :: Camel JPA Spring
  * %%
  * Copyright (C) 2013 - 2017 RedHat
  * %%
@@ -17,19 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package org.wildfly.camel.test.jpa;
+package org.wildfly.camel.examples.jpa.processor;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.wildfly.camel.test.common.ServerLogReader;
-import org.wildfly.camel.test.common.http.HttpRequest;
+import java.util.List;
 
-public abstract class AbstractJPAExampleTest {
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.wildfly.camel.examples.jpa.model.Order;
 
-    @Test
-    public void testJPARoute() throws Exception {
-        ServerLogReader.awaitLogMessage("Processed order", 10000);
-        HttpRequest.HttpResponse result = HttpRequest.get("http://localhost:8080/rest/api/books/order/1").getResponse();
-        Assert.assertEquals(200, result.getStatusCode());
+public class JpaResultProcessor implements Processor {
+
+    @Override
+    public void process(Exchange exchange) throws Exception {
+        List<Order> orders = exchange.getIn().getBody(List.class);
+        if (orders != null && !orders.isEmpty()) {
+            exchange.getOut().setBody(orders.get(0));
+        }
     }
 }
