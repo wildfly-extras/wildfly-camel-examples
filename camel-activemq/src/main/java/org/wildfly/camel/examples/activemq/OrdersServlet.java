@@ -30,16 +30,16 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.wildfly.camel.examples.activemq.OrderGenerator.COUNTRIES;
+
 @SuppressWarnings("serial")
 @WebServlet(name = "HttpServiceServlet", urlPatterns = {"/orders/*"}, loadOnStartup = 1)
 public class OrdersServlet extends HttpServlet {
 
-    private static final String[] COUNTRIES = {"UK", "US", "Others"};
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //Work out a count of order files processed for each country
-        Map<String, Integer> orderCounts = new HashMap<String, Integer>();
+        Map<String, Integer> orderCounts = new HashMap<>();
 
         for (String country : COUNTRIES) {
             int orderCount = countOrdersForCountry(country);

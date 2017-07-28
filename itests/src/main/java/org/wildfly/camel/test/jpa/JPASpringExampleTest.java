@@ -39,9 +39,4 @@ public class JPASpringExampleTest extends AbstractJPAExampleTest {
     public static WebArchive createDeployment() {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/" + EXAMPLE_CAMEL_JPA_WAR));
     }
-
-    @Override
-    String getContextPath() {
-        return CONTEXT_PATH;
-    }
 }

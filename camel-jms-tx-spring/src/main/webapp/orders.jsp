@@ -31,6 +31,7 @@
         <h1>Orders Received</h1>
         <c:forEach var="order" items="${orders}">
         <div class="row">
+            <div class="col-md-4">Order ID: <strong>${order.id}</strong></div>
             <div class="col-md-4">Product Name: <strong>${order.productName}</strong></div>
             <div class="col-md-4">Quantity Ordered: ${order.quantity}</div>
         </div>

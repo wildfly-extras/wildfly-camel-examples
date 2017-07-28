@@ -58,6 +58,9 @@
         <property name="configuration" ref="jmsConfiguration"/>
     </bean>
 
+    <!-- Bean to choose a random order XML file -->
+    <bean id="orderGenerator" class="org.wildfly.camel.examples.jms.transacted.OrderGenerator" />
+
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="jms-camel-context">
 
         <!--
@@ -76,10 +79,21 @@
         </onException>
 
         <!--
+            This route generates a random order every 15 seconds
+        -->
+        <route>
+            <from uri="timer:order?period=15000"/>
+            <bean method="generateOrder" ref="orderGenerator"/>
+            <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
+                <method method="generateFileName" ref="orderGenerator"/>
+            </setHeader>
+            <to uri="file://{{jboss.server.data.dir}}/orders"/>
+        </route>
+
+        <!--
             This route consumes XML files from JBOSS_HOME/standalone/data/orders and sends
             the file content to JMS destination OrdersQueue.
         -->
-
         <route>
             <from uri="file:{{jboss.server.data.dir}}/orders" />
             <transacted />

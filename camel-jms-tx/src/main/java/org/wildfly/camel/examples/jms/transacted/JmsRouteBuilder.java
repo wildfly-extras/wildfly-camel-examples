@@ -1,7 +1,27 @@
+/*
+ * #%L
+ * Wildfly Camel :: Example :: Camel Transacted JMS
+ * %%
+ * Copyright (C) 2013 - 2014 RedHat
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.wildfly.camel.examples.jms.transacted;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.model.dataformat.JaxbDataFormat;
@@ -29,6 +49,14 @@ public class JmsRouteBuilder extends RouteBuilder {
             .handled(true)
             .to("jms:queue:DLQ")
             .markRollbackOnly();
+
+        /**
+         * This route generates a random order every 15 seconds
+         */
+        from("timer:order?period=15s")
+            .bean("orderGenerator", "generateOrder")
+            .setHeader(Exchange.FILE_NAME).method("orderGenerator", "generateFileName")
+            .to("file://{{jboss.server.data.dir}}/orders");
 
         /**
          * This route consumes XML files from JBOSS_HOME/standalone/data/orders and sends

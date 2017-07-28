@@ -20,10 +20,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/jee
                            http://www.springframework.org/schema/jee/spring-jee.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd
                            http://camel.apache.org/schema/spring
                            http://camel.apache.org/schema/spring/camel-spring.xsd">
 
@@ -42,20 +45,54 @@
         <property name="transactionManager" ref="jtaTransactionManager" />
     </bean>
 
-    <!--
-        Simple route to consume customer record files from directory input/customers,
-        unmarshall XML file content to a Customer entity and then use the JPA endpoint
-        to persist the it an in-memory datasource named 'ExampleDS' datasource.
-    -->
+    <bean id="orderService" class="org.wildfly.camel.examples.jpa.service.OrderService" />
+
+    <bean id="jpaResultProcessor" class="org.wildfly.camel.examples.jpa.processor.JpaResultProcessor" />
+
+    <bean id="orderProcessedProcessor" class="org.wildfly.camel.examples.jpa.processor.OrderProcessedProcessor" />
+
+    <!-- Used to define query paramters in queries -->
+    <util:map id="queryParameters" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="id" value="${header.id}"/>
+    </util:map>
+
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="jpa-camel-context">
+
+        <!-- Defines the REST DSL for querying order information -->
+        <restConfiguration component="undertow"
+                           contextPath="/rest/api"
+                           bindingMode="json" />
+
+        <rest path="/books">
+            <get uri="/">
+                <route>
+                    <to uri="jpa:org.wildfly.camel.examples.jpa.model.Order?nativeQuery=select distinct description from orders" />
+                </route>
+            </get>
+            <get uri="order/{id}">
+                <route>
+                    <to uri="jpa:org.wildfly.camel.examples.jpa.model.Order?consumeDelete=false&amp;parameters=#queryParameters&amp;nativeQuery=select * from orders where id = :id" />
+                    <process ref="jpaResultProcessor" />
+                </route>
+            </get>
+        </rest>
+
+        <!-- Route to generate orders and persist them to the database -->
         <route>
-            <from uri="file://{{jboss.server.data.dir}}/customers" />
-            <unmarshal>
-                <jaxb contextPath="org.wildfly.camel.examples.jpa.model" />
-            </unmarshal>
-            <to uri="jpa:org.wildfly.camel.examples.jpa.model.Customer" />
-            <to uri="log:input?showAll=true" />
-            <to uri="file://{{jboss.server.data.dir}}/customers/processed" />
+            <from uri="timer:new-order?delay=1s&amp;period=10s" />
+            <bean ref="orderService" method="generateOrder" />
+            <to uri="jpa:org.wildfly.camel.examples.jpa.model.Order" />
+            <log message="Inserted new order ${body.id}" />
         </route>
+
+        <!-- A second route polls the database for new orders and processes them -->
+        <route>
+            <from uri="jpa:org.wildfly.camel.examples.jpa.model.Order?consumeDelete=false
+                &amp;consumer.transacted=true&amp;joinTransaction=true&amp;consumer.namedQuery=pendingOrders" />
+            <process ref="orderProcessedProcessor" />
+            <to uri="jpa:org.wildfly.camel.examples.jpa.model.Order" />
+            <log message="Processed order #id ${body.id} with ${body.amount} copies of the «${body.description}» book" />
+        </route>
+
     </camelContext>
 </beans>

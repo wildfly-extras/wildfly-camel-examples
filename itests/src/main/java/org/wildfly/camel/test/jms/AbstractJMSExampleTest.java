@@ -24,7 +24,7 @@ import org.jboss.as.arquillian.container.ManagementClient;
 import org.junit.Assert;
 import org.junit.Test;
 import org.wildfly.camel.test.common.FileConsumingTestSupport;
-import org.wildfly.camel.test.common.http.HttpRequest;
+import org.wildfly.camel.test.common.ServerLogReader;
 import org.wildfly.camel.test.common.utils.JMSUtils;
 
 public abstract class AbstractJMSExampleTest extends FileConsumingTestSupport {
@@ -47,11 +47,7 @@ public abstract class AbstractJMSExampleTest extends FileConsumingTestSupport {
 
     @Test
     public void testFileToJmsRoute() throws Exception {
-        HttpRequest.HttpResponse result = HttpRequest.get("http://localhost:8080/" + getContextPath() + "/orders").getResponse();
-        String body = result.getBody();
-        Assert.assertTrue("Unexpected response body: " + body, body.contains(getExpectedResponseText()));
+        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*Sending order to (the UK|another country|the US)$", 10000);
+        Assert.assertTrue(logMessagePresent);
     }
-
-    abstract String getContextPath();
-    abstract String getExpectedResponseText();
 }
