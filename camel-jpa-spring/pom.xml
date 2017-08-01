@@ -34,6 +34,11 @@
     <artifactId>example-camel-jpa-spring</artifactId>
     <packaging>war</packaging>
 
+    <!-- Properties -->
+    <properties>
+        <datasource.jndi>java:jboss/datasources/ExampleDS</datasource.jndi>
+    </properties>
+
     <dependencies>
 
         <!-- Provided -->
@@ -63,6 +68,12 @@
     <!-- Build -->
     <build>
         <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -100,6 +111,9 @@
         </profile>
         <profile>
             <id>openshift</id>
+            <properties>
+                <datasource.jndi>${env.DB_JNDI}</datasource.jndi>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

@@ -6,7 +6,7 @@
 
     <persistence-unit name="camel">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <jta-data-source>${datasource.jndi}</jta-data-source>
         <class>org.wildfly.camel.examples.jpa.model.Order</class>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
