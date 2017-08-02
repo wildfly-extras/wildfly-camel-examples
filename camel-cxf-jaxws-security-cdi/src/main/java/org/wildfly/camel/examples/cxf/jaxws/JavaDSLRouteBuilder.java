@@ -32,6 +32,10 @@ import org.wildfly.extension.camel.CamelAware;
 public class JavaDSLRouteBuilder extends RouteBuilder {
 
 
+
+	public final static String KEYSTORE_PATH = System.getProperty("jboss.server.config.dir") + "/application.keystore";
+
+
     @Override
     public void configure() throws Exception {
 
@@ -82,8 +86,6 @@ public class JavaDSLRouteBuilder extends RouteBuilder {
 
 
 		//FIXME: not for use in production!!!!!
-		System.setProperty("javax.net.ssl.trustStore","C:/daten/wildfly-camel-10.1.0.Final/standalone/configuration/application.keystore");
-	    System.setProperty("javax.net.ssl.trustStorePassword","password");
 		HostnameVerifier hostnameVerifier = new HostnameVerifier() {
 
 			@Override
@@ -109,7 +111,7 @@ public class JavaDSLRouteBuilder extends RouteBuilder {
     private SSLContextParameters createProducerSSLContextParameters() {
 
     	KeyStoreParameters ksp = new KeyStoreParameters();
-    	ksp.setResource("C:\\\\daten\\\\wildfly-camel-10.1.0.Final\\\\standalone\\\\configuration\\\\application.keystore");
+    	ksp.setResource(KEYSTORE_PATH);
     	ksp.setPassword("password");
 
     	KeyManagersParameters kmp = new KeyManagersParameters();
@@ -140,7 +142,7 @@ public class JavaDSLRouteBuilder extends RouteBuilder {
     private SSLContextParameters createConsumerSSLContextParameters() {
 
     	KeyStoreParameters ksp = new KeyStoreParameters();
-    	ksp.setResource("C:\\daten\\wildfly-camel-10.1.0.Final\\standalone\\configuration\\application.keystore");
+    	ksp.setResource(KEYSTORE_PATH);
     	ksp.setPassword("password");
 
 

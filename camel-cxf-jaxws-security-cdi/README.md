@@ -18,11 +18,25 @@ Running the example
 -------------------
 
 To run the example.
+
 1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
-2. Add system properties (via CLI)
+2. Edit ${jboss.home.dir}\modules\system\layers\fuse\org\wildfly\extension\camel\cxf\undertow\main\module.xml
+	and add this line:
+		<module name="org.picketbox" />
+	to the <dependencies> section. otherwies you'll see this Exception later in org.apache.cxf.interceptor.security.JAASLoginInterceptor Line:163 ....but not logged;-(
+	
+	javax.security.auth.login.LoginException: LoginModule-Klasse kann nicht gefunden werden: org.jboss.security.auth.spi.BaseCertLoginModule from [Module "org.wildfly.extension.camel.cxf.undertow:main" from local module loader @4b53f538 (finder: local module finder @134593bf (roots: C:\daten\wildfly-camel-10.1.0.Final\modules,C:\daten\wildfly-camel-10.1.0.Final\modules\system\layers\fuse,C:\daten\wildfly-camel-10.1.0.Final\modules\system\layers\base))]
+	
+	
+	Also be sure that "jboss-deployment-structure.xml" is within the war file.
+	If the dependency to the CXF modules are missing you'll get a
+		java.lang.NoClassDefFoundError: org/apache/cxf/security/transport/TLSSessionInfo
+	
+	
+3. Add system properties (via CLI)
 	/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)
 	/system-property=javax.net.ssl.trustStorePassword/:add(value=password)
-3. Add security domain(s) for client-cert authentication (via CLI)
+4. Add security domain(s) for client-cert authentication (via CLI)
 	
 	/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add( \
 	truststore={ \
@@ -36,9 +50,9 @@ To run the example.
 	module-options=[("securityDomain"=>"certificate-trust-domain")])
 	
 	
-3. Re-Start the application server 
-3. Build and deploy the project `mvn install -Pdeploy`
-4. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
+5. Re-Start the application server 
+6. Build and deploy the project `mvn install -Pdeploy`
+7. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
 started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-security-cdi/greeting?wsdl.
