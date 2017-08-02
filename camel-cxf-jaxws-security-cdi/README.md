@@ -3,11 +3,10 @@ Camel CXF JAX-WS Example changed to using CDI and with Authentication and Author
 
 Starting from the "Camel CXF JAX-WS Example" I replaced the spring configuration "cxfws-camel-context.xml" with "org.wildfly.camel.examples.cxf.jaxws.JavaDSLRouteBuilder.java". 
 
-
-This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web services.
+This example demonstrates using the JAAS authentication in the camel-cxf webservice component that is configured via Java-DSL
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
-to pass arguments to a CXF JAX-WS web service.
+to pass arguments to a CXF JAX-WS web service that is secured by TLS mutual authentication (two-way ssl / client certificate autehtication)
 
 Prerequisites
 -------------
@@ -19,8 +18,25 @@ Running the example
 -------------------
 
 To run the example.
-1. Add user "testUser" with password "testPassword1+" that has the role "testRole" with the add-user script (${JBOSS_HOME}/bin/add-user.sh ...)
-2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+2. Add system properties (via CLI)
+	/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)
+	/system-property=javax.net.ssl.trustStorePassword/:add(value=password)
+3. Add security domain(s) for client-cert authentication (via CLI)
+	
+	/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add( \
+	truststore={ \
+	"password"=>"password", \
+	"url"=>"${jboss.home.dir}\/standalone\/configuration\/application.keystore" \
+	})
+	
+	/subsystem=security/securitydomain=client-cert/authentication=classic/login-module=Certificate:add( \
+	code=Certificate, \
+	flag=required, \
+	module-options=[("securityDomain"=>"certificate-trust-domain")])
+	
+	
+3. Re-Start the application server 
 3. Build and deploy the project `mvn install -Pdeploy`
 4. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
 
