@@ -20,6 +20,7 @@
 package org.wildfly.camel.test.cdi;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -43,9 +44,17 @@ public class CDIExampleTest {
     }
 
     @Test
-    public void testSimpleWar() throws Exception {
-    	HttpResponse res = HttpRequest.get(getEndpointAddress("/example-camel-cdi?name=Kermit")).getResponse();
-        Assert.assertEquals("Hello Kermit", res.getBody());
+    public void testCDIRouteWithoutParameter() throws Exception {
+        String hostAddress = InetAddress.getLocalHost().getHostAddress();
+        HttpResponse res = HttpRequest.get(getEndpointAddress("/example-camel-cdi")).getResponse();
+        Assert.assertEquals("Hello world from " + hostAddress, res.getBody());
+    }
+
+    @Test
+    public void testCDIRouteWithParameter() throws Exception {
+        String hostAddress = InetAddress.getLocalHost().getHostAddress();
+        HttpResponse res = HttpRequest.get(getEndpointAddress("/example-camel-cdi?name=Kermit")).getResponse();
+        Assert.assertEquals("Hello Kermit from " + hostAddress, res.getBody());
     }
 
     private String getEndpointAddress(String contextPath) throws MalformedURLException {
