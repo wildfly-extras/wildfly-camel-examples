@@ -42,6 +42,11 @@ public class SimpleServlet extends HttpServlet
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String name = req.getParameter("name");
+        if (name == null || name.isEmpty()) {
+            // Default to Hello world output
+            name = "world";
+        }
+
     	ServletOutputStream out = res.getOutputStream();
         ProducerTemplate producer = camelctx.createProducerTemplate();
         String result = producer.requestBody("direct:start", name, String.class);

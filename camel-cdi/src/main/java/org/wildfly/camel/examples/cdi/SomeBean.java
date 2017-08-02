@@ -35,12 +35,14 @@
  */
 package org.wildfly.camel.examples.cdi;
 
+import java.net.InetAddress;
+
 import javax.inject.Named;
 
 @Named("helloBean")
 public class SomeBean {
 
-    public String someMethod(String message) {
-        return "Hello " + message;
+    public String someMethod(String name) throws Exception {
+        return String.format("Hello %s from %s", name, InetAddress.getLocalHost().getHostAddress());
     }
 }
