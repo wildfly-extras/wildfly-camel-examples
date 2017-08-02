@@ -57,6 +57,7 @@
         <version-maven-dependency-plugin>2.10</version-maven-dependency-plugin>
         <version-maven-release-plugin>2.5</version-maven-release-plugin>
         <version-maven-resources-plugin>2.7</version-maven-resources-plugin>
+        <version-maven-source-plugin>2.3</version-maven-source-plugin>
         <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
         <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
         <version-wildfly-maven-plugin>1.2.0.Alpha6</version-wildfly-maven-plugin>
@@ -122,6 +123,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${version-maven-source-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${version-maven-surefire-plugin}</version>
                     <configuration>
@@ -148,6 +154,23 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <!-- Plugins -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <inherited>true</inherited>
+            </plugin>
+        </plugins>
     </build>
         
     <!-- Licenses -->
