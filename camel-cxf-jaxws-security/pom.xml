@@ -29,7 +29,7 @@
         <version>4.8.0-SNAPSHOT</version>
     </parent>
 
-    <name>Wildfly Camel :: Example :: Camel CXF JAX-WS</name>
+    <name>Wildfly Camel :: Example :: Camel CXF JAX-WS with Security</name>
 
     <artifactId>example-camel-cxf-jaxws-security</artifactId>
     <packaging>war</packaging>

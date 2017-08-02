@@ -1,19 +1,27 @@
 package org.wildfly.camel.examples.cxf.jaxws;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.component.cxf.CxfComponent;
 import org.apache.camel.component.cxf.CxfEndpoint;
-import org.apache.cxf.configuration.security.AuthorizationPolicy;
+import org.apache.camel.util.jsse.ClientAuthentication;
+import org.apache.camel.util.jsse.KeyManagersParameters;
+import org.apache.camel.util.jsse.KeyStoreParameters;
+import org.apache.camel.util.jsse.SSLContextClientParameters;
+import org.apache.camel.util.jsse.SSLContextParameters;
+import org.apache.camel.util.jsse.SSLContextServerParameters;
+import org.apache.camel.util.jsse.TrustManagersParameters;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.security.JAASLoginInterceptor;
+import org.apache.cxf.interceptor.security.callback.CallbackHandlerProvider;
 import org.apache.cxf.message.Message;
 import org.wildfly.extension.camel.CamelAware;
 
@@ -24,10 +32,6 @@ import org.wildfly.extension.camel.CamelAware;
 public class JavaDSLRouteBuilder extends RouteBuilder {
 
 
-//	@Inject
-//	private CamelContext camelContext;
-
-
     @Override
     public void configure() throws Exception {
 
@@ -36,40 +40,133 @@ public class JavaDSLRouteBuilder extends RouteBuilder {
     	cxfConsumerEndpoint.setBeanId("cxfConsumerEndpoint");
 //    	cxfFromEndpoint.setDataFormat(DataFormat.PAYLOAD);
     	cxfConsumerEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
+
+    	SSLContextParameters consumerSslContextParameters = this.createConsumerSSLContextParameters();
+    	cxfConsumerEndpoint.setSslContextParameters(consumerSslContextParameters);
+
     	List<Interceptor<? extends Message>> inInterceptors = cxfConsumerEndpoint.getInInterceptors();
+
     	JAASLoginInterceptor jaasLoginInterceptor =  new JAASLoginInterceptor();
-    	jaasLoginInterceptor.setContextName("other");
+    	jaasLoginInterceptor.setContextName("client-cert");
+    	jaasLoginInterceptor.setAllowAnonymous(false);
+    	// "server" is the alias of the public key in "${JBOSS-HOME}/standalone/configuration/application.keystore"
+    	List<CallbackHandlerProvider> chp = Arrays.asList(new JBossCallbackHandlerTlsCert("server"));
+		jaasLoginInterceptor.setCallbackHandlerProviders(chp);
     	inInterceptors.add(jaasLoginInterceptor);
 
 
+
+//    	SimpleAuthorizingInterceptor authorizingInterceptor = new SimpleAuthorizingInterceptor();
+//    	authorizingInterceptor.setAllowAnonymousUsers(false);
+//    	Map<String, String> rolesMap = new HashMap<>(1);
+//    	rolesMap.put("greet", "testRole");
+//		authorizingInterceptor.setMethodRolesMap(rolesMap );
+////    	String roles = "adminRole testRole";
+////		authorizingInterceptor.setGlobalRoles(roles);
+//    	inInterceptors.add(authorizingInterceptor);
+
+
+
     	CxfComponent cxfProducerComponent = new CxfComponent(getContext());
-    	CxfEndpoint cxfProducerEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi", cxfProducerComponent);
+    	CxfEndpoint cxfProducerEndpoint = new CxfEndpoint("https://localhost:8443/webservices/greeting-cdi", cxfProducerComponent);
     	cxfProducerEndpoint.setBeanId("cxfProducerEndpoint");
     	cxfProducerEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
 
 
-    	cxfProducerEndpoint.setUsername("testUser");
-    	cxfProducerEndpoint.setPassword("testPassword1+");
 
-    	// without this a NullpointerException occurs during deployment
-    	// TODO: open JIRA ticket for
-    	// org.apache.camel.component.cxf.CxfEndpoint
-    	// Lines 554 -558 should be Nullsafe
-    	Map<String, Object> properties = cxfProducerEndpoint.getProperties();
-    	if (properties == null) {
-    		Map<String, Object> props = new HashMap<String, Object>();
-    		AuthorizationPolicy authPolicy = new AuthorizationPolicy();
-            authPolicy.setUserName("testUser");
-            authPolicy.setPassword("testPassword1+");
-//            factoryBean.getProperties().put(AuthorizationPolicy.class.getName(), authPolicy);
-            props.put(AuthorizationPolicy.class.getName(), authPolicy);
-    		cxfProducerEndpoint.setProperties(props);
-    	}
+
+    	SSLContextParameters producerSslContextParameters = this.createProducerSSLContextParameters();
+		cxfProducerEndpoint.setSslContextParameters(producerSslContextParameters);
+
+
+
+
+		//FIXME: not for use in production!!!!!
+		System.setProperty("javax.net.ssl.trustStore","C:/daten/wildfly-camel-10.1.0.Final/standalone/configuration/application.keystore");
+	    System.setProperty("javax.net.ssl.trustStorePassword","password");
+		HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+
+			@Override
+			public boolean verify(String arg0, SSLSession arg1) {
+				return true;
+			}
+		};
+		cxfProducerEndpoint.setHostnameVerifier(hostnameVerifier);
+
+
+
+
 
 
     	from("direct:start").to(cxfProducerEndpoint);
 
     	from(cxfConsumerEndpoint).process(new GreetingsProcessor());
 
+    }
+
+
+
+    private SSLContextParameters createProducerSSLContextParameters() {
+
+    	KeyStoreParameters ksp = new KeyStoreParameters();
+    	ksp.setResource("C:\\\\daten\\\\wildfly-camel-10.1.0.Final\\\\standalone\\\\configuration\\\\application.keystore");
+    	ksp.setPassword("password");
+
+    	KeyManagersParameters kmp = new KeyManagersParameters();
+    	kmp.setKeyStore(ksp);
+    	kmp.setKeyPassword("password");
+
+    	SSLContextClientParameters sslContextClientParameters  = new SSLContextClientParameters();
+    	SSLContextParameters sslContextParameters = new SSLContextParameters();
+    	sslContextParameters.setClientParameters(sslContextClientParameters);
+    	sslContextParameters.setKeyManagers(kmp);
+    	sslContextParameters.setCertAlias("server");
+
+
+    	// für self-signed....
+    	TrustManagersParameters tmp = new TrustManagersParameters();
+    	tmp.setKeyStore(ksp);
+    	sslContextParameters.setTrustManagers(tmp);
+
+
+
+//    	SSLContext context = sslContextParameters.createSSLContext(getContext());
+//    	SSLEngine engine = context.createSSLEngine();
+
+    	return sslContextParameters;
+    }
+
+
+    private SSLContextParameters createConsumerSSLContextParameters() {
+
+    	KeyStoreParameters ksp = new KeyStoreParameters();
+    	ksp.setResource("C:\\daten\\wildfly-camel-10.1.0.Final\\standalone\\configuration\\application.keystore");
+    	ksp.setPassword("password");
+
+
+
+    	TrustManagersParameters tmp = new TrustManagersParameters();
+    	tmp.setKeyStore(ksp);
+
+    	SSLContextServerParameters sslContextServerParameters  = new SSLContextServerParameters();
+    	sslContextServerParameters.setClientAuthentication(ClientAuthentication.REQUIRE.name());
+    	SSLContextParameters sslContextParameters = new SSLContextParameters();
+    	sslContextParameters.setServerParameters(sslContextServerParameters);
+		sslContextParameters.setTrustManagers(tmp);
+
+
+
+		// für self-signed....
+    	KeyManagersParameters kmp = new KeyManagersParameters();
+    	kmp.setKeyStore(ksp);
+    	kmp.setKeyPassword("password");
+		sslContextParameters.setKeyManagers(kmp);
+
+
+
+//    	SSLContext context = scp.createSSLContext(getContext());
+//    	SSLEngine engine = context.createSSLEngine();
+
+    	return sslContextParameters;
     }
 }

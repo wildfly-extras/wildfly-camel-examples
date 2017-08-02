@@ -29,7 +29,7 @@
         <version>4.8.0-SNAPSHOT</version>
     </parent>
 
-    <name>Wildfly Camel :: Example :: Camel CXF JAX-WS</name>
+    <name>Wildfly Camel :: Example :: Camel CXF JAX-WS CDI-Java-DSL with Security</name>
 
     <artifactId>example-camel-cxf-jaxws-security-cdi</artifactId>
     <packaging>war</packaging>
@@ -69,6 +69,18 @@
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+
+		<!-- only for debug purpose -->
+        <dependency>
+			<groupId>org.picketbox</groupId>
+			<artifactId>picketbox</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.ws.cxf</groupId>
+			<artifactId>jbossws-cxf-server</artifactId>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
 
     <!-- Build -->

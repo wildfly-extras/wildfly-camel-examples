@@ -20,5 +20,6 @@
   -->
 
 <jboss-web>
+	<security-domain flushOnSessionInvalidation="true">client-cert</security-domain>
     <context-root>example-camel-cxfws-security-cdi</context-root>
 </jboss-web>

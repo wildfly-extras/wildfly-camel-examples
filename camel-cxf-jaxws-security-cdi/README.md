@@ -1,18 +1,7 @@
-Camel CXF JAX-WS Example changed to using CDI and tried to add CXF Authentication and Authorization
+Camel CXF JAX-WS Example changed to using CDI and with Authentication and Authorization added
 ------------------------
 
-Starting from the "Camel CXF JAX-WS Example" I replaced the spring configuration "cxfws-camel-context.xml" with "org.wildfly.camel.examples.cxf.jaxws.JavaDSLRouteBuilder.java". This change worked fine.
-
-Unfortunately this example doesn't work any more after adding the "org.apache.cxf.interceptor.security.JAASLoginInterceptor" to the CXF endpoint. I think it's a classloader issue, because the JAASLoginInterceptor has this cause in the LoginException, if the security domain "other" is used:
-
-javax.security.auth.login.LoginException: LoginModule-Klasse kann nicht gefunden werden: org.jboss.as.security.remoting.RemotingLoginModule from [Module "org.wildfly.extension.camel.cxf.undertow:main" from local module loader @4b53f538 (finder: local module finder @134593bf (roots: C:\daten\wildfly-10.1.0.Final\modules,C:\daten\wildfly-10.1.0.Final\modules\system\layers\fuse,C:\daten\wildfly-10.1.0.Final\modules\system\layers\base))]
-
-I tried with other security domains and custom LoginModules configured within Wildfly, but I always get a "LoginModule-Class not found" as exception message.
-I also tried to put some more modules in "jboss-deployment-structure.xml" and/or "jboss-all.xml", but couldn't solve the issue.
-
-
-Putting the same security configuration in the original spring based "Camel CXF JAX-WS Example" (see: https://github.com/jochenr/wildfly-camel-examples/tree/master/camel-cxf-jaxws-security) it works and all classes are found. So I think there's a classloading issue with camel-cdi in wildfly.....
-
+Starting from the "Camel CXF JAX-WS Example" I replaced the spring configuration "cxfws-camel-context.xml" with "org.wildfly.camel.examples.cxf.jaxws.JavaDSLRouteBuilder.java". 
 
 
 This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web services.
