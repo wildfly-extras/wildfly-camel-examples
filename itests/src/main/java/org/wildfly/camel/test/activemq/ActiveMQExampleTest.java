@@ -86,7 +86,14 @@ public class ActiveMQExampleTest extends FileConsumingTestSupport {
 
     @Test
     public void testFileToActiveMQRoute() throws Exception {
-        HttpResponse result = HttpRequest.get("http://localhost:8080/example-camel-activemq/orders").getResponse();
+        int timeout = 5;
+        String requrl = "http://localhost:8080/example-camel-activemq/orders";
+        HttpResponse result = HttpRequest.get(requrl).getResponse();
+        while (!result.getBody().contains("UK: 1") && 0 < timeout) {
+            Thread.sleep(1000);
+            result = HttpRequest.get(requrl).getResponse();
+            timeout--;
+        }
         Assert.assertTrue(result.getBody().contains("UK: 1"));
     }
 

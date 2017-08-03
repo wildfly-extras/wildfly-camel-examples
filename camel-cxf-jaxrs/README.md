@@ -19,7 +19,7 @@ To run the example.
 
 1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
-3. Browse to http://localhost:8080/example-camel-cxfrs/
+3. Browse to http://localhost:8080/example-camel-cxf-jaxrs/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' REST service which will have also been
 started.
@@ -33,7 +33,7 @@ Testing Camel CXF JAX-RS
 Web UI
 ------
 
-Browse to http://localhost:8080/example-camel-cxfrs/.
+Browse to http://localhost:8080/example-camel-cxf-jaxrs/.
 
 From the 'Send A Greeting' web form, enter a 'name' into the text field and press the 'send' button. You'll then
 see a simple greeting message displayed on the UI.

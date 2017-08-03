@@ -169,7 +169,7 @@ public class RestSwaggerExampleTest {
 
     @Test
     public void testSwaggerUI() throws Exception {
-        HttpResponse response = HttpRequest.get("http://127.0.0.1:8080/example-camel-rest-swagger/").getResponse();
+        HttpResponse response = HttpRequest.get("http://localhost:8080/example-camel-rest-swagger").getResponse();
         Assert.assertEquals(200, response.getStatusCode());
         Assert.assertTrue(response.getBody().contains("Swagger UI"));
     }

@@ -58,14 +58,4 @@ public class JMSExampleTest extends AbstractJMSExampleTest {
     protected Path processedPath() {
         return destinationPath().resolve("processed/UK");
     }
-
-    @Override
-    String getContextPath() {
-        return CONTEXT_PATH;
-    }
-
-    @Override
-    String getExpectedResponseText() {
-        return "UK: 1";
-    }
 }

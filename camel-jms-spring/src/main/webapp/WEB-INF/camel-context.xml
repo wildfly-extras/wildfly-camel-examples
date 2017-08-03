@@ -35,7 +35,22 @@
         <property name="connectionFactory" ref="connectionFactory" />
     </bean>
 
+    <!-- Bean to choose a random order XML file -->
+    <bean id="orderGenerator" class="org.wildfly.camel.examples.jms.OrderGenerator" />
+
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="jms-camel-context">
+
+        <!--
+            This route generates a random order every 5 seconds
+        -->
+        <route>
+            <from uri="timer:order?period=5000"/>
+            <bean method="generateOrder" ref="orderGenerator"/>
+            <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
+                <method method="generateFileName" ref="orderGenerator"/>
+            </setHeader>
+            <to uri="file://{{jboss.server.data.dir}}/orders"/>
+        </route>
 
         <!--
             This route reads files placed within JBOSS_HOME/standalone/data/orders
@@ -59,17 +74,17 @@
             <choice>
                 <when>
                     <xpath>/order/customer/country = 'UK'</xpath>
-                    <log message="Sending order ${file:name} to the UK" />
+                    <log message="Sending order to the UK" />
                     <to uri="file:{{jboss.server.data.dir}}/orders/processed/UK" />
                 </when>
                 <when>
                     <xpath>/order/customer/country = 'US'</xpath>
-                    <log message="Sending order ${file:name} to the US" />
+                    <log message="Sending order to the US" />
                     <to uri="file:{{jboss.server.data.dir}}/orders/processed/US" />
                 </when>
                 <otherwise>
-                    <log message="Sending order ${file:name} to another country" />
-                    <to uri="file:{{jboss.server.data.dir}}/orders/processed/others" />
+                    <log message="Sending order to another country" />
+                    <to uri="file:{{jboss.server.data.dir}}/orders/processed/other" />
                 </otherwise>
             </choice>
         </route>

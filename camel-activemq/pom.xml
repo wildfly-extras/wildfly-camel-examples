@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>4.8.0-SNAPSHOT</version>
+        <version>4.9.0-SNAPSHOT</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Camel ActiveMQ</name>
@@ -75,6 +75,7 @@
 
     <!-- Build -->
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -148,6 +149,27 @@
             <properties>
                 <deploy-rar.skip>false</deploy-rar.skip>
             </properties>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <configuration>
+                            <skipSource>true</skipSource>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warName>ROOT</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

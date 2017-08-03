@@ -76,13 +76,11 @@ public class TransactedJMSExampleTest extends AbstractJMSExampleTest {
         return destinationPath().resolve(".camel/" + sourceFilename());
     }
 
-    @Override
-    String getContextPath() {
+    private String getContextPath() {
         return CONTEXT_PATH;
     }
 
-    @Override
-    String getExpectedResponseText() {
+    private String getExpectedResponseText() {
         return "Test Product";
     }
 }

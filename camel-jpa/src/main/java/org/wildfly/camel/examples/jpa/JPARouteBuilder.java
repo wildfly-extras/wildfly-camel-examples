@@ -23,6 +23,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
+import org.wildfly.camel.examples.jpa.model.Order;
 
 @ApplicationScoped
 @ContextName("camel-jpa-context")
@@ -30,15 +31,19 @@ public class JPARouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        /*
-         *  Simple route to consume customer record files from directory input/customers,
-         *  unmarshall XML file content to a Customer entity and then use the JPA endpoint
-         *  to persist the it to the 'ExampleDS' datasource (see standalone.camel.xml for datasource config).
-         */
-        from("file://{{jboss.server.data.dir}}/customers")
-        .unmarshal("jaxb")
-        .to("jpa:org.wildfly.camel.examples.jpa.model.Customer")
-        .to("log:input?showAll=true")
-        .to("file://{{jboss.server.data.dir}}/customers/processed");
+        // Route to generate orders and persist them to the database
+        from("timer:new-order?delay=1s&period=10s")
+            .bean("orderService", "generateOrder")
+            .toF("jpa:%s", Order.class.getName())
+            .log("Inserted new order ${body.id}");
+
+        // A second route polls the database for new orders and processes them
+        fromF("jpa:%s?consumeDelete=false&consumer.transacted=true&joinTransaction=true&consumer.namedQuery=pendingOrders", Order.class.getName())
+            .process(exchange -> {
+                Order order = exchange.getIn().getBody(Order.class);
+                order.setStatus("PROCESSED");
+            })
+            .toF("jpa:%s", Order.class.getName())
+            .log("Processed order #id ${body.id} with ${body.amount} copies of the «${body.description}» book");
     }
 }

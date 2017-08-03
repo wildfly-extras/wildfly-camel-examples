@@ -26,13 +26,18 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>4.8.0-SNAPSHOT</version>
+        <version>4.9.0-SNAPSHOT</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Camel JPA</name>
 
     <artifactId>example-camel-jpa</artifactId>
     <packaging>war</packaging>
+
+    <!-- Properties -->
+    <properties>
+        <datasource.jndi>java:jboss/datasources/ExampleDS</datasource.jndi>
+    </properties>
 
     <dependencies>
 
@@ -82,6 +87,13 @@
 
     <!-- Build -->
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -116,6 +128,30 @@
             <properties>
                 <deploy.skip>false</deploy.skip>
             </properties>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <properties>
+                <datasource.jndi>${env.DB_JNDI}</datasource.jndi>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <configuration>
+                            <skipSource>true</skipSource>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warName>ROOT</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

@@ -19,36 +19,17 @@
  */
 package org.wildfly.camel.test.jpa;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.wildfly.camel.test.common.FileConsumingTestSupport;
+import org.wildfly.camel.test.common.ServerLogReader;
 import org.wildfly.camel.test.common.http.HttpRequest;
 
-public abstract class AbstractJPAExampleTest extends FileConsumingTestSupport {
+public abstract class AbstractJPAExampleTest {
 
     @Test
-    public void testFileToJPARoute() throws Exception {
-        HttpRequest.HttpResponse result = HttpRequest.get("http://localhost:8080/" + getContextPath() + "/customers").getResponse();
-        Assert.assertTrue(result.getBody().contains("John Doe"));
+    public void testJPARoute() throws Exception {
+        ServerLogReader.awaitLogMessage("Processed order", 10000);
+        HttpRequest.HttpResponse result = HttpRequest.get("http://localhost:8080/rest/api/books/order/1").getResponse();
+        Assert.assertEquals(200, result.getStatusCode());
     }
-
-    @Override
-    protected String sourceFilename() {
-        return "customer.xml";
-    }
-
-    @Override
-    protected Path destinationPath() {
-        return Paths.get(System.getProperty("jboss.home") + "/standalone/data/customers");
-    }
-
-    @Override
-    protected Path processedPath() {
-        return destinationPath().resolve("processed");
-    }
-
-    abstract String getContextPath();
 }
