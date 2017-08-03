@@ -1,7 +1,7 @@
 Camel Transacted JMS Spring example
 -----------------------------------
 
-This example demonstrates using the camel-jms component with Spring and the WildFly Camel susbsystem to produce and consume JMS messages in a transacted session.
+This example demonstrates using the camel-jms component with Spring and JBoss Fuse on EAP to produce and consume JMS messages in a transacted session.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an in-memory ActiveMQ Artemis JMS queue
 named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue', converts the message body to an 'Order' entity and persists it
@@ -23,7 +23,7 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
 3. When the WildFly server has started, browse to http://localhost:8080/example-camel-jms-tx-spring/orders
 

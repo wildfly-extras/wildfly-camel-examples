@@ -1,7 +1,7 @@
 Camel Activemq Example
 ----------------------
 
-This example demonstrates using the camel-activemq component with WildFly Camel susbsystem to produce and consume JMS messages.
+This example demonstrates using the camel-activemq component with JBoss Fuse on EAP to produce and consume JMS messages.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an ActiveMQ embedded broker JMS queue
 named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue' and through a simple [content based router](http://camel.apache.org/content-based-router.html)
@@ -13,7 +13,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with JBoss Fuse installed
 * An ActiveMQ broker
 
 Running the example
@@ -22,7 +22,7 @@ Running the example
 To run the example.
 
 1. Ensure your ActiveMQ broker instance is running. By default, this example expects the broker to be accessible on localhost. This can be changed by editing `src/main/resources/cli/configure-resource-adapter.cli` and modifying the `ServerUrl` attribute from `tcp://127.0.0.1:61616` to your desired host name or IP address
-2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
 3. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`
 4. Restart the application server for the resource adapter configuration to take effect
 5. Build and deploy the project `mvn install -Pdeploy`
