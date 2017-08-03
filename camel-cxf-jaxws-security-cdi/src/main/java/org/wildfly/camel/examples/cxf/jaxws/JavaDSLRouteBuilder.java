@@ -23,10 +23,9 @@ import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.security.JAASLoginInterceptor;
 import org.apache.cxf.interceptor.security.callback.CallbackHandlerProvider;
 import org.apache.cxf.message.Message;
-import org.wildfly.extension.camel.CamelAware;
 
 @Startup
-@CamelAware
+//@CamelAware  //@ContextName is also a trigger for enabling Camel
 @ApplicationScoped
 @ContextName("java-dsl-context")
 public class JavaDSLRouteBuilder extends RouteBuilder {
