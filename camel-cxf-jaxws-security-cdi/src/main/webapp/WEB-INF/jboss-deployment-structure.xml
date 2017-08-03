@@ -16,27 +16,19 @@
     limitations under the License.
 -->
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
-	<ear-subdeployments-isolated>false</ear-subdeployments-isolated>
 	<deployment>
 		<dependencies>
-			<module name="org.wildfly.extension.camel.cxf.undertow" export="true" />
-			<module name="org.wildfly.extension.camel.security" export="true" />
 
-
-			<!--
-			<module name="org.jboss.security.negotiation" export="true" />
-			<module name="de.lbank.security" export="true" services="import" />
-			-->
-			<!--
-			<module name="org.apache.log4j" />
-			-->
-			<!-- Für Webservices, die SAML Authentication mit SAP machen  -->
 			<module name="org.apache.cxf" export="true" />
+
+			<!-- Für Webservices, die SAML Authentication mit SAP machen  -->
+			<!--
 			<module name="org.apache.cxf.impl" export="true" meta-inf="export" />
 			<module name="org.jboss.ws.cxf.jbossws-cxf-client" export="true" />
 			<module name="org.jboss.ws.cxf.jbossws-cxf-server" export="true" />
 			<module name="org.apache.ws.security" export="true" />
 			<module name="org.opensaml" export="true" />
+			-->
 
 		</dependencies>
 	</deployment>
