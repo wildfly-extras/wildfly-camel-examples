@@ -21,13 +21,10 @@ package org.wildfly.camel.test.jms;
 
 import org.jboss.as.arquillian.api.ServerSetupTask;
 import org.jboss.as.arquillian.container.ManagementClient;
-import org.junit.Assert;
-import org.junit.Test;
-import org.wildfly.camel.test.common.FileConsumingTestSupport;
-import org.wildfly.camel.test.common.ServerLogReader;
+import org.wildfly.camel.test.common.FileConsumerTestSupport;
 import org.wildfly.camel.test.common.utils.JMSUtils;
 
-public abstract class AbstractJMSExampleTest extends FileConsumingTestSupport {
+public abstract class AbstractJMSExampleTest extends FileConsumerTestSupport {
 
     private static String ORDERS_QUEUE = "OrdersQueue";
     private static String ORDERS_QUEUE_JNDI = "java:/jms/queue/OrdersQueue";
@@ -45,9 +42,8 @@ public abstract class AbstractJMSExampleTest extends FileConsumingTestSupport {
         }
     }
 
-    @Test
-    public void testFileToJmsRoute() throws Exception {
-        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*Sending order to (the UK|another country|the US)$", 10000);
-        Assert.assertTrue(logMessagePresent);
+    @Override
+    protected String getExpectedLogMessage() {
+        return String.format(".*%s.*Sending order to (the UK|another country|the US)$", getContextName());
     }
 }

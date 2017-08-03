@@ -19,8 +19,6 @@
  */
 package org.wildfly.camel.test.jms;
 
-import groovy.transform.ToString;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,13 +32,14 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.camel.test.common.FileCopyTestSupport;
 import org.wildfly.camel.test.common.ServerLogReader;
 import org.wildfly.camel.test.common.http.HttpRequest;
 
 @RunAsClient
 @RunWith(Arquillian.class)
 @ServerSetup({ AbstractJMSExampleTest.JmsQueueSetup.class })
-public class TransactedJMSExampleTest extends AbstractJMSExampleTest {
+public class TransactedJMSExampleTest extends FileCopyTestSupport {
 
     private static final String CONTEXT_PATH = "example-camel-jms-tx";
     private static final String EXAMPLE_CAMEL_JMS_WAR = CONTEXT_PATH + ".war";
@@ -50,9 +49,9 @@ public class TransactedJMSExampleTest extends AbstractJMSExampleTest {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/" + EXAMPLE_CAMEL_JMS_WAR));
     }
 
-    @Override
+    @Test
     public void testFileToJmsRoute() throws Exception {
-        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*rolling back transaction!$", 5000);
+        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*camel-jms-tx-context.*Rollback.*Invalid quantity$", 10000);
         Assert.assertTrue("Gave up waiting for transaction to rollback", logMessagePresent);
 
         // Make sure the database persist was definitely rolled back

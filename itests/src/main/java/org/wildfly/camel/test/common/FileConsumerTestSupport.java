@@ -2,7 +2,7 @@
  * #%L
  * Wildfly Camel :: Testsuite
  * %%
- * Copyright (C) 2013 - 2017 RedHat
+ * Copyright (C) 2013 - 2016 RedHat
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package org.wildfly.camel.test.jpa;
+package org.wildfly.camel.test.common;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.wildfly.camel.test.common.FileConsumerTestSupport;
-import org.wildfly.camel.test.common.ServerLogReader;
-import org.wildfly.camel.test.common.http.HttpRequest;
 
-public abstract class AbstractJPAExampleTest extends FileConsumerTestSupport {
+public abstract class FileConsumerTestSupport {
 
     @Test
     public void testFileProcessed() throws Exception {
-        ServerLogReader.awaitLogMessage(getExpectedLogMessage(), 10000);
-        HttpRequest.HttpResponse result = HttpRequest.get("http://localhost:8080/rest/api/books/order/1").getResponse();
-        Assert.assertEquals(200, result.getStatusCode());
+        boolean logMessagePresent = ServerLogReader.awaitLogMessage(getExpectedLogMessage(), 10000);
+        Assert.assertTrue(logMessagePresent);
     }
 
-    @Override
-    protected String getExpectedLogMessage() {
-        return String.format(".*%s.*Processed order.*", getContextName());
-    }
+    protected abstract String getExpectedLogMessage();
+    protected abstract String getContextName();
 }

@@ -32,7 +32,7 @@ public class JPARouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Route to generate orders and persist them to the database
-        from("timer:new-order?delay=1s&period=10s")
+        from("timer:new-order?delay=0s&period=10s")
             .bean("orderService", "generateOrder")
             .toF("jpa:%s", Order.class.getName())
             .log("Inserted new order ${body.id}");

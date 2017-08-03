@@ -38,13 +38,13 @@
     <!-- Bean to choose a random order XML file -->
     <bean id="orderGenerator" class="org.wildfly.camel.examples.jms.OrderGenerator" />
 
-    <camelContext xmlns="http://camel.apache.org/schema/spring" id="jms-camel-context">
+    <camelContext xmlns="http://camel.apache.org/schema/spring" id="jms-spring-camel-context">
 
         <!--
             This route generates a random order every 5 seconds
         -->
         <route>
-            <from uri="timer:order?period=5000"/>
+            <from uri="timer:order?period=5000&amp;delay=0"/>
             <bean method="generateOrder" ref="orderGenerator"/>
             <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
                 <method method="generateFileName" ref="orderGenerator"/>

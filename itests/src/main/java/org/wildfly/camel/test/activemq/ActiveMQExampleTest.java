@@ -20,8 +20,6 @@
 package org.wildfly.camel.test.activemq;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -33,18 +31,14 @@ import org.jboss.dmr.ModelNode;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.ResourceAdapterArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.camel.test.common.FileConsumingTestSupport;
-import org.wildfly.camel.test.common.http.HttpRequest;
-import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 import org.wildfly.camel.test.common.utils.DMRUtils;
+import org.wildfly.camel.test.jms.AbstractJMSExampleTest;
 
 @RunAsClient
 @RunWith(Arquillian.class)
 @ServerSetup({ActiveMQExampleTest.ActiveMQRarSetupTask.class})
-public class ActiveMQExampleTest extends FileConsumingTestSupport {
+public class ActiveMQExampleTest extends AbstractJMSExampleTest {
 
     private static final String ACTIVEMQ_EXAMPLE_WAR = "example-camel-activemq.war";
     private static final String ACTIVEMQ_RAR = "activemq-rar.rar";
@@ -84,31 +78,8 @@ public class ActiveMQExampleTest extends FileConsumingTestSupport {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/" + ACTIVEMQ_EXAMPLE_WAR));
     }
 
-    @Test
-    public void testFileToActiveMQRoute() throws Exception {
-        int timeout = 5;
-        String requrl = "http://localhost:8080/example-camel-activemq/orders";
-        HttpResponse result = HttpRequest.get(requrl).getResponse();
-        while (!result.getBody().contains("UK: 1") && 0 < timeout) {
-            Thread.sleep(1000);
-            result = HttpRequest.get(requrl).getResponse();
-            timeout--;
-        }
-        Assert.assertTrue(result.getBody().contains("UK: 1"));
-    }
-
     @Override
-    protected String sourceFilename() {
-        return "order.xml";
-    }
-
-    @Override
-    protected Path destinationPath() {
-        return Paths.get(System.getProperty("jboss.home") + "/standalone/data/orders");
-    }
-
-    @Override
-    protected Path processedPath() {
-        return destinationPath().resolve("processed/UK");
+    protected String getContextName() {
+        return "camel-activemq-context";
     }
 }
