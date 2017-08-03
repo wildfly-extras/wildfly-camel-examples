@@ -1,7 +1,7 @@
 Camel Transacted JMS example
 ----------------------------
 
-This example demonstrates using the camel-jms component with WildFly Camel subsystem to produce and consume JMS messages in a transacted session.
+This example demonstrates using the camel-jms component with JBoss Fuse on EAP to produce and consume JMS messages in a transacted session.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an in-memory ActiveMQ Artemis JMS queue
 named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue', converts the message body to an 'Order' entity and persists it
@@ -16,16 +16,16 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with JBoss Fuse installed
 
 Running the example
 -------------------
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
-3. When the WildFly server has started, browse to http://localhost:8080/example-camel-jms-tx/orders
+3. When the server has started, browse to http://localhost:8080/example-camel-jms-tx/orders
 
 You should see a page titled 'Orders Received'. As we send orders to the example application, a list
 of processed orders will be listed on this page.
@@ -47,7 +47,7 @@ Camel will choose a file at random every 15 seconds and will copy it into ${JBOS
 Once the files have been consumed, you can return to http://localhost:8080/example-camel-jms-tx/orders. You should see that only the wireless keyboard
 and HDMI cable product orders were processed. What happened to the order contained within order-2.xml for the wireless mouse?
 
-Look at the WildFly server console output. The output should show a sequence of events similar to the following.
+Look at the EAP server console output. The output should show a sequence of events similar to the following.
 
 ```
 [stdout] (Camel (jms-camel-context) thread #1 - JmsConsumer[OrdersQueue]) Hibernate: insert into orders (productName, productSku, quantity, id) values (?, ?, ?, ?)
