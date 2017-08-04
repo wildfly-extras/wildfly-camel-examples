@@ -204,6 +204,14 @@
                     <exclude>arquillian.xml</exclude>
                 </excludes>
             </resource>
+			<resource>				
+				<directory>src/main/resources/configuration</directory><!-- from -->
+				<targetPath>${jboss.home}/standalone/configuration</targetPath><!-- to -->
+				<includes>
+					<include>*.keystore</include>
+					<include>*.jks</include>
+				</includes>
+			</resource>
         </resources>
         <plugins>
             <plugin>
@@ -321,7 +329,7 @@
 				<executions>
 					<execution>
                         <id>execute-commands</id>
-						<phase>install</phase>
+						<phase>generate-resources</phase>
                         <goals>
                             <goal>execute-commands</goal>
                         </goals>                                               
