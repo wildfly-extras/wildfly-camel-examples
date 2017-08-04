@@ -30,6 +30,13 @@
         <fileSet>
             <directory>../</directory>
             <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>camel-*/**</include>
+                <include>itests/**</include>
+                <include>LICENSE.txt</include>
+                <include>README.md</include>
+                <include>pom.xml</include>
+            </includes>
             <excludes>
                 <exclude>**/.classpath</exclude>
                 <exclude>**/.DS_Store</exclude>
