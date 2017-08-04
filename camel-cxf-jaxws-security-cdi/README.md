@@ -34,21 +34,18 @@ To run the example.
 	
 	
 3. Add system properties (via CLI)
-	/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)
-	/system-property=javax.net.ssl.trustStorePassword/:add(value=password)
+
+	/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)  
+	
+	/system-property=javax.net.ssl.trustStorePassword/:add(value=password)  
+	
 4. Add security domain(s) for client-cert authentication (via CLI)
+
+	/subsystem=security/security-domain=certificate-trust-domain:add()
+	/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})
 	
-	/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add( \
-	truststore={ \
-	"password"=>"password", \
-	"url"=>"${jboss.home.dir}\/standalone\/configuration\/application.keystore" \
-	})
-	
-	/subsystem=security/securitydomain=client-cert/authentication=classic/login-module=Certificate:add( \
-	code=Certificate, \
-	flag=required, \
-	module-options=[("securityDomain"=>"certificate-trust-domain")])
-	
+	/subsystem=security/security-domain=client-cert:add()
+	/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="Certificate","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain"]}])
 	
 5. Re-Start the application server 
 6. Build and deploy the project `mvn install -Pdeploy`

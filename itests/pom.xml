@@ -116,6 +116,12 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+		<dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-cxf-jaxws-security-cdi</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-jms</artifactId>
@@ -289,6 +295,37 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+			<plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+				<configuration>
+					<jbossHome>${jboss.home}</jbossHome>					
+					<offline>true</offline>
+					<batch>false</batch>
+					<commands>
+						<command>embed-server -c=${server.config}</command>
+						<command>batch</command>
+						<command>/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)</command>
+						<command>/system-property=javax.net.ssl.trustStorePassword/:add(value=password)</command>
+						<command>/subsystem=security/security-domain=certificate-trust-domain:add()</command>
+						<command>/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})</command>
+						<!--<command>:reload</command>-->
+						<command>/subsystem=security/security-domain=client-cert:add()</command>
+						<command>/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="Certificate","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain"]}])</command>
+						<command>run-batch</command>
+						<command>stop-embedded-server</command>
+					</commands>					
+				</configuration>
+				<executions>
+					<execution>
+                        <id>execute-commands</id>
+						<phase>install</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>                                               
+                    </execution>
+				</executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
