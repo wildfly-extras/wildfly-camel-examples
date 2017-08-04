@@ -46,10 +46,14 @@ To run the example.
 	
 	/subsystem=security/security-domain=client-cert:add()
 	/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="Certificate","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain"]}])
+
+5. Add verify-client Attribute to the Undertow https listener
 	
-5. Re-Start the application server 
-6. Build and deploy the project `mvn install -Pdeploy`
-7. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
+	/subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=verify-client,value=REQUESTED)
+	
+6. Re-Start the application server 
+7. Build and deploy the project `mvn install -Pdeploy`
+8. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
 started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-security-cdi/greeting?wsdl.

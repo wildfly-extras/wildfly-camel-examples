@@ -313,6 +313,7 @@
 						<!--<command>:reload</command>-->
 						<command>/subsystem=security/security-domain=client-cert:add()</command>
 						<command>/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="Certificate","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain"]}])</command>
+						<command>/subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=verify-client,value=REQUESTED)</command>
 						<command>run-batch</command>
 						<command>stop-embedded-server</command>
 					</commands>					

@@ -27,9 +27,11 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.camel.test.common.http.HttpRequest;
+import org.wildfly.camel.test.common.http.HttpRequest.HttpRequestBuilder;
 import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 
 
@@ -39,10 +41,19 @@ public class CxfWsSecurityCdiExampleTest {
 
     private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxfws-security-cdi/cxf/";
 
+    private static final String ENDPOINT_ADDRESS_OF_BACKEND_WS_WSDL = "https://localhost:8443/webservices/greeting-cdi?wsdl";
+
     @Deployment
     public static WebArchive createDeployment() {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-cxf-jaxws-security-cdi.war"));
     }
+
+//    @BeforeClass
+//    public static void beforeClass() throws Exception {
+//    	HttpRequestBuilder post = HttpRequest.post(ENDPOINT_ADDRESS_OF_BACKEND_WS_WSDL);
+//    	HttpResponse response = post.getResponse();
+//    	System.out.println(response);
+//    }
 
     @Test
     public void testSayHelloCxfSoapRoute() throws Exception {
