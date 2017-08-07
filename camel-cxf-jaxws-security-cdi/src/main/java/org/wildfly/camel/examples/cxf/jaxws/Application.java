@@ -102,7 +102,7 @@ public class Application {
 		JAASLoginInterceptor jaasLoginInterceptor = new JAASLoginInterceptor();
 		jaasLoginInterceptor.setContextName(WILDFLY_SECURITY_DOMAIN_NAME);
 		jaasLoginInterceptor.setAllowAnonymous(false);
-		List<CallbackHandlerProvider> chp = Arrays.asList(new JBossCallbackHandlerTlsCert(TRUSTSTORE_ALIAS_NAME));
+		List<CallbackHandlerProvider> chp = Arrays.asList(new JBossCallbackHandlerTlsCert());
 		jaasLoginInterceptor.setCallbackHandlerProviders(chp);
 		inInterceptors.add(jaasLoginInterceptor);
 

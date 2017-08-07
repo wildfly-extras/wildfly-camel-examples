@@ -18,8 +18,9 @@ Running the example
 -------------------
 
 To run the example.
-1. Add user "server" with password "testPassword1+" that has the role "testRole" with the add-user script (${JBOSS_HOME}/bin/add-user.sh ...)
-	(actually only the role for the user "server" has to be in "application-roles.properties". The user "server" is authenticated via cartificate.)
+1. Add user "CN=localhost" with password "testPassword1+" that has the role "testRole" with the add-user script (${JBOSS_HOME}/bin/add-user.sh ...)
+	(actually only the role for the user "CN=localhost" has to be in "application-roles.properties". The user is authenticated via cartificate.)
+	(CAUTION in the properties file the the result of the call has to be escaped: "CN\=localhost=testRole")
 2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
 3. Edit ${jboss.home.dir}\modules\system\layers\fuse\org\wildfly\extension\camel\cxf\undertow\main\module.xml
 	and add this line:
@@ -48,7 +49,7 @@ To run the example.
 	/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})
 
 	/subsystem=security/security-domain=client-cert:add()
-	/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="CertificateRoles","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain","rolesProperties"=>"${jboss.home.dir}/standalone/configuration/application-roles.properties"]}])
+	/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="CertificateRoles","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain","verifier"=>"org.jboss.security.auth.certs.AnyCertVerifier","rolesProperties"=>"${jboss.home.dir}/standalone/configuration/application-roles.properties"]}])
 
 6. Add verify-client Attribute to the Undertow https listener
 

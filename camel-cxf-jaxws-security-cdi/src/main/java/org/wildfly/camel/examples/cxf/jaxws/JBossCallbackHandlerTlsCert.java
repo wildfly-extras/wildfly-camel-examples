@@ -30,12 +30,12 @@ public class JBossCallbackHandlerTlsCert /*extends CallbackHandlerTlsCert*/ impl
     private NameToPasswordMapper nameToPasswordMapper;
     private String fixedPassword;
 
-    public JBossCallbackHandlerTlsCert(String alias) {
+    public JBossCallbackHandlerTlsCert() {
         // By default use subjectDN as userName
         this.certMapper = new CertificateToNameMapper() {
             public String getUserName(Certificate cert) {
-//                return ((X509Certificate)cert).getSubjectDN().getName();
-            	return alias;
+                String name = ((X509Certificate)cert).getSubjectDN().getName();
+            	return name;
             }
         };
         // By default use fixed password
