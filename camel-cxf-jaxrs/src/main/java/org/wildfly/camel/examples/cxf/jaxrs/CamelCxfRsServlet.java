@@ -32,7 +32,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 
 @SuppressWarnings("serial")
-@WebServlet(name = "HttpServiceServlet", urlPatterns = { "/cxf/*" }, loadOnStartup = 1)
+@WebServlet(name = "HttpServiceServlet", urlPatterns = { "/cxf/*", "/example-camel-cxfrs/cxf/*" }, loadOnStartup = 1)
 public class CamelCxfRsServlet extends HttpServlet {
 
     @Resource(name = "java:jboss/camel/context/cxfrs-camel-context")
@@ -64,6 +64,6 @@ public class CamelCxfRsServlet extends HttpServlet {
         String result = producer.requestBody("direct:start", serviceParams, String.class);
 
         request.setAttribute("greeting", result);
-        request.getRequestDispatcher("/greeting.jsp").forward(request, response);
+        request.getServletContext().getRequestDispatcher("/greeting.jsp").forward(request, response);
     }
 }

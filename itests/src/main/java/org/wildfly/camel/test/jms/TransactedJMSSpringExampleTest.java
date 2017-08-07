@@ -30,14 +30,16 @@ import org.jboss.as.arquillian.api.ServerSetup;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.camel.test.common.FileCopyTestSupport;
 import org.wildfly.camel.test.common.ServerLogReader;
 import org.wildfly.camel.test.common.http.HttpRequest;
 
 @RunAsClient
 @RunWith(Arquillian.class)
 @ServerSetup({ AbstractJMSExampleTest.JmsQueueSetup.class })
-public class TransactedJMSSpringExampleTest extends AbstractJMSExampleTest {
+public class TransactedJMSSpringExampleTest extends FileCopyTestSupport {
 
     private static final String CONTEXT_PATH = "example-camel-jms-tx-spring";
     private static final String EXAMPLE_CAMEL_JMS_WAR = CONTEXT_PATH + ".war";
@@ -47,9 +49,9 @@ public class TransactedJMSSpringExampleTest extends AbstractJMSExampleTest {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/" + EXAMPLE_CAMEL_JMS_WAR));
     }
 
-    @Override
+    @Test
     public void testFileToJmsRoute() throws Exception {
-        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*rolling back transaction!$", 5000);
+        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*jms-tx-spring-camel-context.*Rollback.*Invalid quantity$", 10000);
         Assert.assertTrue("Gave up waiting for transaction to rollback", logMessagePresent);
 
         // Make sure the database persist was definitely rolled back

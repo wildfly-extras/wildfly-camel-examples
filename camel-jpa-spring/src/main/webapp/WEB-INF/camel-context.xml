@@ -56,7 +56,7 @@
         <entry key="id" value="${header.id}"/>
     </util:map>
 
-    <camelContext xmlns="http://camel.apache.org/schema/spring" id="jpa-camel-context">
+    <camelContext xmlns="http://camel.apache.org/schema/spring" id="jpa-spring-camel-context">
 
         <!-- Defines the REST DSL for querying order information -->
         <restConfiguration component="undertow"
@@ -79,7 +79,7 @@
 
         <!-- Route to generate orders and persist them to the database -->
         <route>
-            <from uri="timer:new-order?delay=1s&amp;period=10s" />
+            <from uri="timer:new-order?delay=0s&amp;period=10s" />
             <bean ref="orderService" method="generateOrder" />
             <to uri="jpa:org.wildfly.camel.examples.jpa.model.Order" />
             <log message="Inserted new order ${body.id}" />

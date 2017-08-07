@@ -29,8 +29,9 @@
                   address="http://localhost:8080/rest"
                   serviceClass="org.wildfly.camel.examples.cxf.jaxrs.GreetingService" />
 
+    <!-- If available, we use jboss.bind.address instead of localhost -->
     <cxf:rsClient id="cxfProducer"
-                  address="http://localhost:8080/rest"
+                  address="http://{{sys:jboss.bind.address:localhost}}:8080/rest"
                   serviceClass="org.wildfly.camel.examples.cxf.jaxrs.GreetingService" />
 
     <bean id="greetingsProcessor" class="org.wildfly.camel.examples.cxf.jaxrs.GreetingsProcessor" />

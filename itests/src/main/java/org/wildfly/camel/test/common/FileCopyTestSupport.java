@@ -32,7 +32,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
-public abstract class FileConsumingTestSupport {
+public abstract class FileCopyTestSupport {
 
     @Before
     public void setUp() throws Exception {

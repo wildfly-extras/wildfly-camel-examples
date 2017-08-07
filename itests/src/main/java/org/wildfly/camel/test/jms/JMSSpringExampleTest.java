@@ -20,8 +20,6 @@
 package org.wildfly.camel.test.jms;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -45,17 +43,7 @@ public class JMSSpringExampleTest extends AbstractJMSExampleTest {
     }
 
     @Override
-    protected String sourceFilename() {
-        return "order.xml";
-    }
-
-    @Override
-    protected Path destinationPath() {
-        return Paths.get(System.getProperty("jboss.home") + "/standalone/data/orders");
-    }
-
-    @Override
-    protected Path processedPath() {
-        return destinationPath().resolve("processed/UK");
+    protected String getContextName() {
+        return "jms-spring-camel-context";
     }
 }

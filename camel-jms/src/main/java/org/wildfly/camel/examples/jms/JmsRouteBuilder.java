@@ -40,7 +40,7 @@ public class JmsRouteBuilder extends RouteBuilder {
         /**
          * This route generates a random order every 5 seconds
          */
-        from("timer:order?period=5s")
+        from("timer:order?period=5s&delay=0")
         .bean("orderGenerator", "generateOrder")
         .setHeader(Exchange.FILE_NAME).method("orderGenerator", "generateFileName")
         .to("file://{{jboss.server.data.dir}}/orders");

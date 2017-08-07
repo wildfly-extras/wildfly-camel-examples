@@ -40,13 +40,12 @@ import org.wildfly.camel.examples.jms.transacted.model.Order;
 @WebServlet(name = "HttpServiceServlet", urlPatterns = {"/orders"}, loadOnStartup = 1)
 public class OrdersServlet extends HttpServlet {
 
-    @Resource(name = "java:jboss/camel/context/jms-camel-context")
+    @Resource(name = "java:jboss/camel/context/jms-tx-spring-camel-context")
     private CamelContext camelContext;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         // Gets all orders saved to the in-memory database 'orders' table
-
+        // Gets all orders saved to the in-memory database 'orders' table
         JpaComponent component = camelContext.getComponent("jpa", JpaComponent.class);
         EntityManagerFactory entityManagerFactory = component.getEntityManagerFactory();
 

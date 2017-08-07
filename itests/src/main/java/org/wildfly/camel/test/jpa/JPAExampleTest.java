@@ -39,4 +39,9 @@ public class JPAExampleTest extends AbstractJPAExampleTest {
     public static WebArchive createDeployment() {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/" + EXAMPLE_CAMEL_JPA_WAR));
     }
+
+    @Override
+    protected String getContextName() {
+        return "camel-jpa-context";
+    }
 }
