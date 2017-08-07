@@ -302,6 +302,20 @@
                             <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.jboss.as.domain-add-user -a -s -u testUser -p testPassword1+ -g testRole</commandlineArgs>
                         </configuration>
                     </execution>
+					<execution>
+                        <id>add-role-for-cert-user</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <environmentVariables>
+                                <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
+                            </environmentVariables>
+                            <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.jboss.as.domain-add-user -a -s -u server -p testPassword1+ -g testRole</commandlineArgs>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 			<plugin>
@@ -320,7 +334,7 @@
 						<command>/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})</command>
 						<!--<command>:reload</command>-->
 						<command>/subsystem=security/security-domain=client-cert:add()</command>
-						<command>/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="Certificate","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain"]}])</command>
+						<command>/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="CertificateRoles","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain","rolesProperties"=>"${jboss.home.dir}/standalone/configuration/application-roles.properties"]}])</command>
 						<command>/subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=verify-client,value=REQUESTED)</command>
 						<command>run-batch</command>
 						<command>stop-embedded-server</command>

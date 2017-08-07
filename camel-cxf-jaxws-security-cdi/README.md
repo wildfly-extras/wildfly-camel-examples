@@ -18,9 +18,10 @@ Running the example
 -------------------
 
 To run the example.
-
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
-2. Edit ${jboss.home.dir}\modules\system\layers\fuse\org\wildfly\extension\camel\cxf\undertow\main\module.xml
+1. Add user "server" with password "testPassword1+" that has the role "testRole" with the add-user script (${JBOSS_HOME}/bin/add-user.sh ...)
+	(actually only the role for the user "server" has to be in "application-roles.properties". The user "server" is authenticated via cartificate.)
+2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+3. Edit ${jboss.home.dir}\modules\system\layers\fuse\org\wildfly\extension\camel\cxf\undertow\main\module.xml
 	and add this line:
 
 		<module name="org.picketbox" />
@@ -35,27 +36,27 @@ To run the example.
 		java.lang.NoClassDefFoundError: org/apache/cxf/security/transport/TLSSessionInfo
 
 
-3. Add system properties (via CLI)
+4. Add system properties (via CLI)
 
 	/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)
 
 	/system-property=javax.net.ssl.trustStorePassword/:add(value=password)
 
-4. Add security domain(s) for client-cert authentication (via CLI)
+5. Add security domain(s) for client-cert authentication (via CLI)
 
 	/subsystem=security/security-domain=certificate-trust-domain:add()
 	/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})
 
 	/subsystem=security/security-domain=client-cert:add()
-	/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="Certificate","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain"]}])
+	/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="CertificateRoles","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain","rolesProperties"=>"${jboss.home.dir}/standalone/configuration/application-roles.properties"]}])
 
-5. Add verify-client Attribute to the Undertow https listener
+6. Add verify-client Attribute to the Undertow https listener
 
 	/subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=verify-client,value=REQUESTED)
 
-6. Re-Start the application server
-7. Build and deploy the project `mvn install -Pdeploy`
-8. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
+7. Re-Start the application server
+8. Build and deploy the project `mvn install -Pdeploy`
+9. Browse to http://localhost:8080/example-camel-cxfws-security-cdi/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
 started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-security-cdi/greeting?wsdl.

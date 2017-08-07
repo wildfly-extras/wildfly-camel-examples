@@ -4,7 +4,9 @@
 package org.wildfly.camel.examples.cxf.jaxws;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -26,6 +28,7 @@ import org.apache.camel.util.jsse.SSLContextServerParameters;
 import org.apache.camel.util.jsse.TrustManagersParameters;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.security.JAASLoginInterceptor;
+import org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor;
 import org.apache.cxf.interceptor.security.callback.CallbackHandlerProvider;
 import org.apache.cxf.message.Message;
 
@@ -40,9 +43,7 @@ public class Application {
 	// actually the same as producer address, but here "https" doesn't work. Is this a bug?
 	private static final String CXF_CONSUMER_ENDPOINT_ADDRESS = "http://localhost:8080/webservices/greeting-cdi";
 
-
 	private static final String WILDFLY_SECURITY_DOMAIN_NAME = "client-cert";
-
 
 	private final static String KEYSTORE_PATH = System.getProperty("jboss.server.config.dir") + "/application.keystore";
 	private static final String KEYSTORE_PASSWORD = "password";
@@ -106,14 +107,12 @@ public class Application {
 		inInterceptors.add(jaasLoginInterceptor);
 
 		// Authorization
-		// SimpleAuthorizingInterceptor authorizingInterceptor = new SimpleAuthorizingInterceptor();
-		// authorizingInterceptor.setAllowAnonymousUsers(false);
-		// Map<String, String> rolesMap = new HashMap<>(1);
-		// rolesMap.put("greet", "testRole");
-		// authorizingInterceptor.setMethodRolesMap(rolesMap );
-		//// String roles = "adminRole testRole";
-		//// authorizingInterceptor.setGlobalRoles(roles);
-		// inInterceptors.add(authorizingInterceptor);
+		SimpleAuthorizingInterceptor authorizingInterceptor = new SimpleAuthorizingInterceptor();
+		authorizingInterceptor.setAllowAnonymousUsers(false);
+		Map<String, String> rolesMap = new HashMap<>(1);
+		rolesMap.put("greet", "testRole");
+		authorizingInterceptor.setMethodRolesMap(rolesMap);
+		inInterceptors.add(authorizingInterceptor);
 		return cxfConsumerEndpoint;
 	}
 
