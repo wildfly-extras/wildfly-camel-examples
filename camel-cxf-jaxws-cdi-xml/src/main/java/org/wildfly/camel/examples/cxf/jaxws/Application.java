@@ -39,11 +39,11 @@ import org.apache.camel.component.cxf.CxfEndpoint;
  *
  */
 @Named("cxf_cdi_xml_app")
-@ImportResource("cxfws-camel-context.xml")
+@ImportResource("cxfws-cdi-xml-camel-context.xml")
 public class Application {
 
 	@Inject
-	@ContextName("cxfws-camel-context")
+	@ContextName("cxfws-cdi-xml-camel-context")
 	CamelContext context;
 
 	@Named("greetingsProcessor")
@@ -56,7 +56,7 @@ public class Application {
 	@Produces
 	public CxfEndpoint produceCxfConsumer() {
 		CxfComponent cxfComponent = new CxfComponent(this.context);
-		CxfEndpoint cxfFromEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting", cxfComponent);
+		CxfEndpoint cxfFromEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
 		cxfFromEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
 		return cxfFromEndpoint;
 	}
@@ -65,7 +65,7 @@ public class Application {
 	@Produces
 	public CxfEndpoint produceCxfProducer() {
 		CxfComponent cxfComponent = new CxfComponent(this.context);
-		CxfEndpoint cxfToEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting", cxfComponent);
+		CxfEndpoint cxfToEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
 		cxfToEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
 		return cxfToEndpoint;
 	}

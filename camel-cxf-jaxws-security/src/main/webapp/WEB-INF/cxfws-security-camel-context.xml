@@ -20,7 +20,7 @@
     xmlns:cxf="http://camel.apache.org/schema/cxf"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
     <cxf:cxfEndpoint
-        address="http://localhost:8080/webservices/greeting"
+        address="http://localhost:8080/webservices/greeting-security-basic"
         id="cxfConsumer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService">
         <cxf:inInterceptors>
             <ref bean="authenticationInterceptor"/>
@@ -28,7 +28,7 @@
         </cxf:inInterceptors>
     </cxf:cxfEndpoint>
     <cxf:cxfEndpoint
-        address="http://localhost:8080/webservices/greeting"
+        address="http://localhost:8080/webservices/greeting-security-basic"
         id="cxfProducer" serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService">
         <cxf:properties>
             <entry key="username" value="testUser"/>
@@ -51,7 +51,7 @@
     </bean>
     <bean
         class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
-    <camelContext id="cxfws-camel-context" xmlns="http://camel.apache.org/schema/spring">
+    <camelContext id="cxfws-security-camel-context" xmlns="http://camel.apache.org/schema/spring">
         <!--
          This route defines a CXF producer endpoint which invokes a greeting web service.
 

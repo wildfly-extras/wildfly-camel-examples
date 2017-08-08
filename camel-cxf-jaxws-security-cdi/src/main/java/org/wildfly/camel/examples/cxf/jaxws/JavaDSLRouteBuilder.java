@@ -12,7 +12,7 @@ import org.apache.camel.component.cxf.CxfEndpoint;
 
 @Startup
 @ApplicationScoped
-@ContextName("java-dsl-context")
+@ContextName("java-dsl-security-cdi-context")
 public class JavaDSLRouteBuilder extends RouteBuilder {
 
 	@Inject

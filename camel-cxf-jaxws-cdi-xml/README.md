@@ -2,10 +2,10 @@ Camel CXF JAX-WS CXF CDI XML-Configuration Example
 ------------------------
 
 This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web services.
-Based on the camel-cdi example from Apache 
+Based on the camel-cdi example from Apache
 	https://github.com/apache/camel/tree/master/examples/camel-example-cdi-xml
 it illustrates the use of Camel XML configuration files into Camel CDI applications.
-	
+
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
 to pass arguments to a CXF JAX-WS web service.
 
@@ -48,7 +48,7 @@ object array. This object array will be the message payload that is sent to the 
 sends the message payload to Camel. `The direct:start` endpoint passes the object array to a `cxf:bean` web service producer.
 The web service response is used by `CamelCxfWsServlet` to display the greeting on the web UI.
 
-The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfws-camel-context.xml`.
+The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfws-cdi-xml-camel-context.xml`.
 
 ## Undeploy
 

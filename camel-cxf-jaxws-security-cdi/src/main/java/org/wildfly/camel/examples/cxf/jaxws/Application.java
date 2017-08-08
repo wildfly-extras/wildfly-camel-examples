@@ -38,10 +38,10 @@ import org.apache.cxf.message.Message;
 @Named("cxf_cdi_security_app")
 public class Application {
 
-	private static final String CXF_PRODUCER_ENDPOINT_ADDRESS = "https://localhost:8443/webservices/greeting-cdi";
+	private static final String CXF_PRODUCER_ENDPOINT_ADDRESS = "https://localhost:8443/webservices/greeting-security-cdi";
 
 	// actually the same as producer address, but here "https" doesn't work. Is this a bug?
-	private static final String CXF_CONSUMER_ENDPOINT_ADDRESS = "http://localhost:8080/webservices/greeting-cdi";
+	private static final String CXF_CONSUMER_ENDPOINT_ADDRESS = "http://localhost:8080/webservices/greeting-security-cdi";
 
 	private static final String WILDFLY_SECURITY_DOMAIN_NAME = "client-cert";
 
@@ -52,7 +52,7 @@ public class Application {
 
 
 	@Inject
-	@ContextName("java-dsl-context")
+	@ContextName("java-dsl-security-cdi-context")
 	CamelContext camelContext;
 
 	@Named("greetingsProcessor")

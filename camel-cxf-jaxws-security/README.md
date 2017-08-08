@@ -45,7 +45,7 @@ object array. This object array will be the message payload that is sent to the 
 sends the message payload to Camel. `The direct:start` endpoint passes the object array to a `cxf:bean` web service producer.
 The web service response is used by `CamelCxfWsServlet` to display the greeting on the web UI.
 
-The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfws-camel-context.xml`.
+The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfws-security-camel-context.xml`.
 
 ## Undeploy
 

@@ -36,7 +36,7 @@ import org.apache.camel.ProducerTemplate;
 @WebServlet(name = "HttpServiceServlet", urlPatterns = { "/cxf/*" }, loadOnStartup = 1)
 public class CamelCxfWsServlet extends HttpServlet {
 
-    @Resource(name = "java:jboss/camel/context/cxfws-camel-context")
+    @Resource(name = "java:jboss/camel/context/cxfws-security-camel-context")
     private CamelContext camelContext;
 
     @Override
