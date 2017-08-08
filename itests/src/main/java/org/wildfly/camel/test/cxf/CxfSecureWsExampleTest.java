@@ -24,16 +24,17 @@ import java.io.File;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.as.domain.management.security.adduser.AddUser;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.camel.test.common.http.HttpRequest;
 import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 
 
-@RunAsClient
 @RunWith(Arquillian.class)
 public class CxfSecureWsExampleTest {
 
@@ -44,6 +45,13 @@ public class CxfSecureWsExampleTest {
         return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-cxf-jaxws-security.war"));
     }
 
+    @BeforeClass
+    public static void testAddUser() throws Exception {
+        String[] commandLine = {"-a", "-s", "-u", "testUser", "-p", "testPassword1+", "-g", "testRole"};
+        AddUser.main(commandLine);
+    }
+
+    @RunAsClient
     @Test
     public void testSayHelloCxfSoapRoute() throws Exception {
         HttpResponse result = HttpRequest.post(ENDPOINT_ADDRESS)

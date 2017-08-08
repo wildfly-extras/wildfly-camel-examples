@@ -288,34 +288,6 @@
                             <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.wildfly.extras.config --configs camel --enable</commandlineArgs>
                         </configuration>
                     </execution>
-					<execution>
-                        <id>add-test-user</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <executable>java</executable>
-                            <environmentVariables>
-                                <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
-                            </environmentVariables>
-                            <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.jboss.as.domain-add-user -a -s -u testUser -p testPassword1+ -g testRole</commandlineArgs>
-                        </configuration>
-                    </execution>
-					<execution>
-                        <id>add-role-for-cert-user</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <executable>java</executable>
-                            <environmentVariables>
-                                <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
-                            </environmentVariables>
-                            <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.jboss.as.domain-add-user -a -s -u CN=localhost -p testPassword1+ -g testRole</commandlineArgs>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
 			<plugin>
