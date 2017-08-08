@@ -8,9 +8,9 @@
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@
         <jvmDebugArgs>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</jvmDebugArgs>
         <server.config>standalone-full.xml</server.config>
     </properties>
-    
+
     <!-- Dependencies -->
     <dependencies>
         <dependency>
@@ -53,7 +53,7 @@
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -109,7 +109,7 @@
             <artifactId>example-camel-cxf-jaxws-cdi-xml</artifactId>
             <version>${project.version}</version>
             <type>war</type>
-        </dependency>		
+        </dependency>
 		<dependency>
             <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-cxf-jaxws-security</artifactId>
@@ -204,9 +204,9 @@
                     <exclude>arquillian.xml</exclude>
                 </excludes>
             </resource>
-			<resource>				
-				<directory>src/main/resources/configuration</directory><!-- from -->
-				<targetPath>${jboss.home}/standalone/configuration</targetPath><!-- to -->
+			<resource>
+				<directory>src/main/resources/configuration</directory>
+				<targetPath>${jboss.home}/standalone/configuration</targetPath>
 				<includes>
 					<include>*.keystore</include>
 					<include>*.jks</include>
@@ -322,7 +322,7 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
 				<configuration>
-					<jbossHome>${jboss.home}</jbossHome>					
+					<jbossHome>${jboss.home}</jbossHome>
 					<offline>true</offline>
 					<batch>false</batch>
 					<commands>
@@ -331,13 +331,13 @@
 						<command>/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)</command>
 						<command>/system-property=javax.net.ssl.trustStorePassword/:add(value=password)</command>
 						<command>/subsystem=security/security-domain=certificate-trust-domain:add()</command>
-						<command>/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})</command>						
+						<command>/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})</command>
 						<command>/subsystem=security/security-domain=client-cert:add()</command>
 						<command>/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="CertificateRoles","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain","verifier"=>"org.jboss.security.auth.certs.AnyCertVerifier","rolesProperties"=>"${jboss.home.dir}/standalone/configuration/application-roles.properties"]}])</command>
 						<command>/subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=verify-client,value=REQUESTED)</command>
 						<command>run-batch</command>
 						<command>stop-embedded-server</command>
-					</commands>					
+					</commands>
 				</configuration>
 				<executions>
 					<execution>
@@ -345,7 +345,7 @@
 						<phase>generate-resources</phase>
                         <goals>
                             <goal>execute-commands</goal>
-                        </goals>                                               
+                        </goals>
                     </execution>
 				</executions>
             </plugin>

@@ -35,21 +35,15 @@ import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 
 @RunAsClient
 @RunWith(Arquillian.class)
-public class CxfWsSecurityCdiExampleTest {
+public class CxfSecureWsExampleTest {
 
-    private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxfws-security-cdi/cxf/";
+    private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxf-jaxws-security/cxf/";
 
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-cxf-jaxws-security-cdi.war"));
+        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-cxf-jaxws-security.war"));
     }
 
-
-    /**
-     * This Test will work after https://github.com/wildfly-extras/wildfly-camel/issues/1945 is fixed.
-     *
-     * @throws Exception
-     */
     @Test
     public void testSayHelloCxfSoapRoute() throws Exception {
         HttpResponse result = HttpRequest.post(ENDPOINT_ADDRESS)

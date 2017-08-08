@@ -15,27 +15,25 @@ import org.apache.camel.component.cxf.CxfEndpoint;
 @ContextName("java-dsl-security-cdi-context")
 public class JavaDSLRouteBuilder extends RouteBuilder {
 
-	@Inject
-	@Named("greetingsProcessor")
-	Processor greetingsProcessor;
+    @Inject
+    @Named("greetingsProcessor")
+    Processor greetingsProcessor;
 
-	@Inject
-	@Named("cxfConsumerEndpoint")
-	CxfEndpoint cxfConsumerEndpoint;
+    @Inject
+    @Named("cxfConsumerEndpoint")
+    CxfEndpoint cxfConsumerEndpoint;
 
-	@Inject
-	@Named("cxfProducerEndpoint")
-	CxfEndpoint cxfProducerEndpoint;
+    @Inject
+    @Named("cxfProducerEndpoint")
+    CxfEndpoint cxfProducerEndpoint;
 
+    @Override
+    public void configure() throws Exception {
 
-	@Override
-	public void configure() throws Exception {
+        from("direct:start").to(this.cxfProducerEndpoint);
 
-		from("direct:start").to(this.cxfProducerEndpoint);
+        from(this.cxfConsumerEndpoint).process(this.greetingsProcessor);
 
-		from(this.cxfConsumerEndpoint).process(this.greetingsProcessor);
-
-	}
-
+    }
 
 }

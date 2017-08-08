@@ -42,32 +42,32 @@ import org.apache.camel.component.cxf.CxfEndpoint;
 @ImportResource("cxfws-cdi-xml-camel-context.xml")
 public class Application {
 
-	@Inject
-	@ContextName("cxfws-cdi-xml-camel-context")
-	CamelContext context;
+    @Inject
+    @ContextName("cxfws-cdi-xml-camel-context")
+    CamelContext context;
 
-	@Named("greetingsProcessor")
-	@Produces
-	public Processor produceGreetingsProcessor() {
-		return new GreetingsProcessor();
-	}
+    @Named("greetingsProcessor")
+    @Produces
+    public Processor produceGreetingsProcessor() {
+        return new GreetingsProcessor();
+    }
 
-	@Named("cxfConsumer")
-	@Produces
-	public CxfEndpoint produceCxfConsumer() {
-		CxfComponent cxfComponent = new CxfComponent(this.context);
-		CxfEndpoint cxfFromEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
-		cxfFromEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
-		return cxfFromEndpoint;
-	}
+    @Named("cxfConsumer")
+    @Produces
+    public CxfEndpoint produceCxfConsumer() {
+        CxfComponent cxfComponent = new CxfComponent(this.context);
+        CxfEndpoint cxfFromEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
+        cxfFromEndpoint.setServiceClass(GreetingService.class);
+        return cxfFromEndpoint;
+    }
 
-	@Named("cxfProducer")
-	@Produces
-	public CxfEndpoint produceCxfProducer() {
-		CxfComponent cxfComponent = new CxfComponent(this.context);
-		CxfEndpoint cxfToEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
-		cxfToEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
-		return cxfToEndpoint;
-	}
+    @Named("cxfProducer")
+    @Produces
+    public CxfEndpoint produceCxfProducer() {
+        CxfComponent cxfComponent = new CxfComponent(this.context);
+        CxfEndpoint cxfToEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
+        cxfToEndpoint.setServiceClass(GreetingService.class);
+        return cxfToEndpoint;
+    }
 
 }

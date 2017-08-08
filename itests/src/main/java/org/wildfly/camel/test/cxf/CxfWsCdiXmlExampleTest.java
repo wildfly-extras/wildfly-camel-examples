@@ -37,7 +37,7 @@ import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 @RunWith(Arquillian.class)
 public class CxfWsCdiXmlExampleTest {
 
-    private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxfws-cdi-xml/cxf/";
+    private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxf-jaxws-cdi-xml/cxf/";
 
     @Deployment
     public static WebArchive createDeployment() {

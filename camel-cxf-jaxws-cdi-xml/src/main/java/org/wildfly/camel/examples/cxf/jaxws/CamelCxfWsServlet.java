@@ -61,7 +61,7 @@ public class CamelCxfWsServlet extends HttpServlet {
          * The web service result string is returned back for display on the UI.
          */
         ProducerTemplate producer = camelContext.createProducerTemplate();
-        Object[] serviceParams = new Object[] {message, name};
+        Object[] serviceParams = new Object[] { message, name };
         String result = producer.requestBody("direct:start", serviceParams, String.class);
 
         request.setAttribute("greeting", result);
