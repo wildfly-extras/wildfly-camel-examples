@@ -61,3 +61,61 @@ Undeploy
 To undeploy the example run `mvn clean -Pdeploy`.
 
 This step removes the ActiveMQ resource adapter configuration but this will not take effect until the application server has been restarted.
+
+Deploying from the OpenShift console
+------------------------------------
+
+When logged into the OpenShift console, browse to the 'Add to Project' screen, from the Browse Catalog tab, click Java to open the list of Java templates and then
+choose the Red Hat JBoss Fuse category.
+
+This project assumes that you have already deployed an A-MQ broker somewhere within your OpenShift cluster. See the documentation for the A-MQ xPaaS middleware image
+to see how to do this.
+
+Find the s2i-eap-camel-amq template and click the Select button. You must provide the correct value for the 'A-MQ Service Prefix' parameter. If the broker
+requires authentication then you should supply the login credentials in fields 'A-MQ Username' and 'A-MQ Password'.
+
+When you have provided all of the required template parameters, click the 'Create' button.
+
+The Application created screen now opens. Click Continue to overview
+to go to the Overview tab of the OpenShift console. In the 'Builds' section you can monitor progress of the s2i-eap-camel-amq S2I build.
+
+When the build has completed successfully, click Overview in the left-hand navigation pane to view the running pod for this application. You can test
+the application by clicking on application URL link displayed at the top right of the pod overview. For example:
+
+    http://s2i-eap-camel-amq-jboss-fuse.192.168.42.51.nip.io/orders
+
+Note: You can find the correct host name with 'oc get route s2i-eap-camel-amq'
+
+You can observe Camel routes generating and processing messages by viewing the pod logs.
+
+Deploying from the command line
+-------------------------------
+
+This project assumes that you have already deployed an A-MQ broker somewhere within your cluster. See the documentation for the A-MQ xPaaS middleware image
+to see how to do this.
+
+You can deploy this quickstart example to OpenShift by triggering an S2I build. If your broker requires authentication, you'll need
+to provide parameters -p MQ_USERNAME=myuser -p MQ_PASSWORD=mysecret. Also, you may need to provide MQ_SERVICE_PREFIX if the default 'broker-amq' does
+not match with your broker service name.
+
+    oc new-app s2i-eap-camel-amq
+
+You can follow progress of the S2I build by running:
+
+    oc logs -f bc/s2i-eap-camel-amq
+
+When the S2I build is complete and the application is running you can test by navigating to route endpoint. You can find the application route
+hostname via 'oc get route s2i-eap-camel-amq'. For example:
+
+    http://s2i-eap-camel-amq-jboss-fuse.192.168.42.51.nip.io/orders
+
+You can observe Camel routes generating and processing messages by viewing the pod logs with (Note: you pod name may be different):
+
+    oc logs -f s2i-eap-camel-amq-1-ds8mg
+
+Cleaning up
+-------------------------------
+
+You can delete all resources created by the quickstart application by running:
+
+    oc delete all -l 'app=s2i-eap-camel-amq'
