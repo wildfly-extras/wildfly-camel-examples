@@ -71,6 +71,10 @@
             <artifactId>wildfly-arquillian-container-managed</artifactId>
         </dependency>
         <dependency>
+			<groupId>org.wildfly.core</groupId>
+			<artifactId>wildfly-cli</artifactId>
+		</dependency>
+        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-rar</artifactId>
             <type>rar</type>
@@ -289,38 +293,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-			<plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-				<configuration>
-					<jbossHome>${jboss.home}</jbossHome>
-					<offline>true</offline>
-					<batch>false</batch>
-					<commands>
-						<command>embed-server -c=${server.config}</command>
-						<command>batch</command>
-						<command>/system-property=javax.net.ssl.trustStore/:add(value=${jboss.home.dir}/standalone/configuration/application.keystore)</command>
-						<command>/system-property=javax.net.ssl.trustStorePassword/:add(value=password)</command>
-						<command>/subsystem=security/security-domain=certificate-trust-domain:add()</command>
-						<command>/subsystem=security/security-domain=certificate-trust-domain/jsse=classic:add(truststore={"password"=>"password","url"=>"${jboss.home.dir}/standalone/configuration/application.keystore"})</command>
-						<command>/subsystem=security/security-domain=client-cert:add()</command>
-						<command>/subsystem=security/security-domain=client-cert/authentication=classic:add(login-modules=[{"code"="CertificateRoles","flag"="required","module-options"=>["securityDomain"=>"certificate-trust-domain","verifier"=>"org.jboss.security.auth.certs.AnyCertVerifier","rolesProperties"=>"${jboss.home.dir}/standalone/configuration/application-roles.properties"]}])</command>
-						<command>/subsystem=undertow/server=default-server/https-listener=https/:write-attribute(name=verify-client,value=REQUESTED)</command>
-						<command>run-batch</command>
-						<command>stop-embedded-server</command>
-					</commands>
-				</configuration>
-				<executions>
-					<execution>
-                        <id>execute-commands</id>
-						<phase>generate-resources</phase>
-                        <goals>
-                            <goal>execute-commands</goal>
-                        </goals>
-                    </execution>
-				</executions>
-            </plugin>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
