@@ -224,6 +224,9 @@
         <module>camel-cdi</module>
         <module>camel-cxf-jaxrs</module>
         <module>camel-cxf-jaxws</module>
+		<module>camel-cxf-jaxws-cdi-xml</module>
+		<module>camel-cxf-jaxws-security</module>
+		<module>camel-cxf-jaxws-security-cdi</module>
         <module>camel-jms</module>
         <module>camel-jms-mdb</module>
         <module>camel-jms-spring</module>
