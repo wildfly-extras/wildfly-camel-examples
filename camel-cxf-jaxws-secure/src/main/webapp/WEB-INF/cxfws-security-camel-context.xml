@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Wildfly Camel :: Example :: Camel CXF JAX-WS Secure
+  %%
+  Copyright (C) 2013 - 2014 RedHat
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+                           http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <cxf:cxfEndpoint
+        id="cxfConsumer"
+        address="http://localhost:8080/webservices/greeting-security-basic"
+        serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService">
+        <cxf:inInterceptors>
+            <ref bean="authenticationInterceptor"/>
+            <ref bean="authorizationInterceptor"/>
+        </cxf:inInterceptors>
+    </cxf:cxfEndpoint>
+
+    <cxf:cxfEndpoint
+        id="cxfProducer"
+        address="http://localhost:8080/webservices/greeting-security-basic"
+        serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService">
+        <cxf:properties>
+            <entry key="username" value="testUser"/>
+            <entry key="password" value="testPassword1+"/>
+        </cxf:properties>
+    </cxf:cxfEndpoint>
+
+    <bean class="org.apache.cxf.interceptor.security.JAASLoginInterceptor" id="authenticationInterceptor">
+        <property name="contextName" value="other"/>
+    </bean>
+
+    <!-- from this example: https://access.redhat.com/solutions/318403 -->
+    <bean class="org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor" id="authorizationInterceptor">
+        <property name="methodRolesMap">
+            <map>
+                <entry key="greet" value="testRole"/>
+            </map>
+        </property>
+        <property name="globalRoles" value="adminRole testRole"/>
+    </bean>
+
+    <bean class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
+
+    <camelContext id="cxfws-security-camel-context" xmlns="http://camel.apache.org/schema/spring">
+        <!--
+             This route defines a CXF producer endpoint which invokes a greeting web service.
+
+             CamelCxfWsServlet sends the required message and name parameters to the service by populating them
+             within the message exchange body.
+        -->
+        <route id="route1">
+            <from id="from1" uri="direct:start"/>
+            <to id="to1" uri="cxf:bean:cxfProducer"/>
+        </route>
+
+        <!--
+            This route defines a CXF consumer endpoint which handles requests made to the greeting web service.
+
+            GreetingsProcessor constructs a String greeting response to return back to the JAX-WS client.
+        -->
+        <route id="route2">
+            <from id="from2" uri="cxf:bean:cxfConsumer"/>
+            <process id="process1" ref="greetingsProcessor"/>
+        </route>
+    </camelContext>
+</beans>

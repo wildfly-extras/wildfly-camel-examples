@@ -112,6 +112,12 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-cxf-jaxws-secure</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-jms</artifactId>
             <version>${project.version}</version>
             <type>war</type>
