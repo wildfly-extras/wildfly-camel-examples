@@ -1,7 +1,7 @@
 Camel Transacted JMS example
 ----------------------------
 
-This example demonstrates using the camel-jms component with WildFly Camel susbsystem to produce and consume JMS messages in a transacted session.
+This example demonstrates using the camel-jms component with WildFly Camel subsystem to produce and consume JMS messages in a transacted session.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an in-memory ActiveMQ Artemis JMS queue
 named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue', converts the message body to an 'Order' entity and persists it

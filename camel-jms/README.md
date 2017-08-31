@@ -1,7 +1,7 @@
 Camel JMS example
 -----------------
 
-This example demonstrates using the camel-jms component with WildFly Camel susbsystem to produce and consume JMS messages.
+This example demonstrates using the camel-jms component with WildFly Camel subsystem to produce and consume JMS messages.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an in-memory ActiveMQ Artemis queue
 named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue' and through a simple [content based router](http://camel.apache.org/content-based-router.html)

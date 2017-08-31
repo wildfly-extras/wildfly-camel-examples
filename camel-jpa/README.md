@@ -1,7 +1,7 @@
 Camel JPA example
 -----------------
 
-This example demonstrates using the camel-jpa component with WildFly Camel susbsystem to persist entities to a database.
+This example demonstrates using the camel-jpa component with WildFly Camel subsystem to persist entities to a database.
 
 In this example, a Camel route creates order entities and persists them to a database. The Camel REST DSL is used to expose endpoints for
 retrieving records from the database.
