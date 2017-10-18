@@ -3,7 +3,6 @@ package org.wildfly.camel.examples.jms.transacted.producer;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
