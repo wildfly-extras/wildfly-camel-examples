@@ -46,7 +46,7 @@
     <properties>
     
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>4.8.0</version.wildfly.camel>
+        <version.wildfly.camel>4.9.0</version.wildfly.camel>
         <version.wildfly>10.1.0.Final</version.wildfly>
 
         <!-- Plugin versions -->
@@ -71,7 +71,7 @@
             <!-- WildFly Camel -->
             <dependency>
                 <groupId>org.wildfly.camel</groupId>
-                <artifactId>wildfly-camel</artifactId>
+                <artifactId>wildfly-camel-bom</artifactId>
                 <version>${version.wildfly.camel}</version>
                 <type>pom</type>
                 <scope>import</scope>
