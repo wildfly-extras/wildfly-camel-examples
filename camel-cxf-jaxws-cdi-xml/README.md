@@ -1,7 +1,7 @@
 Camel CXF JAX-WS CDI XML Example
 ------------------------
 
-This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web services.
+This example demonstrates using the camel-cxf component with JBoss Fuse on EAP to produce and consume JAX-WS web services.
 
 The Camel context configuration is specified in cxfws-cdi-xml-camel-context.xml and is loaded by Camel CDI via the @ImportResource annotation.
 
@@ -12,14 +12,14 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with JBoss Fuse installed
 
 Running the example
 -------------------
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
 3. Browse to http://localhost:8080/example-camel-cxf-jaxws-cdi-xml/
 
@@ -50,8 +50,3 @@ The web service response is used by `CamelCxfWsServlet` to display the greeting 
 ## Undeploy
 
 To undeploy the example run `mvn clean -Pdeploy`.
-
-## Learn more
-
-Additional camel-cxf documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_jax_ws
-) site.

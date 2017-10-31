@@ -12,20 +12,20 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with JBoss Fuse installed
 
 Running the example
 -------------------
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
 
 Testing Camel JMS
 -----------------
 
-Keep watching the WildFly console output. Every 5 seconds a new JMS message will be produced by Camel and consumed by the MDB.
+Keep watching the EAP console output. Every 5 seconds a new JMS message will be produced by Camel and consumed by the MDB.
 
 You should see log entries like the following:
 
@@ -39,9 +39,3 @@ Undeploy
 --------
 
 To undeploy the example run `mvn clean -Pdeploy`.
-
-Learn more
-----------
-
-Additional camel-jms documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_jms
-) site.

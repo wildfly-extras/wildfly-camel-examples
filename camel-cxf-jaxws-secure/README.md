@@ -1,7 +1,7 @@
 Camel Secure CXF JAX-WS
 ------------------------
 
-This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web services.
+This example demonstrates using the camel-cxf component with JBoss Fuse on EAP to produce and consume JAX-WS web services.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
 to pass arguments to a CXF JAX-WS web service.
@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with JBoss Fuse installed
 
 Running the example
 -------------------
@@ -28,7 +28,7 @@ For Windows users:
 
     %JBOSS_HOME%\bin\add-user.bat -a -u testUser -p testPassword1+ -g testRole
 
-2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
 3. Build and deploy the project `mvn install -Pdeploy`
 4. Browse to http://localhost:8080/example-camel-cxf-jaxws-secure/
 
@@ -61,8 +61,3 @@ The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfws-security-came
 ## Undeploy
 
 To undeploy the example run `mvn clean -Pdeploy`.
-
-## Learn more
-
-Additional camel-cxf documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jaxws.html
-) site.
