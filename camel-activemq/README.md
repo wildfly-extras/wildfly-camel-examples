@@ -1,9 +1,9 @@
-Camel Activemq Example
+Camel ActiveMQ Example
 ----------------------
 
 This example demonstrates using the camel-activemq component with WildFly Camel subsystem to produce and consume JMS messages.
 
-In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an ActiveMQ embedded broker JMS queue
+In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an ActiveMQ queue
 named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue' and through a simple [content based router](http://camel.apache.org/content-based-router.html)
 sorts the orders into individual country directories within JBOSS_HOME/standalone/data/orders/processed.
 
