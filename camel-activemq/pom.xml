@@ -47,11 +47,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-rar</artifactId>
-            <type>rar</type>
-        </dependency>
-        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-cdi</artifactId>
             <scope>provided</scope>
@@ -154,6 +149,13 @@
             <properties>
                 <deploy-rar.skip>false</deploy-rar.skip>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.activemq</groupId>
+                    <artifactId>activemq-rar</artifactId>
+                    <type>rar</type>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>openshift</id>
