@@ -64,6 +64,7 @@ public class JmsRouteBuilder extends RouteBuilder {
          */
         from("file:{{jboss.server.data.dir}}/orders")
             .transacted()
+                .convertBodyTo(String.class)
                 .to("jms:queue:OrdersQueue");
 
         /**

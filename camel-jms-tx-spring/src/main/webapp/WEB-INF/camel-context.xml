@@ -97,6 +97,7 @@
         <route>
             <from uri="file:{{jboss.server.data.dir}}/orders" />
             <transacted />
+            <convertBodyTo type="java.lang.String" />
             <to uri="jms:queue:OrdersQueue" />
         </route>
 
