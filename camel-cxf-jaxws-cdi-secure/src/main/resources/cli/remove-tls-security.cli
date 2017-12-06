@@ -1,0 +1,15 @@
+batch
+
+/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=verify-client)
+
+/subsystem=security/security-domain=client-cert:remove
+
+/subsystem=security/security-domain=certificate-trust-domain:remove
+
+/system-property=javax.net.ssl.trustStorePassword:remove
+
+/system-property=javax.net.ssl.trustStore:remove
+
+run-batch
+
+reload
