@@ -27,7 +27,7 @@ For Windows:
 
 %JBOSS_HOME%\bin\add-user.bat -a -u CN=localhost -p testPassword1+ -g testRole
 
-2. Start the application server in standalone mode ${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml
+2. Start the application server in standalone mode ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
 3. Generate a self signed certificate (Note: you only need to do this once)
 
@@ -64,8 +64,3 @@ The web service response is used by `CamelCxfWsServlet` to display the greeting 
 ## Undeploy
 
 To undeploy the example run `mvn clean -Pdeploy`.
-
-## Learn more
-
-Additional camel-cxf documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jaxws.html
-) site.
