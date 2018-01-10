@@ -63,52 +63,52 @@ This example uses the mysql-ephemeral ImageStream. If you do not have this insta
 
     oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/db-templates/mysql-ephemeral-template.json
 
-Find the s2i-eap-camel-jpa template and click the Select button. You can accept the default values and click 'Create'. The Application
+Find the s2i-fuse70-eap-camel-jpa template and click the Select button. You can accept the default values and click 'Create'. The Application
 created screen now opens. Click Continue to overview to go to the Overview tab of the OpenShift console. In the 'Builds' section
-you can monitor progress of the s2i-eap-camel-jpa S2I build.
+you can monitor progress of the s2i-fuse70-eap-camel-jpa S2I build.
 
 When the build has completed successfully, click Overview in the left-hand navigation pane to view the running pod for this application. You can test
 the application by clicking on application URL link displayed at the top right of the pod overview. For example:
 
-    http://s2i-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io
+    http://s2i-fuse70-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io
 
-Note: You can find the correct host name with 'oc get route s2i-eap-camel-jpa'
+Note: You can find the correct host name with 'oc get route s2i-fuse70-eap-camel-jpa'
 
 Browse the following REST endpoint to view a list of available books:
 
-    http://s2i-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books
+    http://s2i-fuse70-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books
 
 Browse the following REST endpoint to view details about a specific processed order:
 
-    http://s2i-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books/order/1
+    http://s2i-fuse70-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books/order/1
 
 Deploying from the command line
 -------------------------------
 
 You can deploy this quickstart example to OpenShift by triggering an S2I build:
 
-    oc new-app s2i-eap-camel-jpa
+    oc new-app s2i-fuse70-eap-camel-jpa
 
 You can follow progress of the S2I build by running:
 
-    oc logs -f bc/s2i-eap-camel-jpa
+    oc logs -f bc/s2i-fuse70-eap-camel-jpa
 
 When the S2I build is complete and the application is running you can test by navigating to route endpoint. You can find the application route
-hostname via 'oc get route s2i-eap-camel-jpa'. For example:
+hostname via 'oc get route s2i-fuse70-eap-camel-jpa'. For example:
 
-    http://s2i-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io
+    http://s2i-fuse70-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io
 
 Browse the following REST endpoint to view a list of available books:
 
-    http://s2i-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books
+    http://s2i-fuse70-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books
 
 Browse the following REST endpoint to view details about a specific processed order:
 
-    http://s2i-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books/order/1
+    http://s2i-fuse70-eap-camel-jpa-jboss-fuse.192.168.42.51.nip.io/rest/api/books/order/1
 
 Cleaning up
 -------------------------------
 
 You can delete all resources created by the quickstart application by running:
 
-    oc delete all -l 'app=s2i-eap-camel-jpa'
+    oc delete all -l 'app=s2i-fuse70-eap-camel-jpa'
