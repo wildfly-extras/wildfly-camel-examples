@@ -16,6 +16,17 @@ Prerequisites
 * Maven
 * An application server with JBoss Fuse installed
 
+Connecting to an external broker
+--------------------------------
+
+For example to connect to an external Artemis broker follow the instructions given in the EAP7 documentation for the [Artemis Resource Adapter](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.1/html/configuring_messaging/resource_adapters#about_integrated_artemis_resource_adapter) and then inject 
+the connection factory as you would with the default connection factory.  
+
+```
+@Resource(mappedName = "java:jboss/RemoteJmsXA")
+ConnectionFactory connectionFactory;
+```
+
 Running the example
 -------------------
 
