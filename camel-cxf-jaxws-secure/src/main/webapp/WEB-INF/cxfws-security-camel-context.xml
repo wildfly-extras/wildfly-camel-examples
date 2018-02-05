@@ -61,7 +61,7 @@
 
     <bean class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
 
-    <camelContext id="cxfws-security-camel-context" xmlns="http://camel.apache.org/schema/spring">
+    <camelContext id="cxfws-secure-camel-context" xmlns="http://camel.apache.org/schema/spring">
         <!--
              This route defines a CXF producer endpoint which invokes a greeting web service.
 

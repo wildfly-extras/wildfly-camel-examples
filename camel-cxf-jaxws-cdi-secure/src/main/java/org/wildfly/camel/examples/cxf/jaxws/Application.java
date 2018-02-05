@@ -63,7 +63,7 @@ public class Application {
     private final static String TRUSTSTORE_ALIAS_NAME = "server";
 
     @Inject
-    @ContextName("cxfws-security-camel-context")
+    @ContextName("cxfws-secure-cdi-camel-context")
     CamelContext camelContext;
 
     @Named("greetingsProcessor")

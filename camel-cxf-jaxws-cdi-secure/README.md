@@ -34,7 +34,7 @@ add-user.bat -a -u CN=localhost -p testPassword1+ -g testRole
 4. Browse to https://localhost:8443/example-camel-cxf-jaxws-cdi-secure/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
-started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-security-cdi/greeting?wsdl.
+started. The service WSDL is available at http://localhost:8080/example-camel-cxf-jaxws-cdi-secure/greeting?wsdl.
 
 There is a single service operation named 'greet' which takes 2 String parameters named 'message' and 'name'. Invoking the web service will return
 a response where these values have been concatenated together.
@@ -45,7 +45,7 @@ Testing Camel Secure CDI CXF JAX-WS
 Web UI
 ------
 
-Browse to http://localhost:8080/example-camel-cxfws-security-cdi/.
+Browse to http://localhost:8080/example-camel-cxf-jaxws-cdi-secure/.
 
 From the 'Send A Greeting' web form, enter a 'message' and 'name' into the text fields and press the 'send' button. You'll then
 see the information you entered combined to display a greeting on the UI.

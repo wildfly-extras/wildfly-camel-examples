@@ -37,7 +37,7 @@ import org.apache.camel.cdi.ContextName;
 public class CamelCxfWsServlet extends HttpServlet {
 
     @Inject
-    @ContextName("cxfws-security-camel-context")
+    @ContextName("cxfws-secure-cdi-camel-context")
     private CamelContext camelContext;
 
     @Override

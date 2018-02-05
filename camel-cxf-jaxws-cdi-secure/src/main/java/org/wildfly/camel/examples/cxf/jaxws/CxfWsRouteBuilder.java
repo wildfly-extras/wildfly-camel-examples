@@ -29,7 +29,7 @@ import org.apache.camel.cdi.ContextName;
 import org.apache.camel.component.cxf.CxfEndpoint;
 
 @ApplicationScoped
-@ContextName("cxfws-security-camel-context")
+@ContextName("cxfws-secure-cdi-camel-context")
 public class CxfWsRouteBuilder extends RouteBuilder {
 
     @Inject

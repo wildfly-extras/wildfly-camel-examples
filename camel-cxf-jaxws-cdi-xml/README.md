@@ -21,10 +21,10 @@ To run the example.
 
 1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
 2. Build and deploy the project `mvn install -Pdeploy`
-3. Browse to http://localhost:8080/example-camel-cxfws-cdi-xml/
+3. Browse to http://localhost:8080/example-camel-cxf-jaxws-cdi-xml/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
-started. The service WSDL is available at http://localhost:8080/example-camel-cxfws-cdi-xml/greeting?wsdl.
+started. The service WSDL is available at http://localhost:8080/example-camel-cxf-jaxws-cdi-xml/greeting?wsdl.
 
 There is a single service operation named 'greet' which takes 2 String parameters named 'message' and 'name'. Invoking the web service will return
 a response where these values have been concatenated together.
