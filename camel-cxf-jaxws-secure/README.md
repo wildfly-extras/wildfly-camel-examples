@@ -33,7 +33,7 @@ For Windows users:
 4. Browse to http://localhost:8080/example-camel-cxf-jaxws-secure/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
-started. The service WSDL is available at http://localhost:8080/example-camel-cxf-jaxws-secure/greeting?wsdl.
+started. The service WSDL is available at http://localhost:8080/webservices/greeting-security-basic?wsdl.
 
 There is a single service operation named 'greet' which takes 2 String parameters named 'message' and 'name'. Invoking the web service will return
 a response where these values have been concatenated together.

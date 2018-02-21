@@ -24,7 +24,7 @@ To run the example.
 3. Browse to http://localhost:8080/example-camel-cxf-jaxws-cdi-xml/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been
-started. The service WSDL is available at http://localhost:8080/example-camel-cxf-jaxws-cdi-xml/greeting?wsdl.
+started. The service WSDL is available at http://localhost:8080/webservices/greeting-cdi-xml?wsdl.
 
 There is a single service operation named 'greet' which takes 2 String parameters named 'message' and 'name'. Invoking the web service will return
 a response where these values have been concatenated together.
