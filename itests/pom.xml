@@ -176,12 +176,14 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+<!--
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-rest-swagger</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+-->
         <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
