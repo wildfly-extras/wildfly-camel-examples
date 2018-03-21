@@ -1,7 +1,7 @@
 Camel Secure CXF JAX-WS
 ------------------------
 
-This example demonstrates using the camel-cxf component with JBoss Fuse on EAP to produce and consume JAX-WS web services.
+This example demonstrates using the camel-cxf component with Red Hat Fuse on EAP to produce and consume JAX-WS web services.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
 to pass arguments to a CXF JAX-WS web service.
@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with JBoss Fuse installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------

@@ -1,7 +1,7 @@
 Camel CXF JAX-RS Example
 ------------------------
 
-This example demonstrates using the camel-cxf component with JBoss Fuse on EAP to produce and consume JAX-RS REST services.
+This example demonstrates using the camel-cxf component with Red Hat Fuse on EAP to produce and consume JAX-RS REST services.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
 to pass arguments to a CXF JAX-RS REST service.
@@ -10,7 +10,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with JBoss Fuse installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------
@@ -64,7 +64,7 @@ Deploying from the OpenShift console
 ------------------------------------
 
 When logged into the OpenShift console, browse to the 'Add to Project' screen, from the Browse Catalog tab, click Java to open the list of Java templates and then
-choose the Red Hat JBoss Fuse category.
+choose the Red Hat Red Hat Fuse category.
 
 Find the s2i-fuse70-eap-camel-cxf-jaxrs template and click the Select button. You can accept the default values and click 'Create'. The Application created screen now opens. Click Continue to overview
 to go to the Overview tab of the OpenShift console. In the 'Builds' section you can monitor progress of the s2i-fuse70-eap-camel-cxf-jaxrs S2I build.
@@ -72,7 +72,7 @@ to go to the Overview tab of the OpenShift console. In the 'Builds' section you 
 When the build has completed successfully, click Overview in the left-hand navigation pane to view the running pod for this application. You can test
 the application by clicking on application URL link displayed at the top right of the pod overview. For example:
 
-    http://s2i-fuse70-eap-camel-cxf-jaxrs-jboss-fuse.192.168.42.51.nip.io
+    http://s2i-fuse70-eap-camel-cxf-jaxrs-redhat-fuse.192.168.42.51.nip.io
 
 Note: You can find the correct host name with 'oc get route s2i-fuse70-eap-camel-cxf-jaxrs'
 
@@ -92,7 +92,7 @@ You can follow progress of the S2I build by running:
 When the S2I build is complete and the application is running you can test by navigating to route endpoint. You can find the application route
 hostname via 'oc get route s2i-fuse70-eap-camel-cxf-jaxrs'. For example:
 
-    http://s2i-fuse70-eap-camel-cxf-jaxrs-jboss-fuse.192.168.42.51.nip.io
+    http://s2i-fuse70-eap-camel-cxf-jaxrs-redhat-fuse.192.168.42.51.nip.io
 
 The application URL exposes a web UI which enables you to trigger a camel route which invokes a JAX-RS greetings service via a CXF consumer & producer.
 

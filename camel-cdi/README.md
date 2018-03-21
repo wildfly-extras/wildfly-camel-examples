@@ -1,7 +1,7 @@
 Camel CDI Example
 -----------------
 
-This example demonstrates using the camel-cdi component with JBoss Fuse on EAP to integrate CDI beans with Camel routes.
+This example demonstrates using the camel-cdi component with Red Hat Fuse on EAP to integrate CDI beans with Camel routes.
 
 In this example, a Camel route takes a message payload from a servlet HTTP GET request and passes it on to a direct endpoint. The payload
 is then passed onto a Camel CDI bean invocation to produce a message response which is displayed on the web browser page.
@@ -10,7 +10,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with JBoss Fuse installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------
@@ -68,7 +68,7 @@ Deploying from the OpenShift console
 ------------------------------------
 
 When logged into the OpenShift console, browse to the 'Add to Project' screen, from the Browse Catalog tab, click Java to open the list of Java templates and then
-choose the Red Hat JBoss Fuse category.
+choose the Red Hat Red Hat Fuse category.
 
 Find the s2i-fuse70-eap-camel-cdi template and click the Select button. You can accept the default values and click 'Create'. The Application created screen now opens. Click Continue to overview
 to go to the Overview tab of the OpenShift console. In the 'Builds' section you can monitor progress of the s2i-fuse70-eap-camel-cdi S2I build.
@@ -76,7 +76,7 @@ to go to the Overview tab of the OpenShift console. In the 'Builds' section you 
 When the build has completed successfully, click Overview in the left-hand navigation pane to view the running pod for this application. You can test
 the application by clicking on application URL link displayed at the top right of the pod overview. For example:
 
-    http://s2i-fuse70-eap-camel-cdi-jboss-fuse.192.168.42.51.nip.io
+    http://s2i-fuse70-eap-camel-cdi-redhat-fuse.192.168.42.51.nip.io
 
 Note: You can find the correct host name with 'oc get route s2i-fuse70-eap-camel-cdi'
 
@@ -94,7 +94,7 @@ You can follow progress of the S2I build by running:
 When the S2I build is complete and the application is running you can test by navigating to route endpoint. You can find the application route
 hostname via 'oc get route s2i-fuse70-eap-camel-cdi'. For example:
 
-    http://s2i-fuse70-eap-camel-cdi-jboss-fuse.192.168.42.51.nip.io
+    http://s2i-fuse70-eap-camel-cdi-redhat-fuse.192.168.42.51.nip.io
 
 Cleaning up
 -------------------------------

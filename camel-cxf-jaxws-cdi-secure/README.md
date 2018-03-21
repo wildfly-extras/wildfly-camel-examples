@@ -10,7 +10,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------

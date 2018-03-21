@@ -10,7 +10,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with JBoss Fuse installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------
