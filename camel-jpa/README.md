@@ -3,8 +3,7 @@ Camel JPA example
 
 This example demonstrates using the camel-jpa component with Red Hat Fuse on EAP to persist entities to a database.
 
-In this example, a Camel route creates order entities and persists them to a database. The Camel REST DSL is used to expose endpoints for
-retrieving records from the database.
+In this example, a Camel route creates order entities and persists them to a database. The Camel REST DSL is used to expose endpoints for retrieving records from the database.
 
 Prerequisites
 -------------
@@ -17,19 +16,25 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
+1. Start the application server in standalone mode:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+
 2. Build and deploy the project `mvn install -Pdeploy`
 
 Testing Camel JPA
 -----------------
 
-The console will output messages every 10 seconds as new orders are generated and processed. The output
-will look something like this.
+The console will output messages every 10 seconds as new orders are generated and processed. The output will look something like this.
 
-```
-(Camel (camel-jpa-context) thread #10 - timer://new-order) Inserted new order 1
-(Camel (camel-jpa-context) thread #9 - jpa://org.wildfly.camel.examples.jpa.model.Order) Processed order #id 1 with 6 copies of the «ActiveMQ in Action» book
-```
+    (Camel (camel-jpa-context) thread #10 - timer://new-order) Inserted new order 1
+    (Camel (camel-jpa-context) thread #9 - jpa://org.wildfly.camel.examples.jpa.model.Order) Processed order #id 1 with 6 copies of the «ActiveMQ in Action» book
 
 Browse the following REST endpoint to view a list of available books:
 
@@ -57,7 +62,7 @@ Deploying from the OpenShift console
 ------------------------------------
 
 When logged into the OpenShift console, browse to the 'Add to Project' screen, from the Browse Catalog tab, click Java to open the list of Java templates and then
-choose the Red Hat Red Hat Fuse category.
+choose the Red Hat Fuse category.
 
 This example uses the mysql-ephemeral ImageStream. If you do not have this installed on your cluster, you can run the following command to add it:
 

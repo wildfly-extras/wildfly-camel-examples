@@ -4,41 +4,36 @@ camel-mail example
 This example demonstrates using the camel-mail component with Red Hat Fuse on EAP to send and receive email.
 
 The example uses [Greenmail](http://www.icegreen.com/greenmail/) to configure a local mail server on your machine. This eliminates the need to
-use external mail services. The configuration for the EAP mail subsystem can be found within CLI scripts at `src/main/resources/cli`.
+use external mail services.
 
 The mail session used by this example is bound to JNDI at `java:jboss/mail/greenmail`. Server entries are configured for SMTP and POP3 protocols.
 
-```xml
-<mail-session name="greenmail" jndi-name="java:jboss/mail/greenmail">
-    <smtp-server outbound-socket-binding-ref="mail-greenmail-smtp" username="user1" password="password"/>
-    <pop3-server outbound-socket-binding-ref="mail-greenmail-pop3" username="user2" password="password2"/>
-</mail-session>
-```
+    <mail-session name="greenmail" jndi-name="java:jboss/mail/greenmail">
+        <smtp-server outbound-socket-binding-ref="mail-greenmail-smtp" username="user1" password="password"/>
+        <pop3-server outbound-socket-binding-ref="mail-greenmail-pop3" username="user2" password="password2"/>
+    </mail-session>
 
 There are also some custom socket bindings to ensure that the mail session can connect to the ports exposed by Greenmail.
 
-```xml
-<!-- GreenMail SMTP Socket Binding -->
-<outbound-socket-binding name="mail-greenmail-smtp">
-    <remote-destination host="localhost" port="10025"/>
-</outbound-socket-binding>
+    <!-- GreenMail SMTP Socket Binding -->
+    <outbound-socket-binding name="mail-greenmail-smtp">
+        <remote-destination host="localhost" port="10025"/>
+    </outbound-socket-binding>
 
-<!-- GreenMail POP3 Socket Binding -->
-<outbound-socket-binding name="mail-greenmail-pop3">
-    <remote-destination host="localhost" port="10110"/>
-</outbound-socket-binding>
-```
+    <!-- GreenMail POP3 Socket Binding -->
+    <outbound-socket-binding name="mail-greenmail-pop3">
+        <remote-destination host="localhost" port="10110"/>
+    </outbound-socket-binding>
 
-The Greenmail `mail-session` is discovered from the Camel CDI bean registry by referencing it by name on the camel-mail endpoint configuration.
-See class `MailSessionProducer` for further details.
+The Greenmail `mail-session` is discovered from the Camel CDI bean registry by referencing it by name on the camel-mail endpoint configuration. See class `MailSessionProducer` for further details.
 
 Two Camel mail endpoints are configured. One to send email via SMTP and another to receive email with POP3.
 
-```java
-from("direct:sendmail").to("smtp://localhost:10025?session=#mailSession");
+    from("direct:sendmail")
+    .to("smtp://localhost:10025?session=#mailSession");
 
-from("pop3://user2@localhost:10110?consumer.delay=30000&session=#mailSession").to("log:emails?showAll=true&multiline=true");
-```
+    from("pop3://user2@localhost:10110?consumer.delay=30000&session=#mailSession")
+    .to("log:emails?showAll=true&multiline=true");
 
 Prerequisites
 -------------
@@ -51,23 +46,40 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
-2. Build and deploy the project `mvn install -Pdeploy`
-3. Browse to http://localhost:8080/example-camel-mail/
+1. Start the application server in standalone mode:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+
+2. Configure socket bindings and mail session for Greenmail:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-mail.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-mail.cli
+
+3. Build and deploy the project `mvn install -Pdeploy`
+
+4. Browse to http://localhost:8080/example-camel-mail/
 
 You should see a form from which you can test sending emails with Camel.
 
 Testing Camel Mail
 -------------------
 
-Enter a 'from' address, subject and email message body and click the 'send button'. Note that the pop3 mail endpoint was configured
-to retrieve mail from the mailbox of 'user2@localhost'. Therefore the web UI is hard coded to route mail to this address.
+Enter a 'from' address, subject and email message body and click the 'send button'. Note that the pop3 mail endpoint was configured to retrieve mail from the mailbox of 'user2@localhost'. Therefore the web UI is hard coded to route mail to this address.
 
-The form details are posted to a servlet defined within the MailSendServlet class. This servlet forwards the data entered on the web form to the Camel
-`direct:sendmail` endpoint. This triggers an email to be sent to the local Greenmail SMTP sevrer.
+The form details are posted to a servlet defined within the MailSendServlet class. This servlet forwards the data entered on the web form to the Camel `direct:sendmail` endpoint. This triggers an email to be sent to the local Greenmail SMTP sevrer.
 
-The pop3 endpoint checks for email from the local Greenmail mail server every 30 seconds. If you watch the console output you should see that the email you sent
-is eventually reported by the Camel log endpoint. The output will look something like this.
+The pop3 endpoint checks for email from the local Greenmail mail server every 30 seconds. If you watch the console output you should see that the email you sent is eventually reported by the Camel log endpoint. The output will look something like this.
 
     10:57:05,319 INFO  [emails] (Camel (mail-camel-context) thread #0 - pop3://user2@localhost) Exchange[
     , Id: ID-localhost-localdomain-60411-1424775393775-1-4
@@ -81,7 +93,14 @@ is eventually reported by the Camel log endpoint. The output will look something
 Undeploy
 --------
 
-To undeploy the example run `mvn clean -Pdeploy`.
+1. To undeploy the example run `mvn clean -Pdeploy`.
 
-> **NOTE:** If you want to deploy this example application multiple times, you should ensure that you run the undeploy
-step mentioned above and restart the application server afterwards.
+2. Remove Greenmail socket bindings and mail session:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-mail.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-mail.cli

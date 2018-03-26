@@ -3,8 +3,7 @@ Camel CXF JAX-RS Example
 
 This example demonstrates using the camel-cxf component with Red Hat Fuse on EAP to produce and consume JAX-RS REST services.
 
-In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
-to pass arguments to a CXF JAX-RS REST service.
+In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload to pass arguments to a CXF JAX-RS REST service.
 
 Prerequisites
 -------------
@@ -17,15 +16,23 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml`
+1. Start the application server in standalone mode:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+
 2. Build and deploy the project `mvn install -Pdeploy`
+
 3. Browse to http://localhost:8080/example-camel-cxf-jaxrs/
 
-You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' REST service which will have also been
-started.
+You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' REST service which will have also been started.
 
-There is a single service operation named 'greet' which takes a String parameter called 'name'. Invoking the service will return
-a response as a simple String greeting message.
+There is a single service operation named 'greet' which takes a String parameter called 'name'. Invoking the service will return a response as a simple String greeting message.
 
 Testing Camel CXF JAX-RS
 ------------------------
@@ -35,15 +42,9 @@ Web UI
 
 Browse to http://localhost:8080/example-camel-cxf-jaxrs/.
 
-From the 'Send A Greeting' web form, enter a 'name' into the text field and press the 'send' button. You'll then
-see a simple greeting message displayed on the UI.
+From the 'Send A Greeting' web form, enter a 'name' into the text field and press the 'send' button. You'll then see a simple greeting message displayed on the UI.
 
-So what just happened there?
-
-`CamelCxfRsServlet` handles the POST request from the web UI. It retrieves the name form parameter value and constructs an
-object array. This object array will be the message payload that is sent to the `direct:start` endpoint. A `ProducerTemplate`
-sends the message payload to Camel. `The direct:start` endpoint passes the object array to a `cxfrs:bean` REST service producer.
-The REST service response is used by `CamelCxfRsServlet` to display the greeting on the web UI.
+`CamelCxfRsServlet` handles the POST request from the web UI. It retrieves the name form parameter value and constructs an object array. This object array will be the message payload that is sent to the `direct:start` endpoint. A `ProducerTemplate` sends the message payload to Camel. `The direct:start` endpoint passes the object array to a `cxfrs:bean` REST service producer. The REST service response is used by `CamelCxfRsServlet` to display the greeting on the web UI.
 
 The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfrs-camel-context.xml`.
 
@@ -64,7 +65,7 @@ Deploying from the OpenShift console
 ------------------------------------
 
 When logged into the OpenShift console, browse to the 'Add to Project' screen, from the Browse Catalog tab, click Java to open the list of Java templates and then
-choose the Red Hat Red Hat Fuse category.
+choose the Red Hat Fuse category.
 
 Find the s2i-fuse70-eap-camel-cxf-jaxrs template and click the Select button. You can accept the default values and click 'Create'. The Application created screen now opens. Click Continue to overview
 to go to the Overview tab of the OpenShift console. In the 'Builds' section you can monitor progress of the s2i-fuse70-eap-camel-cxf-jaxrs S2I build.

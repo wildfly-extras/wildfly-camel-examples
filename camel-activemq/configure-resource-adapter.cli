@@ -5,4 +5,5 @@ if (outcome != success) of /subsystem=resource-adapters/resource-adapter=amq-ra.
     /subsystem=resource-adapters/resource-adapter=amq-ra.rar/connection-definitions=QueueConnectionFactory/config-properties=ServerUrl:add(value="tcp://127.0.0.1:61616")
     /subsystem=resource-adapters/resource-adapter=amq-ra.rar/admin-objects=OrdersQueue:add(class-name="org.apache.activemq.command.ActiveMQQueue", jndi-name="java:/OrdersQueue")
     /subsystem=resource-adapters/resource-adapter=amq-ra.rar/admin-objects=OrdersQueue/config-properties=PhysicalName:add(value="OrdersQueue")
+    reload
 end-if

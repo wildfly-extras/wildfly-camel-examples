@@ -8,9 +8,9 @@
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -94,11 +94,6 @@
                             <groupId>org.apache.activemq</groupId>
                             <artifactId>activemq-rar</artifactId>
                             <name>activemq-rar.rar</name>
-                            <afterDeployment>
-                                <scripts>
-                                    <script>${project.basedir}/src/main/resources/cli/configure-resource-adapter.cli</script>
-                                </scripts>
-                            </afterDeployment>
                             <skip>${deploy-rar.skip}</skip>
                         </configuration>
                     </execution>
@@ -124,11 +119,6 @@
                         </goals>
                         <configuration>
                             <name>activemq-rar.rar</name>
-                            <beforeDeployment>
-                                <scripts>
-                                    <script>${project.basedir}/src/main/resources/cli/unconfigure-resource-adapter.cli</script>
-                                </scripts>
-                            </beforeDeployment>
                         </configuration>
                     </execution>
                 </executions>

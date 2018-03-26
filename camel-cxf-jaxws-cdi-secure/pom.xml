@@ -86,18 +86,6 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>wildfly-init-before-deploy</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>execute-commands</goal>
-						</goals>
-						<configuration>
-							<scripts>
-								<script>${project.basedir}/src/main/resources/cli/configure-tls-security.cli</script>
-							</scripts>
-						</configuration>
-					</execution>
-					<execution>
 						<id>wildfly-deploy</id>
 						<phase>install</phase>
 						<goals>
@@ -110,18 +98,6 @@
 						<goals>
 							<goal>undeploy</goal>
 						</goals>
-					</execution>
-					<execution>
-						<id>wildfly-clean-after-undeploy</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>execute-commands</goal>
-						</goals>						
-						<configuration>
-							<scripts>
-								<script>${project.basedir}/src/main/resources/cli/remove-tls-security.cli</script>
-							</scripts>                            
-                        </configuration>
 					</execution>
 				</executions>
 			</plugin>
