@@ -32,14 +32,14 @@
 
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="mail-camel-context">
         <!-- Configure routes and endpoints to send and receive email over SMTP and POP3 -->
-        <route>
-            <from uri="direct:sendmail" />
-            <to uri="smtp://localhost:10025?session=#mailSession" />
+        <route id="directToSmtpRoute">
+            <from id="directConsumer" uri="direct:sendmail" />
+            <to id="smtpProducer" uri="smtp://localhost:10025?session=#mailSession" />
         </route>
 
-        <route>
-            <from uri="pop3://user2@localhost:10110?consumer.delay=30000&amp;session=#mailSession" />
-            <to uri="log:emails?showAll=true&amp;multiline=true" />
+        <route id="pop3ToLogRoute">
+            <from id="pop3Consumer" uri="pop3://user2@localhost:10110?consumer.delay=30000&amp;session=#mailSession" />
+            <to id="logMails" uri="log:emails?showAll=true&amp;multiline=true" />
         </route>
     </camelContext>
 </beans>

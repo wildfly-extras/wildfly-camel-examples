@@ -41,7 +41,7 @@
         -->
         <route id="route2">
             <from id="from2" uri="cxf:bean:cxfConsumer"/>
-            <process id="process1" ref="greetingsProcessor"/>
+            <process id="processor" ref="greetingsProcessor"/>
         </route>
     </camelContext>
 </beans>

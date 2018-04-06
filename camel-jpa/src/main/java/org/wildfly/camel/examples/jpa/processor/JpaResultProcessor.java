@@ -30,6 +30,7 @@ import org.wildfly.camel.examples.jpa.model.Order;
 @Named
 public class JpaResultProcessor implements Processor {
 
+    @SuppressWarnings("unchecked")
     @Override
     public void process(Exchange exchange) throws Exception {
         List<Order> orders = exchange.getIn().getBody(List.class);

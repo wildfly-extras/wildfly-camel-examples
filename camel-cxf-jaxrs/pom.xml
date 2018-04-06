@@ -64,11 +64,6 @@
             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
 	</dependencies>
 
     <!-- Build -->
