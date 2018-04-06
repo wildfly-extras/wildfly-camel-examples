@@ -43,15 +43,15 @@
          CamelCxfRsServlet sends the required name parameter to the service by populating them
          within the message exchange body.
         -->
-        <route>
-            <from uri="direct:start" />
-            <setHeader headerName="operationName">
+        <route id="directToCxfrsBeanRoute">
+            <from id="directConsumer" uri="direct:start" />
+            <setHeader id="setHeaderOperationName" headerName="operationName">
                 <simple>greet</simple>
             </setHeader>
-            <setHeader headerName="CamelCxfRsUsingHttpAPI">
+            <setHeader id="setHeaderCamelCxfRsUsingHttpAPI" headerName="CamelCxfRsUsingHttpAPI">
                 <constant>false</constant>
             </setHeader>
-            <to uri="cxfrs:bean:cxfProducer" />
+            <to id="cxfrsProducer" uri="cxfrs:bean:cxfProducer" />
         </route>
 
         <!--
@@ -59,9 +59,9 @@
 
             GreetingsProcessor constructs a String greeting response to return back to the JAX-RS client.
         -->
-        <route>
-            <from uri="cxfrs:bean:cxfConsumer" />
-            <process ref="greetingsProcessor" />
+        <route id="cxfConsumerToProcessorRoute">
+            <from id="cxfrsConsumer" uri="cxfrs:bean:cxfConsumer" />
+            <process id="processor" ref="greetingsProcessor" />
         </route>
     </camelContext>
 </beans>

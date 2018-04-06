@@ -2,6 +2,7 @@
 .che_*
 .classpath
 .project
+.tern-project
 .settings
 .vagrant
 Vagrantfile

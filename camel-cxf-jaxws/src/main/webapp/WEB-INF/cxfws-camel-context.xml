@@ -41,9 +41,9 @@
          CamelCxfWsServlet sends the required message and name parameters to the service by populating them
          within the message exchange body.
         -->
-        <route>
-            <from uri="direct:start" />
-            <to uri="cxf:bean:cxfProducer" />
+        <route id="directToCxfrsBeanRoute">
+            <from id="directConsumer" uri="direct:start" />
+            <to id="cxfwsProducer" uri="cxf:bean:cxfProducer" />
         </route>
 
         <!--
@@ -51,9 +51,9 @@
 
         GreetingsProcessor constructs a String greeting response to return back to the JAX-WS client.
         -->
-        <route>
-            <from uri="cxf:bean:cxfConsumer" />
-            <process ref="greetingsProcessor" />
+        <route id="cxfConsumerToProcessorRoute">
+            <from id="cxfrsConsumer" uri="cxf:bean:cxfConsumer" />
+            <process id="processor" ref="greetingsProcessor" />
         </route>
     </camelContext>
 

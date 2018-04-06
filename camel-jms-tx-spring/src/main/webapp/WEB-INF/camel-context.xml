@@ -68,7 +68,7 @@
             is encountered this takes care of rolling back the JMS and JPA transactions. The
             problem message is sent to the WildFly dead letter JMS queue (DLQ).
         -->
-        <onException>
+        <onException id="onISE">
             <exception>java.lang.IllegalStateException</exception>
             <redeliveryPolicy maximumRedeliveries="1" />
             <handled>
@@ -81,24 +81,24 @@
         <!--
             This route generates a random order every 15 seconds
         -->
-        <route>
-            <from uri="timer:order?period=15000&amp;delay=0"/>
-            <bean method="generateOrder" ref="orderGenerator"/>
+        <route id="timerToFileRoute">
+            <from id="routeTimer" uri="timer:order?period=15000&amp;delay=0"/>
+            <bean id="orderGenerator" method="generateOrder" ref="orderGenerator"/>
             <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
                 <method method="generateFileName" ref="orderGenerator"/>
             </setHeader>
-            <to uri="file://{{jboss.server.data.dir}}/orders"/>
+            <to id="fileProducer" uri="file://{{jboss.server.data.dir}}/orders"/>
         </route>
 
         <!--
             This route consumes XML files from JBOSS_HOME/standalone/data/orders and sends
             the file content to JMS destination OrdersQueue.
         -->
-        <route>
-            <from uri="file:{{jboss.server.data.dir}}/orders" />
-            <transacted />
-            <convertBodyTo type="java.lang.String" />
-            <to uri="jms:queue:OrdersQueue" />
+        <route id="fileToJmsQueueRoute">
+            <from id="fileConsumer" uri="file:{{jboss.server.data.dir}}/orders" />
+            <transacted id="transacted" />
+            <convertBodyTo id="convertToString" type="java.lang.String" />
+            <to id="jmsProducer" uri="jms:queue:OrdersQueue" />
         </route>
 
         <!--
@@ -110,20 +110,20 @@
              which forces the JMS / JPA transaction to be rolled back and the message to be delivered to the dead letter
              queue.
         -->
-        <route>
-            <from uri="jms:queue:OrdersQueue" />
-            <unmarshal>
+        <route id="jmsQueueToFileRoute">
+            <from id="jmsConsumer" uri="jms:queue:OrdersQueue" />
+            <unmarshal id="jaxbUnmarshal">
                 <jaxb contextPath="org.wildfly.camel.examples.jms.transacted.model" />
             </unmarshal>
-            <to uri="jpa:Order" />
-            <choice>
-                <when>
+            <to id="jpaProducer" uri="jpa:Order" />
+            <choice id="choiceQuantity">
+                <when id="whenQuantity">
                     <simple>${body.quantity} > 10</simple>
-                    <log message="Order quantity is greater than 10 - rolling back transaction!" />
-                    <throwException exceptionType="java.lang.IllegalStateException" message="Invalid quantity" />
+                    <log id="logError" message="Order quantity is greater than 10 - rolling back transaction!" />
+                    <throwException id="exception" exceptionType="java.lang.IllegalStateException" message="Invalid quantity" />
                 </when>
-                <otherwise>
-                    <log message="Order processed successfully" />
+                <otherwise id="otherwiseQuantity">
+                    <log id="logSuccess" message="Order processed successfully" />
                 </otherwise>
             </choice>
         </route>

@@ -25,7 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @Entity(name = "orders")
-@NamedQuery(name = "pendingOrders", query = "from orders where Status = 'PENDING'")
+@NamedQuery(name = "pendingOrders", query = "SELECT o FROM orders o WHERE o.status = 'PENDING'")
 public class Order {
 
     @Id

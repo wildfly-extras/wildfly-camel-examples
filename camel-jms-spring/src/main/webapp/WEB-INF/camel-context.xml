@@ -43,13 +43,13 @@
         <!--
             This route generates a random order every 5 seconds
         -->
-        <route>
-            <from uri="timer:order?period=5000&amp;delay=0"/>
-            <bean method="generateOrder" ref="orderGenerator"/>
+        <route id="timerToFileRoute">
+            <from id="routeTimer" uri="timer:order?period=5000&amp;delay=0"/>
+            <bean id="orderGenerator" method="generateOrder" ref="orderGenerator"/>
             <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
                 <method method="generateFileName" ref="orderGenerator"/>
             </setHeader>
-            <to uri="file://{{jboss.server.data.dir}}/orders"/>
+            <to id="fileProducer" uri="file://{{jboss.server.data.dir}}/orders"/>
         </route>
 
         <!--
@@ -57,11 +57,11 @@
             and places them onto JMS queue 'ordersQueue' within the WildFly
             internal ActiveMQ Artemis broker.
         -->
-        <route>
-            <from uri="file://{{jboss.server.data.dir}}/orders" />
-            <convertBodyTo type="java.lang.String" />
-            <removeHeaders pattern="*" />
-            <to uri="jms:queue:OrdersQueue" />
+        <route id="fileToJmsQueueRoute">
+            <from id="fileConsumer" uri="file://{{jboss.server.data.dir}}/orders" />
+            <convertBodyTo id="convertToString" type="java.lang.String" />
+            <removeHeaders id="removeHeaders" pattern="*" />
+            <to id="jmsProducer" uri="jms:queue:OrdersQueue" />
         </route>
 
         <!--
@@ -69,22 +69,22 @@
             message payload XML content it uses a content based router to output
             orders into appropriate country directories
         -->
-        <route>
-            <from uri="jms:queue:OrdersQueue" />
-            <choice>
-                <when>
-                    <xpath>/order/customer/country = 'UK'</xpath>
-                    <log message="Sending order to the UK" />
-                    <to uri="file:{{jboss.server.data.dir}}/orders/processed/UK" />
+        <route id="jmsQueueToFileRoute">
+            <from id="jmsConsumer" uri="jms:queue:OrdersQueue" />
+            <choice id="choiceCountry">
+                <when id="whenCountryUk">
+                    <xpath id="xpathUk">/order/customer/country = 'UK'</xpath>
+                    <log id="logUk" message="Sending order to the UK" />
+                    <to id="fileProcessedUk" uri="file:{{jboss.server.data.dir}}/orders/processed/UK" />
                 </when>
-                <when>
-                    <xpath>/order/customer/country = 'US'</xpath>
-                    <log message="Sending order to the US" />
-                    <to uri="file:{{jboss.server.data.dir}}/orders/processed/US" />
+                <when id="whenCountryUs">
+                    <xpath id="xpathUs">/order/customer/country = 'US'</xpath>
+                    <log id="logUs" message="Sending order to the US" />
+                    <to id="fileProcessedUs" uri="file:{{jboss.server.data.dir}}/orders/processed/US" />
                 </when>
-                <otherwise>
-                    <log message="Sending order to another country" />
-                    <to uri="file:{{jboss.server.data.dir}}/orders/processed/other" />
+                <otherwise id="whenCountryOther">
+                    <log id="logOther" message="Sending order to another country" />
+                    <to id="fileProcessedOther" uri="file:{{jboss.server.data.dir}}/orders/processed/other" />
                 </otherwise>
             </choice>
         </route>
