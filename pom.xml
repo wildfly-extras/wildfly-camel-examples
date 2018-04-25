@@ -46,7 +46,7 @@
     <properties>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>5.1.0.fuse-000041</version.wildfly.camel>
+        <version.wildfly.camel>5.1.0.fuse-000054</version.wildfly.camel>
         <version.wildfly>7.1.1.GA-redhat-2</version.wildfly>
 
         <!-- Plugin versions -->
@@ -234,6 +234,13 @@
         <repository>
             <id>JBoss EA</id>
             <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.1-rhel-7-maven-build/latest/maven</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>JBoss EA AMQ</id>
+            <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-fuse-6.2-build/latest/maven</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
