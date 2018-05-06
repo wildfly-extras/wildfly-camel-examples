@@ -211,35 +211,35 @@
     <!-- Repositories -->
     <repositories>
         <repository>
-            <id>Maven Central</id>
+            <id>central</id>
             <url>http://repo.maven.apache.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>JBoss Public</id>
+            <id>jboss-public</id>
             <url>http://repository.jboss.org/nexus/content/groups/public</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
-          <id>Early Access Repository</id>
-          <url>https://origin-repository.jboss.org/nexus/content/groups/ea</url>
+          <id>fuse-ea</id>
+          <url>https://repository.jboss.org/nexus/content/groups/ea</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>JBoss EA</id>
+            <id>eap71-brew</id>
             <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.1-rhel-7-maven-build/latest/maven</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>JBoss EA AMQ</id>
+            <id>fuse62-brew</id>
             <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-fuse-6.2-build/latest/maven</url>
             <snapshots>
                 <enabled>false</enabled>
