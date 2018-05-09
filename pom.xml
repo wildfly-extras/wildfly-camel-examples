@@ -211,14 +211,14 @@
     <!-- Repositories -->
     <repositories>
         <repository>
-            <id>Maven Central</id>
+            <id>central</id>
             <url>http://repo.maven.apache.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>JBoss Public</id>
+            <id>jboss-public-repository</id>
             <url>http://repository.jboss.org/nexus/content/groups/public</url>
             <snapshots>
                 <enabled>false</enabled>
