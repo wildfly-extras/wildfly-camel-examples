@@ -39,7 +39,7 @@ import org.apache.camel.ProducerTemplate;
 @WebServlet(name = "SendMailServlet", urlPatterns = {"/send/*"}, loadOnStartup = 1)
 public class MailSendServlet extends HttpServlet {
 
-    @Resource(name = "java:jboss/camel/context/mail-camel-context")
+    @Resource(lookup = "java:jboss/camel/context/mail-camel-context")
     private CamelContext camelContext;
 
     @Override
