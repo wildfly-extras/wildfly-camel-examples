@@ -29,7 +29,7 @@
     <artifactId>example-camel</artifactId>
     <packaging>pom</packaging>
 
-    <version>5.1.0.fuse-SNAPSHOT</version>
+    <version>5.1.0.fuse-000050</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -46,7 +46,7 @@
     <properties>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>5.1.0.fuse-000054</version.wildfly.camel>
+        <version.wildfly.camel>5.1.0.fuse-000074</version.wildfly.camel>
         <version.wildfly>7.1.1.GA-redhat-2</version.wildfly>
 
         <!-- Plugin versions -->
