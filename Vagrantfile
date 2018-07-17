@@ -111,7 +111,7 @@ Vagrant.configure(2) do |config|
     sudo yum -y update
 #    perform $PROVISION_PROGRESS sudo yum install docker-engine
     curl -fsSL https://get.docker.com/ | sh
-    sudo service docker start 
+    sudo service docker start
 
     echo $(docker --version)
 
@@ -151,7 +151,7 @@ Vagrant.configure(2) do |config|
 
     curl -sL https://raw.githubusercontent.com/eclipse/che/master/che.sh | tr -d '\15\32' > /home/vagrant/che.sh
     chmod +x /home/vagrant/che.sh
-    
+
     echo "export CHE_PORT=${6}" >> /etc/profile.d/vars.sh
     echo "export CHE_VERSION=${4}" >> /etc/profile.d/vars.sh
     echo "export CHE_HOST_IP=${5}" >> /etc/profile.d/vars.sh

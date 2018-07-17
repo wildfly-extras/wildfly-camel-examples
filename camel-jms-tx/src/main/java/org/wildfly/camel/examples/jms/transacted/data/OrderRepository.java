@@ -28,7 +28,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class OrderRepository {
-    
+
     @Inject
     private EntityManager entityManager;
 
