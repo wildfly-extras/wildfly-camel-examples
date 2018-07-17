@@ -27,7 +27,7 @@
         <h1>Greetings</h1>
         <div class="row">
             <div class="col-md-4"><h3>${greeting}</h3></div>
-        </div>        
+        </div>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
