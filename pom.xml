@@ -46,7 +46,7 @@
     <properties>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>5.2.0.fuse-710003</version.wildfly.camel>
+        <version.wildfly.camel>5.2.0.fuse-710006</version.wildfly.camel>
         <version.wildfly>7.1.3.GA-redhat-2</version.wildfly>
 
         <!-- Plugin versions -->
