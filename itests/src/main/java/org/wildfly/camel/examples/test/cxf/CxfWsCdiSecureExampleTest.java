@@ -20,135 +20,225 @@
 package org.wildfly.camel.examples.test.cxf;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.arquillian.api.ServerSetup;
 import org.jboss.as.arquillian.api.ServerSetupTask;
 import org.jboss.as.arquillian.container.ManagementClient;
-import org.jboss.as.controller.descriptions.ModelDescriptionConstants;
-import org.jboss.as.security.Constants;
-import org.jboss.dmr.ModelNode;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.camel.examples.test.common.ServerReload;
-import org.wildfly.camel.examples.test.common.UserManager;
-import org.wildfly.camel.test.common.http.HttpRequest;
-import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
-import org.wildfly.camel.test.common.utils.DMRUtils;
+import org.wildfly.camel.examples.test.common.SecurityUtils;
+import org.wildfly.camel.test.common.utils.EnvironmentUtils;
+import org.wildfly.camel.test.common.utils.FileUtils;
+import org.wildfly.camel.test.common.utils.UserManager;
+import org.wildfly.camel.test.common.utils.WildFlyCli;
 
+/**
+ * @author <a href="https://github.com/ppalaga">Peter Palaga</a>
+ */
 @RunAsClient
 @RunWith(Arquillian.class)
-@ServerSetup(CxfWsCdiSecureExampleTest.ServerSecuritySetup.class)
+@ServerSetup(CxfWsCdiSecureExampleTest.ClientCertSecurityDomainSetup.class)
 public class CxfWsCdiSecureExampleTest {
 
-    private static final String HTTPS_HOST = "https://localhost:8443";
-    private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxf-jaxws-cdi-secure/cxf/";
+    private static final Path WILDFLY_HOME = EnvironmentUtils.getWildFlyHome();
 
-    static class ServerSecuritySetup implements ServerSetupTask {
+    private static final String CLIENT_CERT_KEYSTORE_PASSWORD = "123456";
+    private static final String CLIENT_CRT = "client.crt";
+    private static final String CLIENT_KEYSTORE = "client.keystore";
+    private static final String CLIENT_TRUSTSTORE = "client.truststore";
+    private static final String SERVER_CRT = "server.crt";
+    private static final String SERVER_KEYSTORE = "server.keystore";
+    private static final String SERVER_TRUSTSTORE = "server.truststore";
+    private static final String UNTRUSTED_CRT = "untrusted.crt";
+    private static final String UNTRUSTED_KEYSTORE = "untrusted.keystore";
 
-        private static final String APPLICATION_USER = "CN=localhost";
-        private static final String APPLICATION_PASSWORD = "testPassword1+";
-        private static final String APPLICATION_ROLE = "testRole";
+    private static final String BASE_URI = "https://localhost:8443";
+    private static final String UI_URI;
+    private static final String CXF_ENDPOINT_URI;
+    private static final String WS_MESSAGE_TEMPLATE = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            + "<Body>"
+            + "<greet xmlns=\"http://jaxws.cxf.examples.camel.wildfly.org/\">"
+            + "<message xmlns=\"\">%s</message>"
+            + "<name xmlns=\"\">%s</name>"
+            + "</greet>"
+            + "</Body>"
+            + "</Envelope>";
 
-        private static final String TRUSTSTORE_PASSWORD = "password";
-        private static final String TRUSTSTORE_PATH = "${jboss.home.dir}/standalone/configuration/application.keystore";
+    private static final String CLIENT_ROLE = "testRole";
+    private static final String CLIENT_ALIAS = "client";
 
-        private static final String ADDRESS_SYSTEM_PROPERTY_TRUST_STORE_PASSWORD = "system-property=javax.net.ssl.trustStorePassword";
-        private static final String ADDRESS_SYSTEM_PROPERTY_TRUST_STORE = "system-property=javax.net.ssl.trustStore";
-
-        private static final String ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN = "subsystem=security/security-domain=certificate-trust-domain";
-        private static final String ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN_JSSE_CLASSIC = ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN + "/jsse=classic";
-        private static final String ADDRESS_ATTRIBUTE_TRUSTSTORE = "truststore";
-
-        private static final String ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CLIENT_CERT = "subsystem=security/security-domain=client-cert";
-        private static final String ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CLIENT_CERT_AUTH_CLASSIC = ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CLIENT_CERT + "/authentication=classic";
-
-        private static final String ADDRESS_SUBSYSTEM_UNDERTOW_HTTPS_LISTENER = "subsystem=undertow/server=default-server/https-listener=https";
-
-
-        @Override
-        public void setup(ManagementClient managementClient, String containerId) throws Exception {
-            // Make WildFly generate a keystore
-            HttpRequest.post(HTTPS_HOST).getResponse();
-
-            UserManager.addApplicationUser(APPLICATION_USER, APPLICATION_PASSWORD);
-            UserManager.addRoleToApplicationUser(APPLICATION_USER, APPLICATION_ROLE);
-
-            ModelNode[] steps = new ModelNode[8];
-            steps[0] = DMRUtils.createOpNode(ADDRESS_SYSTEM_PROPERTY_TRUST_STORE, ModelDescriptionConstants.ADD);
-            steps[0].get(ModelDescriptionConstants.VALUE).set(TRUSTSTORE_PATH);
-
-            steps[1] = DMRUtils.createOpNode(ADDRESS_SYSTEM_PROPERTY_TRUST_STORE_PASSWORD, ModelDescriptionConstants.ADD);
-            steps[1].get(ModelDescriptionConstants.VALUE).set(TRUSTSTORE_PASSWORD);
-
-            steps[2] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN, ModelDescriptionConstants.ADD);
-            steps[3] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN_JSSE_CLASSIC, ModelDescriptionConstants.ADD);
-
-            steps[4] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN_JSSE_CLASSIC, ModelDescriptionConstants.WRITE_ATTRIBUTE_OPERATION);
-            steps[4].get(ModelDescriptionConstants.NAME).set(ADDRESS_ATTRIBUTE_TRUSTSTORE);
-            steps[4].get(ModelDescriptionConstants.VALUE).get(ModelDescriptionConstants.PASSWORD).set(TRUSTSTORE_PASSWORD);
-            steps[4].get(ModelDescriptionConstants.VALUE).get(ModelDescriptionConstants.URL).set(TRUSTSTORE_PATH);
-
-            steps[5] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CLIENT_CERT, ModelDescriptionConstants.ADD);
-            steps[6] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CLIENT_CERT_AUTH_CLASSIC, ModelDescriptionConstants.ADD);
-            steps[6].get(Constants.LOGIN_MODULES).get(0).get(Constants.CODE).set("CertificateRoles");
-            steps[6].get(Constants.LOGIN_MODULES).get(0).get(Constants.FLAG).set("required");
-            steps[6].get(Constants.LOGIN_MODULES).get(0).get(Constants.MODULE_OPTIONS, "securityDomain").set("certificate-trust-domain");
-            steps[6].get(Constants.LOGIN_MODULES).get(0).get(Constants.MODULE_OPTIONS, "verifier").set("org.jboss.security.auth.certs.AnyCertVerifier");
-            steps[6].get(Constants.LOGIN_MODULES).get(0).get(Constants.MODULE_OPTIONS, "rolesProperties").set("${jboss.home.dir}/standalone/configuration/application-roles.properties");
-
-            steps[7] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_UNDERTOW_HTTPS_LISTENER, ModelDescriptionConstants.WRITE_ATTRIBUTE_OPERATION);
-            steps[7].get(ModelDescriptionConstants.NAME).set("verify-client");
-            steps[7].get(ModelDescriptionConstants.VALUE).set("REQUESTED");
-
-            ModelNode compositeNode = DMRUtils.createCompositeNode(steps);
-            managementClient.getControllerClient().execute(compositeNode);
-
-            reload(managementClient);
-        }
-
-        @Override
-        public void tearDown(ManagementClient managementClient, String containerId) throws Exception {
-            ModelNode[] steps = new ModelNode[5];
-            steps[0] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_UNDERTOW_HTTPS_LISTENER, ModelDescriptionConstants.UNDEFINE_ATTRIBUTE_OPERATION);
-            steps[0].get(ModelDescriptionConstants.NAME).set("verify-client");
-
-            steps[1] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CLIENT_CERT, ModelDescriptionConstants.REMOVE);
-
-            steps[2] = DMRUtils.createOpNode(ADDRESS_SUBSYSTEM_SECURITY_SECURITY_DOMAIN_CERTIFICATE_TRUST_DOMAIN, ModelDescriptionConstants.REMOVE);
-
-            steps[3] = DMRUtils.createOpNode(ADDRESS_SYSTEM_PROPERTY_TRUST_STORE, ModelDescriptionConstants.REMOVE);
-            steps[4] = DMRUtils.createOpNode(ADDRESS_SYSTEM_PROPERTY_TRUST_STORE_PASSWORD, ModelDescriptionConstants.REMOVE);
-
-            ModelNode compositeNode = DMRUtils.createCompositeNode(steps);
-            managementClient.getControllerClient().execute(compositeNode);
-
-            UserManager.removeApplicationUser(APPLICATION_USER);
-            UserManager.revokeRoleFromApplicationUser(APPLICATION_USER, APPLICATION_ROLE);
-        }
-
-        public void reload(final ManagementClient managementClient) throws Exception {
-            ServerReload.executeReloadAndWaitForCompletion(managementClient.getControllerClient(), 60000);
-        }
+    static {
+        UI_URI = BASE_URI.replace("https:", "http:").replace("8443", "8080") + "/example-camel-cxf-jaxws-cdi-secure/cxf/";
+        CXF_ENDPOINT_URI = BASE_URI + "/webservices/greeting-secure-cdi";
     }
 
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-cxf-jaxws-cdi-secure.war"));
+        return ShrinkWrap.createFromZipFile(WebArchive.class,
+                new File("target/examples/example-camel-cxf-jaxws-cdi-secure.war"));
     }
 
     @Test
-    public void testSecureCxfSoapRoute() throws Exception {
-        HttpResponse result = HttpRequest.post(ENDPOINT_ADDRESS)
-            .header("Content-Type", "application/x-www-form-urlencoded")
-            .content("message=Hello&name=Kermit")
-            .getResponse();
+    public void ui() throws Exception {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            HttpPost request = new HttpPost(UI_URI);
+            request.setHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.setEntity(new StringEntity("message=Hello&name=Kermit", StandardCharsets.UTF_8));
+            try (CloseableHttpResponse response = httpclient.execute(request)) {
+                Assert.assertEquals(200, response.getStatusLine().getStatusCode());
 
-        Assert.assertTrue(result.getBody().contains("Hello Kermit"));
+                HttpEntity entity = response.getEntity();
+                String body = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                Assert.assertTrue(body.contains("Hello Kermit"));
+            }
+
+        }
+    }
+
+    @Test
+    public void greetAnonymous() throws Exception {
+        try (CloseableHttpClient httpclient = HttpClients.custom()
+                .setSSLSocketFactory(createUntrustedClientCertSocketFactory(WILDFLY_HOME)).build()) {
+            HttpPost request = new HttpPost(CXF_ENDPOINT_URI);
+            request.setHeader("Content-Type", "text/xml");
+            request.setHeader("soapaction", "\"urn:greet\"");
+
+            request.setEntity(
+                    new StringEntity(String.format(WS_MESSAGE_TEMPLATE, "Hi", "Joe"), StandardCharsets.UTF_8));
+            try (CloseableHttpResponse response = httpclient.execute(request)) {
+                Assert.assertEquals(403, response.getStatusLine().getStatusCode());
+            }
+        }
+    }
+
+    @Test
+    public void greetClientCert() throws Exception {
+        try (CloseableHttpClient httpclient = HttpClients.custom()
+                .setSSLSocketFactory(createTrustedClientCertSocketFactory(WILDFLY_HOME)).build()) {
+            HttpPost request = new HttpPost(CXF_ENDPOINT_URI);
+            request.setHeader("Content-Type", "text/xml");
+            request.setHeader("soapaction", "\"urn:greet\"");
+
+            request.setEntity(
+                    new StringEntity(String.format(WS_MESSAGE_TEMPLATE, "Hi", "Joe"), StandardCharsets.UTF_8));
+            try (CloseableHttpResponse response = httpclient.execute(request)) {
+                Assert.assertEquals(200, response.getStatusLine().getStatusCode());
+
+                HttpEntity entity = response.getEntity();
+                String body = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                Assert.assertTrue(body.contains("Hi Joe"));
+            }
+        }
+    }
+
+    private static SSLConnectionSocketFactory createTrustedClientCertSocketFactory(final Path wildflyHome)
+            throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException,
+            IOException, UnrecoverableKeyException {
+        final Path truststoreFile = resolveConfigFile(CLIENT_TRUSTSTORE);
+        final Path keystoreFile = resolveConfigFile(CLIENT_KEYSTORE);
+        return SecurityUtils.createSocketFactory(truststoreFile, keystoreFile, CLIENT_CERT_KEYSTORE_PASSWORD);
+    }
+
+    private static Path resolveConfigFile(String fileName) {
+        return WILDFLY_HOME.resolve("standalone/configuration/"+ fileName);
+    }
+
+    private static SSLConnectionSocketFactory createUntrustedClientCertSocketFactory(final Path wildflyHome)
+            throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException,
+            IOException, UnrecoverableKeyException {
+        final Path truststoreFile = resolveConfigFile(CLIENT_TRUSTSTORE);
+        final Path keystoreFile = resolveConfigFile(UNTRUSTED_KEYSTORE);
+        return SecurityUtils.createSocketFactory(truststoreFile, keystoreFile, CLIENT_CERT_KEYSTORE_PASSWORD);
+    }
+
+    /**
+     * Creates an Undertow {@code application-security-domain} called {@value #SECURITY_DOMAIN} and links it with the
+     * default Elytron {@code ApplicationDomain} for authorization. Also adds some roles to
+     * {@code application-roles.properties}.
+     */
+    static class ClientCertSecurityDomainSetup implements ServerSetupTask {
+
+        /**
+         * Copies server and clients keystores and truststores from this package to the given
+         * {@code $wildflyHome/standalone/configuration}. Server truststore has accepted certificate from client keystore
+         * and vice-versa
+         *
+         * @param wildflyHome
+         * @throws java.io.IOException copying of keystores fails
+         * @throws IllegalArgumentException workingFolder is null or it's not a directory
+         */
+        private static void copyKeyMaterial(final Path wildflyHome) throws IOException, IllegalArgumentException {
+            final Path targetDirectory = wildflyHome.resolve("standalone/configuration");
+            if (targetDirectory == null || !Files.isDirectory(targetDirectory)) {
+                throw new IllegalArgumentException("Provide an existing folder as the method parameter.");
+            }
+            copy(SERVER_KEYSTORE, targetDirectory);
+            copy(SERVER_TRUSTSTORE, targetDirectory);
+            copy(SERVER_CRT, targetDirectory);
+            copy(CLIENT_KEYSTORE, targetDirectory);
+            copy(CLIENT_TRUSTSTORE, targetDirectory);
+            copy(CLIENT_CRT, targetDirectory);
+            copy(UNTRUSTED_KEYSTORE, targetDirectory);
+            copy(UNTRUSTED_CRT, targetDirectory);
+        }
+
+        private static void copy(String fileName, Path targetDirectory) throws IOException {
+            FileUtils.copy(CxfWsCdiSecureExampleTest.class.getClassLoader().getResource("keys/" + fileName),
+                    targetDirectory.resolve(fileName));
+        }
+
+        @Override
+        public void setup(ManagementClient managementClient, String containerId) throws Exception {
+            copyKeyMaterial(WILDFLY_HOME);
+            try (UserManager um = UserManager.forStandaloneApplicationRealm()) {
+                um.addRole(CLIENT_ALIAS, CLIENT_ROLE);
+            }
+            final URL cliUrl = this.getClass().getClassLoader().getResource("configure-tls-security.cli");
+            final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
+            FileUtils.copy(cliUrl, cliTmpPath);
+            WildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+        }
+
+        @Override
+        public void tearDown(ManagementClient managementClient, String containerId) throws Exception {
+            try (UserManager um = UserManager.forStandaloneApplicationRealm()) {
+                um.removeRole(CLIENT_ALIAS, CLIENT_ROLE);
+            }
+            final URL cliUrl = this.getClass().getClassLoader().getResource("remove-tls-security.cli");
+            final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
+            FileUtils.copy(cliUrl, cliTmpPath);
+            WildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+        }
     }
 }
