@@ -1,0 +1,7 @@
+batch
+
+/subsystem=undertow/application-security-domain=my-application-security-domain:remove()
+
+run-batch
+
+reload

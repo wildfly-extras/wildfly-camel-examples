@@ -1,0 +1,18 @@
+batch
+
+# Uncomment these when debugging authentication or authorization problems
+#/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level,value=ALL)
+#/subsystem=logging/logger=org.wildfly.security:add()
+#/subsystem=logging/logger=org.wildfly.security:write-attribute(name=level, value=ALL)
+
+# This re-reads the users and roles from the property files so that the ones we have added before running this script
+# become visible in the realm
+/subsystem=elytron/properties-realm=ApplicationRealm:load()
+
+# Link the Elytron security domain called "ApplicationDomain" from Undertow subsystem via http-authentication-factory
+# called "application-http-authentication"
+/subsystem=undertow/application-security-domain=my-application-security-domain:add(http-authentication-factory=application-http-authentication)
+
+run-batch
+
+reload

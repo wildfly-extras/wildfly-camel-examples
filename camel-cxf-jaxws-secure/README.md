@@ -1,12 +1,12 @@
 Camel Secure CXF JAX-WS
 ------------------------
 
-This example demonstrates using the camel-cxf component with Red Hat Fuse on EAP to produce and consume JAX-WS web services.
+This example demonstrates using the camel-cxf component with Red Hat Fuse on EAP to produce and consume JAX-WS web
+services secured by an Elytron Security Domain. Elytron is a new security framework available since EAP 7.1.
 
-In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer endpoint. The producer uses the payload
-to pass arguments to a CXF JAX-WS web service.
-
-In addition it demonstrates CXF endpoint security with JAAS.
+In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer
+endpoint. The producer uses the payload to pass arguments to a CXF JAX-WS web service that is secured by BASIC HTTP
+authentication.
 
 Prerequisites
 -------------
@@ -39,9 +39,22 @@ To run the example.
 
     %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-3. Build and deploy the project `mvn install -Pdeploy`
+3. Set the Security Domain using a JBoss CLI script.
 
-4. Browse to http://localhost:8080/example-camel-cxf-jaxws-secure/
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-tls-security.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-tls-security.cli
+
+4. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
+set the application security domain, security roles and constraints.
+
+5. Build and deploy the project `mvn install -Pdeploy`
+
+6. Browse to http://localhost:8080/example-camel-cxf-jaxws-secure/
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service which will have also been started. The service WSDL is available at http://localhost:8080/webservices/greeting-security-basic?wsdl.
 
