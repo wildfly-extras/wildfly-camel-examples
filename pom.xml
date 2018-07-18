@@ -204,6 +204,10 @@
                                 <goals>
                                     <goal>check</goal>
                                 </goals>
+                                <configuration>
+                                    <excludes>
+                                    </excludes>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

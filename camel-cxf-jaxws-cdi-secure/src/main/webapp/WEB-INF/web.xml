@@ -1,0 +1,18 @@
+<web-app>
+    <security-constraint>
+        <display-name>Webservices Security Constraints</display-name>
+        <web-resource-collection>
+            <web-resource-name>Webservices</web-resource-name>
+            <url-pattern>///webservices/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>testRole</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <role-name>testRole</role-name>
+    </security-role>
+    <login-config>
+        <auth-method>CLIENT-CERT</auth-method>
+    </login-config>
+</web-app>

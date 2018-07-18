@@ -29,10 +29,6 @@
         id="cxfConsumer"
         address="http://localhost:8080/webservices/greeting-security-basic"
         serviceClass="org.wildfly.camel.examples.cxf.jaxws.GreetingService">
-        <cxf:inInterceptors>
-            <ref bean="authenticationInterceptor"/>
-            <ref bean="authorizationInterceptor"/>
-        </cxf:inInterceptors>
     </cxf:cxfEndpoint>
 
     <cxf:cxfEndpoint

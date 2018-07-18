@@ -19,11 +19,6 @@
  */
 package org.wildfly.camel.examples.cxf.jaxws;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,50 +30,44 @@ import org.apache.camel.Processor;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.component.cxf.CxfComponent;
 import org.apache.camel.component.cxf.CxfEndpoint;
-import org.apache.camel.util.jsse.ClientAuthentication;
 import org.apache.camel.util.jsse.KeyManagersParameters;
 import org.apache.camel.util.jsse.KeyStoreParameters;
 import org.apache.camel.util.jsse.SSLContextClientParameters;
 import org.apache.camel.util.jsse.SSLContextParameters;
-import org.apache.camel.util.jsse.SSLContextServerParameters;
 import org.apache.camel.util.jsse.TrustManagersParameters;
-import org.apache.cxf.interceptor.Interceptor;
-import org.apache.cxf.interceptor.security.JAASLoginInterceptor;
-import org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor;
-import org.apache.cxf.interceptor.security.callback.CallbackHandlerProvider;
-import org.apache.cxf.message.Message;
 
 @Named("cxf_cdi_security_app")
 public class Application {
 
-    private static final String CXF_PRODUCER_ENDPOINT_ADDRESS = "https://localhost:8443/webservices/greeting-secure-cdi";
-    private static final String CXF_CONSUMER_ENDPOINT_ADDRESS = "https://localhost:8443/webservices/greeting-secure-cdi";
-
-    private static final String WILDFLY_SECURITY_DOMAIN_NAME = "client-cert";
-
-    private final static String KEYSTORE_PATH = System.getProperty("jboss.server.config.dir") + "/application.keystore";
-    private static final String KEYSTORE_PASSWORD = "password";
-
-    // "server" is the alias of the key in "${JBOSS-HOME}/standalone/configuration/application.keystore"
-    private final static String TRUSTSTORE_ALIAS_NAME = "server";
+    private static final String CLIENT_CERT_KEYSTORE_PASSWORD = "123456";
+    private static final String CLIENT_CERT_KEYSTORE_PATH = System.getProperty("jboss.server.config.dir")
+            + "/client.keystore";
+    private static final String CLIENT_CERT_TRUSTSTORE_PATH = System.getProperty("jboss.server.config.dir")
+            + "/client.truststore";
+    private static final String CXF_ENDPOINT_URI = "https://localhost:8443/webservices/greeting-secure-cdi";
 
     @Inject
     @ContextName("cxfws-secure-cdi-camel-context")
     CamelContext camelContext;
 
-    @Named("greetingsProcessor")
+    @Named("cxfConsumerEndpoint")
     @Produces
-    public Processor produceGreetingsProcessor() {
-        return new GreetingsProcessor();
+    public CxfEndpoint createCxfConsumerEndpoint() {
+        CxfComponent cxfConsumerComponent = new CxfComponent(this.camelContext);
+        CxfEndpoint cxfConsumerEndpoint = new CxfEndpoint(CXF_ENDPOINT_URI, cxfConsumerComponent);
+        cxfConsumerEndpoint.setBeanId("cxfConsumerEndpoint");
+        cxfConsumerEndpoint.setServiceClass(GreetingService.class);
+
+        return cxfConsumerEndpoint;
     }
 
     @Named("cxfProducerEndpoint")
     @Produces
     public CxfEndpoint createCxfProducerEndpoint() {
         CxfComponent cxfProducerComponent = new CxfComponent(this.camelContext);
-        CxfEndpoint cxfProducerEndpoint = new CxfEndpoint(CXF_PRODUCER_ENDPOINT_ADDRESS, cxfProducerComponent);
+        CxfEndpoint cxfProducerEndpoint = new CxfEndpoint(CXF_ENDPOINT_URI, cxfProducerComponent);
         cxfProducerEndpoint.setBeanId("cxfProducerEndpoint");
-        cxfProducerEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
+        cxfProducerEndpoint.setServiceClass(GreetingService.class);
 
         SSLContextParameters producerSslContextParameters = this.createProducerSSLContextParameters();
         cxfProducerEndpoint.setSslContextParameters(producerSslContextParameters);
@@ -95,80 +84,36 @@ public class Application {
         return cxfProducerEndpoint;
     }
 
-    @Named("cxfConsumerEndpoint")
-    @Produces
-    public CxfEndpoint createCxfConsumerEndpoint() {
-        CxfComponent cxfConsumerComponent = new CxfComponent(this.camelContext);
-        CxfEndpoint cxfConsumerEndpoint = new CxfEndpoint(CXF_CONSUMER_ENDPOINT_ADDRESS, cxfConsumerComponent);
-        cxfConsumerEndpoint.setBeanId("cxfConsumerEndpoint");
-        cxfConsumerEndpoint.setServiceClass(org.wildfly.camel.examples.cxf.jaxws.GreetingService.class);
-
-        SSLContextParameters consumerSslContextParameters = this.createConsumerSSLContextParameters();
-        cxfConsumerEndpoint.setSslContextParameters(consumerSslContextParameters);
-
-        List<Interceptor<? extends Message>> inInterceptors = cxfConsumerEndpoint.getInInterceptors();
-
-        // Authentication
-        JAASLoginInterceptor jaasLoginInterceptor = new JAASLoginInterceptor();
-        jaasLoginInterceptor.setContextName(WILDFLY_SECURITY_DOMAIN_NAME);
-        jaasLoginInterceptor.setAllowAnonymous(false);
-        List<CallbackHandlerProvider> chp = Arrays.asList(new JBossCallbackHandlerTlsCert());
-        jaasLoginInterceptor.setCallbackHandlerProviders(chp);
-        inInterceptors.add(jaasLoginInterceptor);
-
-        // Authorization
-        SimpleAuthorizingInterceptor authorizingInterceptor = new SimpleAuthorizingInterceptor();
-        authorizingInterceptor.setAllowAnonymousUsers(false);
-        Map<String, String> rolesMap = new HashMap<>(1);
-        rolesMap.put("greet", "testRole");
-        authorizingInterceptor.setMethodRolesMap(rolesMap);
-        inInterceptors.add(authorizingInterceptor);
-        return cxfConsumerEndpoint;
-    }
-
     private SSLContextParameters createProducerSSLContextParameters() {
-        KeyStoreParameters ksp = new KeyStoreParameters();
-        ksp.setResource(KEYSTORE_PATH);
-        ksp.setPassword(KEYSTORE_PASSWORD);
+        final KeyStoreParameters ksp = new KeyStoreParameters();
+        ksp.setResource(CLIENT_CERT_KEYSTORE_PATH);
+        ksp.setPassword(CLIENT_CERT_KEYSTORE_PASSWORD);
 
-        KeyManagersParameters kmp = new KeyManagersParameters();
+        final KeyManagersParameters kmp = new KeyManagersParameters();
         kmp.setKeyStore(ksp);
-        kmp.setKeyPassword(KEYSTORE_PASSWORD);
+        kmp.setKeyPassword(CLIENT_CERT_KEYSTORE_PASSWORD);
 
-        SSLContextClientParameters sslContextClientParameters = new SSLContextClientParameters();
-        SSLContextParameters sslContextParameters = new SSLContextParameters();
+        final SSLContextClientParameters sslContextClientParameters = new SSLContextClientParameters();
+        final SSLContextParameters sslContextParameters = new SSLContextParameters();
         sslContextParameters.setClientParameters(sslContextClientParameters);
         sslContextParameters.setKeyManagers(kmp);
-        sslContextParameters.setCertAlias(TRUSTSTORE_ALIAS_NAME);
+        sslContextParameters.setCertAlias("client");
 
         // so that the client trusts the self-signed server certificate
-        TrustManagersParameters tmp = new TrustManagersParameters();
-        tmp.setKeyStore(ksp);
+        final KeyStoreParameters trustStoreParams = new KeyStoreParameters();
+        trustStoreParams.setResource(CLIENT_CERT_TRUSTSTORE_PATH);
+        trustStoreParams.setPassword(CLIENT_CERT_KEYSTORE_PASSWORD);
+        final TrustManagersParameters tmp = new TrustManagersParameters();
+        tmp.setKeyStore(trustStoreParams);
         sslContextParameters.setTrustManagers(tmp);
 
         return sslContextParameters;
     }
 
-    private SSLContextParameters createConsumerSSLContextParameters() {
-        KeyStoreParameters ksp = new KeyStoreParameters();
-        ksp.setResource(KEYSTORE_PATH);
-        ksp.setPassword(KEYSTORE_PASSWORD);
-
-        TrustManagersParameters tmp = new TrustManagersParameters();
-        tmp.setKeyStore(ksp);
-
-        SSLContextServerParameters sslContextServerParameters = new SSLContextServerParameters();
-        sslContextServerParameters.setClientAuthentication(ClientAuthentication.REQUIRE.name());
-        SSLContextParameters sslContextParameters = new SSLContextParameters();
-        sslContextParameters.setServerParameters(sslContextServerParameters);
-        sslContextParameters.setTrustManagers(tmp);
-
-        KeyManagersParameters kmp = new KeyManagersParameters();
-        kmp.setKeyStore(ksp);
-        kmp.setKeyPassword(KEYSTORE_PASSWORD);
-        sslContextParameters.setKeyManagers(kmp);
-
-        return sslContextParameters;
+    @Named("greetingsProcessor")
+    @Produces
+    public Processor produceGreetingsProcessor() {
+        return new GreetingsProcessor();
     }
 
 }

@@ -20,7 +20,26 @@
 package org.wildfly.camel.examples.test.cxf;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.Base64;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -32,29 +51,65 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.camel.examples.test.common.UserManager;
 import org.wildfly.camel.test.common.http.HttpRequest;
 import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
+import org.wildfly.camel.test.common.utils.EnvironmentUtils;
+import org.wildfly.camel.test.common.utils.FileUtils;
+import org.wildfly.camel.test.common.utils.UserManager;
+import org.wildfly.camel.test.common.utils.WildFlyCli;
 
 @RunAsClient
 @RunWith(Arquillian.class)
-@ServerSetup({ CxfSecureWsExampleTest.UserSetup.class })
+@ServerSetup({ CxfSecureWsExampleTest.BasicSecurityDomainSetup.class })
 public class CxfSecureWsExampleTest {
 
-    private static final String ENDPOINT_ADDRESS = "http://localhost:8080/example-camel-cxf-jaxws-secure/cxf/";
+    private static final String BAD_USER = "badUser";
+    private static final String BAD_USER_PASSWORD = "badUserPassword1+";
+    private static final String CXF_ENDPOINT_URI = "http://localhost:8080/webservices/greeting-security-basic";
+    private static final String UI_URI = "http://localhost:8080/example-camel-cxf-jaxws-secure/cxf/";
+    private static final String GOOD_USER = "testUser";
 
-    static class UserSetup implements ServerSetupTask {
+    private static final String GOOD_USER_PASSWORD = "testPassword1+";
 
-        @Override
-        public void setup(ManagementClient managementClient, String containerId) throws Exception {
-            UserManager.addApplicationUser("testUser", "testPassword1+");
-            UserManager.addRoleToApplicationUser("testUser", "testRole");
-        }
+    private static final String GOOD_USER_ROLE = "testRole";
 
-        @Override
-        public void tearDown(ManagementClient managementClient, String containerId) throws Exception {
-            UserManager.removeApplicationUser("testUser");
-            UserManager.revokeRoleFromApplicationUser("testUser", "testRole");
+    private static final Path WILDFLY_HOME = EnvironmentUtils.getWildFlyHome();
+
+    private static final String WS_MESSAGE_TEMPLATE = "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            + "<Body>"
+            + "<greet xmlns=\"http://jaxws.cxf.examples.camel.wildfly.org/\">"
+            + "<message xmlns=\"\">%s</message>"
+            + "<name xmlns=\"\">%s</name>"
+            + "</greet>"
+            + "</Body>"
+            + "</Envelope>";
+
+    private static void assertGreet(Path wildFlyHome, String uri, String user, String password, int responseCode,
+            String responseBody) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException,
+            KeyStoreException, CertificateException, IOException {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            HttpPost request = new HttpPost(uri);
+            request.setHeader("Content-Type", "text/xml");
+            request.setHeader("soapaction", "\"urn:greet\"");
+
+            if (user != null) {
+                String auth = user + ":" + password;
+                String authHeader = "Basic "
+                        + Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.ISO_8859_1));
+                request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+            }
+
+            request.setEntity(
+                    new StringEntity(String.format(WS_MESSAGE_TEMPLATE, "Hi", "Joe"), StandardCharsets.UTF_8));
+            try (CloseableHttpResponse response = httpclient.execute(request)) {
+                final int actualCode = response.getStatusLine().getStatusCode();
+                Assert.assertEquals(responseCode, actualCode);
+                if (actualCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    String body = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                    Assert.assertTrue(body.contains(responseBody));
+                }
+            }
         }
     }
 
@@ -64,12 +119,64 @@ public class CxfSecureWsExampleTest {
     }
 
     @Test
-    public void testSayHelloCxfSoapRoute() throws Exception {
-        HttpResponse result = HttpRequest.post(ENDPOINT_ADDRESS)
+    public void greetAnonymous() throws Exception {
+        assertGreet(WILDFLY_HOME, CXF_ENDPOINT_URI, null, null, 401, null);
+    }
+
+    @Test
+    public void greetBasicBadUser() throws Exception {
+        /* the user can authenticate, but does not have the required role assigned */
+        assertGreet(WILDFLY_HOME, CXF_ENDPOINT_URI,
+                BAD_USER, BAD_USER_PASSWORD, 403,
+                null);
+    }
+
+    @Test
+    public void greetBasicGoodUser() throws Exception {
+        assertGreet(WILDFLY_HOME, CXF_ENDPOINT_URI,
+                GOOD_USER, GOOD_USER_PASSWORD, 200,
+                "Hi Joe");
+    }
+
+    @Test
+    public void ui() throws Exception {
+        HttpResponse result = HttpRequest.post(UI_URI)
             .header("Content-Type", "application/x-www-form-urlencoded")
             .content("message=Hello&name=Kermit")
             .getResponse();
-
         Assert.assertTrue(result.getBody().contains("Hello Kermit"));
+    }
+
+    static class BasicSecurityDomainSetup implements ServerSetupTask {
+
+        @Override
+        public void setup(ManagementClient managementClient, String containerId) throws Exception {
+            try (UserManager um = UserManager.forStandaloneApplicationRealm()) {
+                um
+                        .addUser(GOOD_USER, GOOD_USER_PASSWORD)
+                        .addRole(GOOD_USER, GOOD_USER_ROLE)
+                        .addUser(BAD_USER, BAD_USER_PASSWORD)
+                ;
+            }
+            final URL cliUrl = this.getClass().getClassLoader().getResource("configure-basic-security.cli");
+            final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
+            FileUtils.copy(cliUrl, cliTmpPath);
+            WildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+        }
+
+        @Override
+        public void tearDown(ManagementClient managementClient, String containerId) throws Exception {
+            try (UserManager um = UserManager.forStandaloneApplicationRealm()) {
+                um
+                        .removeUser(GOOD_USER)
+                        .removeRole(GOOD_USER, GOOD_USER_ROLE)
+                        .removeUser(BAD_USER)
+                ;
+            }
+            final URL cliUrl = this.getClass().getClassLoader().getResource("remove-basic-security.cli");
+            final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
+            FileUtils.copy(cliUrl, cliTmpPath);
+            WildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+        }
     }
 }
