@@ -46,8 +46,9 @@
     <properties>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>6.1.0</version.wildfly.camel>
-        <version.wildfly>12.0.0.Final</version.wildfly>
+        <version.wildfly.camel>7.0.0</version.wildfly.camel>
+        <version.wildfly>13.0.0.Final</version.wildfly>
+        <version.wildfly.jpa21.api>1.0.2.Final</version.wildfly.jpa21.api>
 
         <!-- Plugin versions -->
         <version-download-maven-plugin>1.3.0</version-download-maven-plugin>
@@ -77,6 +78,11 @@
                 <version>${version.wildfly.camel}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${version.wildfly.jpa21.api}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
