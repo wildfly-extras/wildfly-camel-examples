@@ -44,6 +44,7 @@
 
     <!-- Properties -->
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- WildFly-Camel versions -->
         <version.wildfly.camel>7.0.0</version.wildfly.camel>
