@@ -43,11 +43,11 @@ To run the example.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-tls-security.cli
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-basic-security.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-tls-security.cli
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-basic-security.cli
 
 4. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
 set the application security domain, security roles and constraints.
@@ -76,4 +76,14 @@ The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfws-security-came
 
 ## Undeploy
 
-To undeploy the example run `mvn clean -Pdeploy`.
+1. To undeploy the example run `mvn clean -Pdeploy`.
+
+2. Unconfigure the example tls security configuration:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-basic-security.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-basic-security.cli

@@ -39,7 +39,18 @@ To run the example
 
     %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-3. Create the Security Domain and other related objects in the management model of the application server using a JBoss
+3. Copy the security key stores from `src/main/resources/keys` to `${JBOSS_HOME}/standalone/configuration`
+
+    For Linux:
+
+    cp -t ${JBOSS_HOME}/standalone/configuration src/main/resources/keys/*
+
+    For Windows:
+
+    copy src\main\resources\keys\* c:\ %JBOSS_HOME%\standalone\configuration
+
+
+4. Create the Security Domain and other related objects in the management model of the application server using a JBoss
 CLI script.
 
     For Linux:
@@ -50,12 +61,12 @@ CLI script.
 
     %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-tls-security.cli
 
-4. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
+5. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
 set the application security domain, security roles and constraints.
 
-5. Build and deploy the project `mvn install -Pdeploy`
+6. Build and deploy the project `mvn install -Pdeploy`
 
-6. Browse to https://localhost:8443/example-camel-cxf-jaxws-cdi-secure/. Since we are using a self signed SSL
+7. Browse to https://localhost:8443/example-camel-cxf-jaxws-cdi-secure/. Since we are using a self signed SSL
 certificate, your browser may complain that the connection is insecure.
 
 You should see a page titled 'Send A Greeting'. This UI enables us to interact with the test 'greeting' web service
