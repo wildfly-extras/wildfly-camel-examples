@@ -162,7 +162,7 @@ public class CxfSecureWsExampleTest {
             final URL cliUrl = this.getClass().getClassLoader().getResource("configure-basic-security.cli");
             final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
             FileUtils.copy(cliUrl, cliTmpPath);
-            wildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+            wildFlyCli.run(cliTmpPath).assertSuccess();
         }
 
         @Override
@@ -177,7 +177,7 @@ public class CxfSecureWsExampleTest {
             final URL cliUrl = this.getClass().getClassLoader().getResource("remove-basic-security.cli");
             final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
             FileUtils.copy(cliUrl, cliTmpPath);
-            wildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+            wildFlyCli.run(cliTmpPath).assertSuccess();
         }
     }
 }
