@@ -98,6 +98,7 @@ public class Application {
         sslContextParameters.setClientParameters(sslContextClientParameters);
         sslContextParameters.setKeyManagers(kmp);
         sslContextParameters.setCertAlias("client");
+        sslContextParameters.setSecureSocketProtocol("TLSv1.2");
 
         // so that the client trusts the self-signed server certificate
         final KeyStoreParameters trustStoreParams = new KeyStoreParameters();
