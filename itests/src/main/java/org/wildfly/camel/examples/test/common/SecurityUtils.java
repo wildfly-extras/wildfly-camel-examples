@@ -32,6 +32,8 @@ public class SecurityUtils {
             sslcontextBuilder.loadKeyMaterial(keystoreFile.toFile(), pwd, pwd);
         }
 
+        sslcontextBuilder.setProtocol("TLSv1.2");
+
         return new SSLConnectionSocketFactory(sslcontextBuilder.build(), new HostnameVerifier() {
             @Override
             public boolean verify(final String s, final SSLSession sslSession) {
