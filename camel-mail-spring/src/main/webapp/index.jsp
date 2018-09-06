@@ -28,7 +28,7 @@
     <div class="page-header">
         <h1>Send an Email</h1>
     </div>
-    <form action="/example-camel-mail-spring/send" method="post">
+    <form action="send" method="post">
         <div class="form-group">
             <label for="from">From</label>
             <input type="email" class="form-control" id="from" name="from"/>
