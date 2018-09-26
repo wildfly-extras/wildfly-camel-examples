@@ -44,12 +44,10 @@
         <dependency>
             <groupId>org.wildfly.camel</groupId>
             <artifactId>wildfly-camel-itests-common</artifactId>
-            <version>${version.wildfly.camel}</version>
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel</groupId>
             <artifactId>wildfly-camel-patch</artifactId>
-            <version>${version.wildfly.camel}</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
