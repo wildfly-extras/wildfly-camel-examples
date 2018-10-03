@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>5.2.0.fuse-SNAPSHOT</version>
+        <version>5.2.0.fuse-711003</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Camel JMS MDB</name>
