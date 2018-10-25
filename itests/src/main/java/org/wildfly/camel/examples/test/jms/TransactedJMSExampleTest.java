@@ -67,7 +67,7 @@ public class TransactedJMSExampleTest extends FileCopyTestSupport {
 
     @Override
     protected Path destinationPath() {
-        return Paths.get(System.getProperty("jboss.home") + "/standalone/data/orders");
+        return Paths.get(System.getProperty("jboss.home.dir") + "/standalone/data/orders");
     }
 
     @Override

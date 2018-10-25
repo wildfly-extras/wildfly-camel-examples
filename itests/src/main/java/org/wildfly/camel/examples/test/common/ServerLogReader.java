@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class ServerLogReader {
-    private static final Path SERVER_LOG = Paths.get(System.getProperty("jboss.home"), "standalone/log/server.log");
+    private static final Path SERVER_LOG = Paths.get(System.getProperty("jboss.home.dir"), "standalone/log/server.log");
 
     /**
      * @param message The log message to match on

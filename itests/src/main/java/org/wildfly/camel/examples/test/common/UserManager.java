@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public final class UserManager {
 
     private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
-    private static final String JBOSS_HOME = System.getProperty("jboss.home");
+    private static final String JBOSS_HOME = System.getProperty("jboss.home.dir");
     private static final Path CONFIG_DIR = Paths.get(JBOSS_HOME, "standalone", "configuration");
     private static final Path APPLICATION_ROLES = CONFIG_DIR.resolve("application-roles.properties");
     private static final Path APPLICATION_USERS = CONFIG_DIR.resolve("application-users.properties");
