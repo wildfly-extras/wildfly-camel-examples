@@ -41,20 +41,6 @@
         </cxf:properties>
     </cxf:cxfEndpoint>
 
-    <bean class="org.apache.cxf.interceptor.security.JAASLoginInterceptor" id="authenticationInterceptor">
-        <property name="contextName" value="other"/>
-    </bean>
-
-    <!-- from this example: https://access.redhat.com/solutions/318403 -->
-    <bean class="org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor" id="authorizationInterceptor">
-        <property name="methodRolesMap">
-            <map>
-                <entry key="greet" value="testRole"/>
-            </map>
-        </property>
-        <property name="globalRoles" value="adminRole testRole"/>
-    </bean>
-
     <bean class="org.wildfly.camel.examples.cxf.jaxws.GreetingsProcessor" id="greetingsProcessor"/>
 
     <camelContext id="cxfws-secure-camel-context" xmlns="http://camel.apache.org/schema/spring">
