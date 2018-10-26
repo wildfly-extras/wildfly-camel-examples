@@ -272,6 +272,7 @@
         <module>camel-activemq</module>
         <module>camel-cdi</module>
         <module>camel-cxf-jaxrs</module>
+        <module>camel-cxf-jaxrs-secure</module>
         <module>camel-cxf-jaxws</module>
         <module>camel-cxf-jaxws-cdi-secure</module>
         <module>camel-cxf-jaxws-cdi-xml</module>

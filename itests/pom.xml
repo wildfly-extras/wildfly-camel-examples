@@ -98,6 +98,12 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-cxf-jaxrs-secure</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
             <artifactId>example-camel-cxf-jaxws</artifactId>
             <version>${project.version}</version>
             <type>war</type>
@@ -216,6 +222,9 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.outputDirectory}">
+                                    <fileset dir="${project.basedir}/../camel-cxf-jaxrs-secure">
+                                        <include name="*.cli"/>
+                                    </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure">
                                         <include name="*.cli"/>
                                     </fileset>
