@@ -227,7 +227,7 @@ public class CxfWsCdiSecureExampleTest {
             final URL cliUrl = this.getClass().getClassLoader().getResource("configure-tls-security.cli");
             final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
             FileUtils.copy(cliUrl, cliTmpPath);
-            WildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+            WildFlyCli.run(cliTmpPath).assertSuccess();
         }
 
         @Override
@@ -238,7 +238,7 @@ public class CxfWsCdiSecureExampleTest {
             final URL cliUrl = this.getClass().getClassLoader().getResource("remove-tls-security.cli");
             final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
             FileUtils.copy(cliUrl, cliTmpPath);
-            WildFlyCli.run(cliTmpPath, "--timeout=15000").assertSuccess();
+            WildFlyCli.run(cliTmpPath).assertSuccess();
         }
     }
 }
