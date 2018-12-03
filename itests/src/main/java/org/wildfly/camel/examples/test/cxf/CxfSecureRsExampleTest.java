@@ -145,7 +145,7 @@ public class CxfSecureRsExampleTest {
             final URL cliUrl = this.getClass().getClassLoader().getResource("configure-basic-security-rs.cli");
             final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
             FileUtils.copy(cliUrl, cliTmpPath);
-            WildFlyCli.run(cliTmpPath).assertSuccess();
+            new WildFlyCli().run(cliTmpPath).assertSuccess();
         }
 
         @Override
@@ -160,7 +160,7 @@ public class CxfSecureRsExampleTest {
             final URL cliUrl = this.getClass().getClassLoader().getResource("remove-basic-security-rs.cli");
             final Path cliTmpPath = Files.createTempFile(WildFlyCli.class.getSimpleName(), ".cli");
             FileUtils.copy(cliUrl, cliTmpPath);
-            WildFlyCli.run(cliTmpPath).assertSuccess();
+            new WildFlyCli().run(cliTmpPath).assertSuccess();
         }
     }
 }
