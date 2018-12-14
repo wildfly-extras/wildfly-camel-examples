@@ -28,7 +28,6 @@ import javax.net.ssl.SSLSession;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
 import org.apache.camel.cdi.ContextName;
-import org.apache.camel.component.cxf.CxfComponent;
 import org.apache.camel.component.cxf.CxfEndpoint;
 import org.apache.camel.util.jsse.KeyManagersParameters;
 import org.apache.camel.util.jsse.KeyStoreParameters;
@@ -44,7 +43,7 @@ public class Application {
             + "/client.keystore";
     private static final String CLIENT_CERT_TRUSTSTORE_PATH = System.getProperty("jboss.server.config.dir")
             + "/client.truststore";
-    private static final String CXF_ENDPOINT_URI = "https://localhost:8443/webservices/greeting-secure-cdi";
+    private static final String CXF_ENDPOINT_URI = "cxf:https://localhost:8443/webservices/greeting-secure-cdi";
 
     @Inject
     @ContextName("cxfws-secure-cdi-camel-context")
@@ -53,8 +52,7 @@ public class Application {
     @Named("cxfConsumerEndpoint")
     @Produces
     public CxfEndpoint createCxfConsumerEndpoint() {
-        CxfComponent cxfConsumerComponent = new CxfComponent(this.camelContext);
-        CxfEndpoint cxfConsumerEndpoint = new CxfEndpoint(CXF_ENDPOINT_URI, cxfConsumerComponent);
+        CxfEndpoint cxfConsumerEndpoint = this.camelContext.getEndpoint(CXF_ENDPOINT_URI, CxfEndpoint.class);
         cxfConsumerEndpoint.setBeanId("cxfConsumerEndpoint");
         cxfConsumerEndpoint.setServiceClass(GreetingService.class);
 
@@ -64,8 +62,7 @@ public class Application {
     @Named("cxfProducerEndpoint")
     @Produces
     public CxfEndpoint createCxfProducerEndpoint() {
-        CxfComponent cxfProducerComponent = new CxfComponent(this.camelContext);
-        CxfEndpoint cxfProducerEndpoint = new CxfEndpoint(CXF_ENDPOINT_URI, cxfProducerComponent);
+        CxfEndpoint cxfProducerEndpoint = this.camelContext.getEndpoint(CXF_ENDPOINT_URI, CxfEndpoint.class);
         cxfProducerEndpoint.setBeanId("cxfProducerEndpoint");
         cxfProducerEndpoint.setServiceClass(GreetingService.class);
 
