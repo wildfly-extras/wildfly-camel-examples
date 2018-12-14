@@ -27,7 +27,6 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.cdi.ImportResource;
-import org.apache.camel.component.cxf.CxfComponent;
 import org.apache.camel.component.cxf.CxfEndpoint;
 
 /**
@@ -40,6 +39,8 @@ import org.apache.camel.component.cxf.CxfEndpoint;
 @Named("cxf_cdi_xml_app")
 @ImportResource("cxfws-cdi-xml-camel-context.xml")
 public class Application {
+
+    private static final String CXF_ENDPOINT_URI = "cxf:http://localhost:8080/webservices/greeting-cdi-xml";
 
     @Inject
     @ContextName("cxfws-cdi-xml-camel-context")
@@ -54,8 +55,7 @@ public class Application {
     @Named("cxfConsumer")
     @Produces
     public CxfEndpoint createCxfConsumer() {
-        CxfComponent cxfComponent = new CxfComponent(this.context);
-        CxfEndpoint cxfFromEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
+        CxfEndpoint cxfFromEndpoint = context.getEndpoint(CXF_ENDPOINT_URI, CxfEndpoint.class);
         cxfFromEndpoint.setServiceClass(GreetingService.class);
         return cxfFromEndpoint;
     }
@@ -63,8 +63,7 @@ public class Application {
     @Named("cxfProducer")
     @Produces
     public CxfEndpoint createCxfProducer() {
-        CxfComponent cxfComponent = new CxfComponent(this.context);
-        CxfEndpoint cxfToEndpoint = new CxfEndpoint("http://localhost:8080/webservices/greeting-cdi-xml", cxfComponent);
+        CxfEndpoint cxfToEndpoint = context.getEndpoint(CXF_ENDPOINT_URI, CxfEndpoint.class);
         cxfToEndpoint.setServiceClass(GreetingService.class);
         return cxfToEndpoint;
     }
