@@ -29,7 +29,7 @@
     <artifactId>example-camel</artifactId>
     <packaging>pom</packaging>
 
-    <version>5.3.0.fuse-730000-SNAPSHOT</version>
+    <version>5.3.0.fuse-SNAPSHOT</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -46,9 +46,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>8.0.0</version.wildfly.camel>
-        <version.wildfly>14.0.1.Final</version.wildfly>
+        <!-- configure the Fuse version you want to use here -->
+        <version.fuse>7.3.0-SNAPSHOT</version.fuse>
+
+        <!-- WildFly versions -->
+        <!-- http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven/org/jboss/eap/wildfly-dist -->
+        <version.wildfly>7.2.0.GA-redhat-00005</version.wildfly>
+        
         <version.wildfly.jpa21.api>1.0.2.Final</version.wildfly.jpa21.api>
 
         <!-- Plugin versions -->
@@ -72,11 +76,10 @@
     <!-- Dependency Management -->
     <dependencyManagement>
         <dependencies>
-            <!-- WildFly Camel -->
             <dependency>
-                <groupId>org.wildfly.camel</groupId>
-                <artifactId>wildfly-camel-bom</artifactId>
-                <version>${version.wildfly.camel}</version>
+                <groupId>org.jboss.redhat-fuse</groupId>
+                <artifactId>fuse-eap-bom</artifactId>
+                <version>${version.fuse}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -255,8 +258,29 @@
             </snapshots>
         </repository>
         <repository>
-            <id>jboss-public-repository</id>
+            <id>jboss-public</id>
             <url>http://repository.jboss.org/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>fuse-ea</id>
+            <url>https://repository.jboss.org/nexus/content/groups/ea</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>eap72-brew</id>
+            <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>fuse62-brew</id>
+            <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-fuse-6.2-build/latest/maven</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
