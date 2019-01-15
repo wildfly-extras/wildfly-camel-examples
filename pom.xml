@@ -49,7 +49,6 @@
         <!-- WildFly versions -->
         <!-- http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven/org/jboss/eap/wildfly-dist -->
         <version.wildfly>7.2.0.GA-redhat-00005</version.wildfly>
-        <version.wildfly.jpa21.api>1.0.2.Final</version.wildfly.jpa21.api>
 
         <!-- Fuse version -->
         <version.fuse>7.3.0.fuse-730017</version.fuse>
@@ -81,11 +80,6 @@
                 <version>${version.fuse}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.1-api</artifactId>
-                <version>${version.wildfly.jpa21.api}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
