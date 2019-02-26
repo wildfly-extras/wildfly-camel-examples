@@ -262,6 +262,13 @@
             </snapshots>
         </repository>
         <repository>
+            <id>redhat-ga-repository</id>
+            <url>http://maven.repository.redhat.com/ga</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>fuse-ea</id>
             <url>https://repository.jboss.org/nexus/content/groups/ea</url>
             <snapshots>
