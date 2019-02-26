@@ -10,3 +10,5 @@ batch
 /subsystem=mail/mail-session=greenmail/server=pop3:add(outbound-socket-binding-ref=mail-greenmail-pop3, username=user2, password=password2)
 
 run-batch
+
+reload

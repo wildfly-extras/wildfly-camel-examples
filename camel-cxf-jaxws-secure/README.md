@@ -1,7 +1,7 @@
 Camel Secure CXF JAX-WS
 ------------------------
 
-This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-WS web
+This example demonstrates using the camel-cxf component with WildFly Camel to produce and consume JAX-WS web
 services secured by an Elytron Security Domain. Elytron is a new security framework available since WildFly 10.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer
@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with WildFly Camel installed
 
 Running the example
 -------------------

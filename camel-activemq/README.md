@@ -1,19 +1,15 @@
 Camel ActiveMQ Example
 ----------------------
 
-This example demonstrates using the camel-activemq component with WildFly Camel subsystem to produce and consume JMS messages.
+This example demonstrates using the camel-activemq component with WildFly Camel to produce and consume JMS messages.
 
-In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an ActiveMQ queue
-named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue' and through a simple [content based router](http://camel.apache.org/content-based-router.html)
-sorts the orders into individual country directories within JBOSS_HOME/standalone/data/orders/processed.
-
-CLI scripts automatically configure the ActiveMQ resource adapter. These scripts are located within the `src/main/resources/cli` directory.
+In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an ActiveMQ queue named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue' and through a simple [content based router](http://camel.apache.org/content-based-router.html) sorts the orders into individual country directories within JBOSS_HOME/standalone/data/orders/processed.
 
 Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with WildFly Camel installed
 * An ActiveMQ broker
 
 Running the example
@@ -21,32 +17,48 @@ Running the example
 
 To run the example.
 
-1. Ensure your ActiveMQ broker instance is running. By default, this example expects the broker to be accessible on localhost. This can be changed by editing `src/main/resources/cli/configure-resource-adapter.cli` and modifying the `ServerUrl` attribute from `tcp://127.0.0.1:61616` to your desired host name or IP address
-2. Start the application server in standalone mode `${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml`
+1. Ensure your ActiveMQ broker instance is running. By default, this example expects the broker to be accessible on localhost. This can be changed by editing `configure-resource-adapter.cli` and modifying the `ServerUrl` attribute from `tcp://127.0.0.1:61616` to your desired host name or IP address
+
+2. Start the application server in standalone mode:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+
 3. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`
-4. Restart the application server for the resource adapter configuration to take effect
+
+4. Configure the ActiveMQ resource adapter:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-resource-adapter.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-resource-adapter.cli
+
 5. Build and deploy the project `mvn install -Pdeploy`
+
 6. Browse to http://localhost:8080/example-camel-activemq/orders
 
-You should see a page titled 'Orders Received'. As we send orders to the example application, a list
-of orders per country will be listed on this page.
+You should see a page titled 'Orders Received'. As we send orders to the example application, a list of orders per country will be listed on this page.
 
 Testing Camel ActiveMQ
 ----------------------
 
-There are some example order XML files within the `src/main/resources` directory. Camel will choose a file at random every 5 seconds and
-will copy it into ${JBOSS_HOME}/standalone/data/orders for processing.
+There are some example order XML files within the `src/main/resources` directory. Camel will choose a file at random every 5 seconds and will copy it into ${JBOSS_HOME}/standalone/data/orders for processing.
 
-The console will output messages detailing what happened to each of the orders. The output
-will look something like this.
+The console will output messages detailing what happened to each of the orders. The output will look something like this.
 
-```
-JmsConsumer[OrdersQueue]) Sending order to the UK
-JmsConsumer[OrdersQueue]) Sending order to another country
-JmsConsumer[OrdersQueue]) Sending order to the US
-```
+    JmsConsumer[OrdersQueue]) Sending order to the UK
+    JmsConsumer[OrdersQueue]) Sending order to another country
+    JmsConsumer[OrdersQueue]) Sending order to the US
 
-Once the files have been consumed, you can return to `http://localhost:8080/example-camel-activemq/orders`. The count of
+Once the files have been consumed, you can return to http://localhost:8080/example-camel-activemq/orders. The count of
 received orders for each country should have been increased by 1.
 
 All processed orders will have been output to:
@@ -58,6 +70,14 @@ All processed orders will have been output to:
 Undeploy
 --------
 
-To undeploy the example run `mvn clean -Pdeploy`.
+1. To undeploy the example run `mvn clean -Pdeploy`.
 
-This step removes the ActiveMQ resource adapter configuration but this will not take effect until the application server has been restarted.
+2. Remove the ActiveMQ resource adapter:
+
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-resource-adapter.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-resource-adapter.cli
