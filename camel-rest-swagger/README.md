@@ -9,7 +9,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------
@@ -30,7 +30,7 @@ To run the example.
 
 3. Browse to http://localhost:8080/example-camel-rest-swagger/
 
-You should see a page welcoming you to the Camel REST API.
+You should see a page welcoming you to the EAP Camel REST API.
 
 Testing Camel Rest Swagger
 --------------------------

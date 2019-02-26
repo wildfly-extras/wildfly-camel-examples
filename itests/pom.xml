@@ -223,17 +223,17 @@
                             <target>
                                 <copy todir="${project.build.outputDirectory}">
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxrs-secure">
-                                        <include name="*.cli"/>
+                                        <include name="*.cli" />
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure">
-                                        <include name="*.cli"/>
+                                        <include name="*.cli" />
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure/src/main/resources">
                                         <include name="cli/**"/>
                                         <include name="keys/**"/>
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-secure">
-                                        <include name="*.cli"/>
+                                        <include name="*.cli" />
                                     </fileset>
                                 </copy>
                             </target>

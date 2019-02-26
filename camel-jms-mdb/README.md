@@ -11,7 +11,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------
@@ -43,7 +43,7 @@ To run the example.
 Testing Camel JMS
 -----------------
 
-Keep watching the server console output. Every 5 seconds a new JMS message will be produced by Camel and consumed by the MDB.
+Keep watching the EAP console output. Every 5 seconds a new JMS message will be produced by Camel and consumed by the MDB.
 
 You should see log entries like the following:
 

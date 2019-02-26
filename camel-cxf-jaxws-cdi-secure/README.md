@@ -2,7 +2,7 @@ Camel Secure CDI CXF JAX-WS
 ---------------------------
 
 This example demonstrates securing CXF endpoints with an Elytron Security Domain. Elytron is a new security
-framework available since WildFly 10.
+framework available since EAP 7.1.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer
 endpoint. The producer uses the payload to pass arguments to a CXF JAX-WS web service that is secured by TLS mutual
@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------

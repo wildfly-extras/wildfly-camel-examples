@@ -1,7 +1,7 @@
 Camel JMS example
 -----------------
 
-This example demonstrates using the camel-jms component with WildFly Camel to produce and consume JMS messages.
+This example demonstrates using the camel-jms component with Red Hat Fuse on EAP to produce and consume JMS messages.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an in-memory ActiveMQ Artemis queue named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue' and through a simple [content based router (http://camel.apache.org/content-based-router.html) sorts the orders into individual country directories within ${JBOSS_HOME}/standalone/data/orders/processed.
 
@@ -9,12 +9,12 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Connecting to an external broker
 --------------------------------
 
-For example to connect to an external Artemis broker follow the instructions given in the WildFly documentation for the [Artemis Resource Adapter](http://docs.wildfly.org/15/Admin_Guide.html#Messaging) and then inject the connection factory as you would with the default connection factory.
+For example to connect to an external Artemis broker follow the instructions given in the EAP7 documentation for the [Artemis Resource Adapter](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.1/html/configuring_messaging/resource_adapters#about_integrated_artemis_resource_adapter) and then inject the connection factory as you would with the default connection factory.
 
     @Resource(mappedName = "java:jboss/RemoteJmsXA")
     ConnectionFactory connectionFactory;

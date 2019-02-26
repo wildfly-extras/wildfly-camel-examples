@@ -1,8 +1,8 @@
 Camel Secure CXF JAX-RS Example
 -------------------------------
 
-This example demonstrates using the camel-cxf component with WildFly Camel to produce and consume JAX-RS
-REST services secured by an Elytron Security Domain. Elytron is a new security framework available since WildFly 10.
+This example demonstrates using the camel-cxf component with Red Hat Fuse on EAP to produce and consume JAX-RS
+REST services secured by an Elytron Security Domain. Elytron is a new security framework available since EAP 7.1.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer
 endpoint. The producer uses the payload to pass arguments to a CXF JAX-RS REST service secured by BASIC HTTP
@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------

@@ -1,7 +1,7 @@
 camel-mail example
 ------------------
 
-This example demonstrates using the camel-mail component with WildFly Camel to send and receive email.
+This example demonstrates using the camel-mail component with Red Hat Fuse on EAP to send and receive email.
 
 The example uses [Greenmail](http://www.icegreen.com/greenmail/) to configure a local mail server on your machine. This eliminates the need to
 use external mail services.
@@ -39,7 +39,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------

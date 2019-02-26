@@ -1,7 +1,7 @@
 Camel JPA Spring example
 ------------------------
 
-This example demonstrates using the camel-jpa component with Spring and WildFly Camel to persist entities to an in-memory database.
+This example demonstrates using the camel-jpa component with Spring and Red Hat Fuse on EAP to persist entities to an in-memory database.
 
 In this example, a Camel route consumes XML files from ${JBOSS_HOME}/standalone/data/customers. Camel then uses JAXB to unmarshal the data to a Customer entity. This entity is then passed to a jpa endpoint and is persisted to a 'customer' database table.
 
@@ -9,7 +9,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------

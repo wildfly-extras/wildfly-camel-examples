@@ -1,7 +1,7 @@
 Camel Transacted JMS Spring example
 -----------------------------------
 
-This example demonstrates using the camel-jms component with Spring and WildFly Camel to produce and consume JMS messages in a transacted session.
+This example demonstrates using the camel-jms component with Spring and Red Hat Fuse on EAP to produce and consume JMS messages in a transacted session.
 
 In this example, a Camel route consumes files from ${JBOSS_HOME}/standalone/data/orders and places their contents onto an in-memory ActiveMQ Artemis JMS queue named 'OrdersQueue'. A second route consumes any messages from 'OrdersQueue', converts the message body to an 'Order' entity and persists it to an in-memory database table named 'orders'.
 
@@ -11,7 +11,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with WildFly Camel installed
+* An application server with Red Hat Fuse installed
 
 Running the example
 -------------------
@@ -59,7 +59,7 @@ Camel will choose a file at random every 15 seconds and will copy it into ${JBOS
 
 Once the files have been consumed, you can return to http://localhost:8080/example-camel-jms-tx-spring/orders. You should see that only the wireless keyboard and HDMI cable product orders were processed. What happened to the order contained within order-2.xml for the wireless mouse?
 
-Look at the server console output. The output should show a sequence of events similar to the following.
+Look at the EAP server console output. The output should show a sequence of events similar to the following.
 
     [stdout] (Camel (jms-camel-context) thread #1 - JmsConsumer[OrdersQueue]) Hibernate: insert into orders (productName, productSku, quantity, id) values (?, ?, ?, ?)
     [route3] (Camel (jms-camel-context) thread #1 - JmsConsumer[OrdersQueue]) Order quantity is greater than 10 - rolling back transaction!
