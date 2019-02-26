@@ -229,7 +229,8 @@
                                         <include name="*.cli" />
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure/src/main/resources">
-                                        <include name="keys/**" />
+                                        <include name="cli/**"/>
+                                        <include name="keys/**"/>
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-secure">
                                         <include name="*.cli" />

@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with WildFly Camel installed
 
 Running the example
 -------------------
@@ -106,8 +106,3 @@ endpoint passes the object array to a `cxf:bean` web service producer. The web s
     For Windows:
 
     %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-tls-security.cli
-
-## Learn more
-
-Additional camel-cxf documentation can be found at the [WildFly Camel GitBook](http://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jaxws.html
-) site.

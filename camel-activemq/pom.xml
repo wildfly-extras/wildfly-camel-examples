@@ -99,11 +99,6 @@
                             <groupId>org.apache.activemq</groupId>
                             <artifactId>activemq-rar</artifactId>
                             <name>activemq-rar.rar</name>
-                            <afterDeployment>
-                                <scripts>
-                                    <script>${project.basedir}/src/main/resources/cli/configure-resource-adapter.cli</script>
-                                </scripts>
-                            </afterDeployment>
                             <skip>${deploy-rar.skip}</skip>
                         </configuration>
                     </execution>
@@ -129,11 +124,6 @@
                         </goals>
                         <configuration>
                             <name>activemq-rar.rar</name>
-                            <beforeDeployment>
-                                <scripts>
-                                    <script>${project.basedir}/src/main/resources/cli/unconfigure-resource-adapter.cli</script>
-                                </scripts>
-                            </beforeDeployment>
                         </configuration>
                     </execution>
                 </executions>

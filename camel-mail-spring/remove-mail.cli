@@ -10,3 +10,5 @@ batch
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-greenmail-pop3:remove
 
 run-batch
+
+reload

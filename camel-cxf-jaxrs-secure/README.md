@@ -1,7 +1,7 @@
 Camel Secure CXF JAX-RS Example
 -------------------------------
 
-This example demonstrates using the camel-cxf component with the WildFly Camel Subsystem to produce and consume JAX-RS
+This example demonstrates using the camel-cxf component with WildFly Camel to produce and consume JAX-RS
 REST services secured by an Elytron Security Domain. Elytron is a new security framework available since WildFly 10.
 
 In this example, a Camel route takes a message payload from a direct endpoint and passes it on to a CXF producer
@@ -12,7 +12,7 @@ Prerequisites
 -------------
 
 * Maven
-* An application server with the wildfly-camel subsystem installed
+* An application server with WildFly Camel installed
 
 Running the example
 -------------------
@@ -70,9 +70,15 @@ The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfrs-camel-context
 
 ## Undeploy
 
-To undeploy the example run `mvn clean -Pdeploy`.
+1. To undeploy the example run `mvn clean -Pdeploy`.
 
-## Learn more
+2. Remove the Security Domain using a JBoss CLI script:
 
-Additional camel-cxf documentation can be found at the [WildFly Camel User Guide](http://wildfly-extras.github.io/wildfly-camel/#_jax_rs
-) site.
+    For Linux:
+
+    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-basic-security-rs.cli
+
+    For Windows:
+
+    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-basic-security-rs.cli
+
