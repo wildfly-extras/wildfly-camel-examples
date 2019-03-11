@@ -23,6 +23,7 @@
     <id>distro</id>
     <formats>
         <format>tar.gz</format>
+        <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
 
@@ -32,7 +33,6 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>camel-*/**</include>
-                <include>itests/**</include>
                 <include>LICENSE.txt</include>
                 <include>README.md</include>
                 <include>pom.xml</include>
@@ -45,7 +45,6 @@
                 <exclude>**/.project</exclude>
                 <exclude>**/.settings/**</exclude>
                 <exclude>**/target/**</exclude>
-                <exclude>**/Vagrantfile</exclude>
             </excludes>
         </fileSet>
     </fileSets>
