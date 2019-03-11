@@ -18,11 +18,11 @@ To run the example.
 
 1. Start the application server in standalone mode:
 
-    For Linux:
+        For Linux:
 
     ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
-    For Windows:
+        For Windows:
 
     %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 

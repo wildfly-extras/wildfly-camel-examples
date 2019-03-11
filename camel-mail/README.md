@@ -50,21 +50,21 @@ To run the example.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
     For Windows:
 
-    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
 2. Configure socket bindings and mail session for Greenmail:
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-mail.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-mail.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-mail.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-mail.cli
 
 3. Build and deploy the project `mvn install -Pdeploy`
 
@@ -99,8 +99,8 @@ Undeploy
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-mail.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-mail.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-mail.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-mail.cli
