@@ -23,31 +23,31 @@ To run the example
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/add-user.sh -a -u client -p whatever -g testRole
+        ${JBOSS_HOME}/bin/add-user.sh -a -u client -p whatever -g testRole
 
     For Windows:
 
-    %JBOSS_HOME%\bin\add-user.bat -a -u client -p whatever -g testRole
+        %JBOSS_HOME%\bin\add-user.bat -a -u client -p whatever -g testRole
 
 2. Start the application server in standalone mode:
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
     For Windows:
 
-    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
 3. Copy the security key stores from `src/main/resources/keys` to `${JBOSS_HOME}/standalone/configuration`
 
     For Linux:
 
-    cp -t ${JBOSS_HOME}/standalone/configuration src/main/resources/keys/*
+        cp -t ${JBOSS_HOME}/standalone/configuration src/main/resources/keys/*
 
     For Windows:
 
-    copy src\main\resources\keys\* c:\ %JBOSS_HOME%\standalone\configuration
+        copy src\main\resources\keys\* %JBOSS_HOME%\standalone\configuration
 
 
 4. Create the Security Domain and other related objects in the management model of the application server using a JBoss
@@ -55,11 +55,11 @@ CLI script.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-tls-security.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-tls-security.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-tls-security.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-tls-security.cli
 
 5. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
 set the application security domain, security roles and constraints.
@@ -101,8 +101,8 @@ endpoint passes the object array to a `cxf:bean` web service producer. The web s
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-tls-security.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-tls-security.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-tls-security.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-tls-security.cli
