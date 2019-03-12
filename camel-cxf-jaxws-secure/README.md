@@ -19,7 +19,17 @@ Running the example
 
 To run the example.
 
-1. Use the add-user script to create a new server application user and group
+1. Set the `JBOSS_HOME` environment variable to point at the root directory of your application server installation:
+
+    For Linux:
+
+        export JBOSS_HOME=...
+
+    For Windows:
+
+        set JBOSS_HOME=...
+
+2. Use the add-user script to create a new server application user and group
 
     For Linux:
 
@@ -29,7 +39,7 @@ To run the example.
 
         %JBOSS_HOME%\bin\add-user.bat -a -u testUser -p testPassword1+ -g testRole
 
-2. Start the application server in standalone mode:
+3. Start the application server in standalone mode:
 
     For Linux:
 
@@ -39,20 +49,11 @@ To run the example.
 
         %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-3. Set the Security Domain using a JBoss CLI script.
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-basic-security.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-basic-security.cli
-
 4. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
 set the application security domain, security roles and constraints.
 
-5. Build and deploy the project `mvn install -Pdeploy`
+5. Build and deploy the project `mvn install -Pdeploy`. Note that this Maven command also invokes the CLI script
+   `configure-basic-security.cli` that creates the security domain and a few other management objects.
 
 6. Browse to http://localhost:8080/example-camel-cxf-jaxws-secure/
 
