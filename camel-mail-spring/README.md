@@ -25,6 +25,9 @@ There are also some custom socket bindings to ensure that the mail session can c
         <remote-destination host="localhost" port="10110"/>
     </outbound-socket-binding>
 
+Note that the socket-bindings and the mail session are set via CLI script `configure-mail.cli` that is invoked by
+the Maven build.
+
 The Greenmail `mail-session` is discovered from the Camel Spring bean registry by referencing it by name on the camel-mail endpoint configuration.
 
     <jee:jndi-lookup id="mailSession" jndi-name="java:jboss/mail/greenmail"/>
@@ -52,7 +55,17 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode:
+1. Set the `JBOSS_HOME` environment variable to point at the root directory of your application server installation:
+
+    For Linux:
+
+        export JBOSS_HOME=...
+
+    For Windows:
+
+        set JBOSS_HOME=...
+
+2. Start the application server in standalone mode:
 
     For Linux:
 
@@ -61,16 +74,6 @@ To run the example.
     For Windows:
 
         %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
-
-2. Configure socket bindings and mail session for Greenmail:
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-mail.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-mail.cli
 
 3. Build and deploy the project `mvn install -Pdeploy`
 

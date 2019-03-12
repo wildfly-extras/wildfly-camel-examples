@@ -19,7 +19,17 @@ Running the example
 
 To run the example
 
-1. Add a new application user using the add-user utility:
+1. Set the `JBOSS_HOME` environment variable to point at the root directory of your application server installation:
+
+    For Linux:
+
+        export JBOSS_HOME=...
+
+    For Windows:
+
+        set JBOSS_HOME=...
+
+2. Add a new application user using the add-user utility:
 
     For Linux:
 
@@ -29,7 +39,7 @@ To run the example
 
         %JBOSS_HOME%\bin\add-user.bat -a -u client -p whatever -g testRole
 
-2. Start the application server in standalone mode:
+3. Start the application server in standalone mode:
 
     For Linux:
 
@@ -39,7 +49,7 @@ To run the example
 
         %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-3. Copy the security key stores from `src/main/resources/keys` to `${JBOSS_HOME}/standalone/configuration`
+4. Copy the security key stores from `src/main/resources/keys` to `${JBOSS_HOME}/standalone/configuration`
 
     For Linux:
 
@@ -50,21 +60,11 @@ To run the example
         copy src\main\resources\keys\* %JBOSS_HOME%\standalone\configuration
 
 
-4. Create the Security Domain and other related objects in the management model of the application server using a JBoss
-CLI script.
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-tls-security.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-tls-security.cli
-
 5. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
 set the application security domain, security roles and constraints.
 
-6. Build and deploy the project `mvn install -Pdeploy`
+6. Build and deploy the project `mvn install -Pdeploy`. Note that this Maven command also invokes the CLI script
+   `configure-tls-security.cli` that creates the security domain and a few other management objects.
 
 7. Browse to https://localhost:8443/example-camel-cxf-jaxws-cdi-secure/. Since we are using a self signed SSL
 certificate, your browser may complain that the connection is insecure.

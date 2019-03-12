@@ -81,6 +81,20 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <id>wildfly-cli-before-deploy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <fork>true</fork>
+                            <jbossHome>${env.JBOSS_HOME}</jbossHome>
+                            <scripts>
+                                <script>${project.basedir}/configure-tls-security.cli</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>wildfly-deploy</id>
                         <phase>install</phase>
                         <goals>
@@ -93,6 +107,20 @@
                         <goals>
                             <goal>undeploy</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>wildfly-cli-after-undeploy</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <fork>true</fork>
+                            <jbossHome>${env.JBOSS_HOME}</jbossHome>
+                            <scripts>
+                                <script>${project.basedir}/remove-tls-security.cli</script>
+                            </scripts>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
