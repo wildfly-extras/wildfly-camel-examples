@@ -23,11 +23,11 @@ To run the example.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
     For Windows:
 
-    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
 3. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`
 
@@ -35,11 +35,11 @@ To run the example.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-resource-adapter.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-resource-adapter.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-resource-adapter.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-resource-adapter.cli
 
 5. Build and deploy the project `mvn install -Pdeploy`
 
@@ -76,11 +76,11 @@ Undeploy
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-resource-adapter.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-resource-adapter.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-resource-adapter.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-resource-adapter.cli
 
 Deploying to OpenShift
 ----------------------

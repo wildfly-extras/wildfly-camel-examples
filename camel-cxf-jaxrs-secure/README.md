@@ -23,31 +23,31 @@ To run the example.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/add-user.sh -a -u testRsUser -p testRsPassword1+ -g testRsRole
+        ${JBOSS_HOME}/bin/add-user.sh -a -u testRsUser -p testRsPassword1+ -g testRsRole
 
     For Windows:
 
-    %JBOSS_HOME%\bin\add-user.bat -a -u testRsUser -p testRsPassword1+ -g testRsRole
+        %JBOSS_HOME%\bin\add-user.bat -a -u testRsUser -p testRsPassword1+ -g testRsRole
 
 2. Start the application server in standalone mode:
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
     For Windows:
 
-    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
 3. Set the Security Domain using a JBoss CLI script.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-basic-security-rs.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-basic-security-rs.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-basic-security-rs.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-basic-security-rs.cli
 
 4. Study `jboss-web-xml` and `web.xml` files in `webapp/WEB-INF` directory of this project. They
 set the application security domain, security roles and constraints.
@@ -76,9 +76,9 @@ The full Camel route can be seen in `src/main/webapp/WEB-INF/cxfrs-camel-context
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-basic-security-rs.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-basic-security-rs.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-basic-security-rs.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-basic-security-rs.cli
 

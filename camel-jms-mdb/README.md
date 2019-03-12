@@ -22,21 +22,21 @@ To run the example.
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 
     For Windows:
 
-    %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
 2. Configure JMS queues:
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-jms-queues.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-jms-queues.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-jms-queues.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-jms-queues.cli
 
 3. Build and deploy the project `mvn install -Pdeploy`
 
@@ -60,8 +60,8 @@ Undeploy
 
     For Linux:
 
-    ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-jms-queues.cli
+        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-jms-queues.cli
 
     For Windows:
 
-    %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-jms-queues.cli
+        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-jms-queues.cli
