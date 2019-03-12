@@ -24,7 +24,17 @@ Running the example
 
 To run the example.
 
-1. Start the application server in standalone mode:
+1. Set the `JBOSS_HOME` environment variable to point at the root directory of your application server installation:
+
+    For Linux:
+
+        export JBOSS_HOME=...
+
+    For Windows:
+
+        set JBOSS_HOME=...
+
+2. Start the application server in standalone mode:
 
     For Linux:
 
@@ -34,17 +44,8 @@ To run the example.
 
         %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-2. Configure JMS queues:
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=configure-jms-queues.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=configure-jms-queues.cli
-
-3. Build and deploy the project `mvn install -Pdeploy`
+3. Build and deploy the project `mvn install -Pdeploy`. Note that this Maven command also invokes the CLI script
+   `configure-jms-queues.cli` that creates the JMS queue.
 
 4. Browse to http://localhost:8080/example-camel-jms/orders
 

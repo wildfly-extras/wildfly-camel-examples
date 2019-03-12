@@ -103,6 +103,20 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>wildfly-cli-before-deploy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <fork>true</fork>
+                            <jbossHome>${env.JBOSS_HOME}</jbossHome>
+                            <scripts>
+                                <script>${project.basedir}/configure-resource-adapter.cli</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>wildfly-deploy</id>
                         <phase>install</phase>
                         <goals>
@@ -115,6 +129,20 @@
                         <goals>
                             <goal>undeploy</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>wildfly-cli-after-undeploy</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <fork>true</fork>
+                            <jbossHome>${env.JBOSS_HOME}</jbossHome>
+                            <scripts>
+                                <script>${project.basedir}/remove-resource-adapter.cli</script>
+                            </scripts>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>undeploy-activemq-rar</id>
