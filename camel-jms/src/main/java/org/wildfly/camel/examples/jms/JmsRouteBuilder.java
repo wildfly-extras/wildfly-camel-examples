@@ -71,6 +71,6 @@ public class JmsRouteBuilder extends RouteBuilder {
                     .to("file:{{jboss.server.data.dir}}/orders/processed/US")
                 .otherwise()
                     .log("Sending order to another country")
-                    .to("file://{{jboss.server.data.dir}}/orders/processed/other");
+                    .to("file://{{jboss.server.data.dir}}/orders/processed/Other");
     }
 }

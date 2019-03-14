@@ -40,7 +40,7 @@ To run the example.
 
 3. Build and deploy the project `mvn install -Pdeploy`
 
-4. Browse to http://localhost:8080/example-jms-spring/orders
+4. Browse to http://localhost:8080/example-camel-jms-spring/orders
 
 You should see a page titled 'Orders Received'. As we send orders to the example application, a list
 of orders per country will be listed on this page.
