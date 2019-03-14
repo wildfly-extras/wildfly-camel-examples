@@ -84,7 +84,7 @@
                 </when>
                 <otherwise id="whenCountryOther">
                     <log id="logOther" message="Sending order to another country" />
-                    <to id="fileProcessedOther" uri="file:{{jboss.server.data.dir}}/orders/processed/other" />
+                    <to id="fileProcessedOther" uri="file:{{jboss.server.data.dir}}/orders/processed/Other" />
                 </otherwise>
             </choice>
         </route>
