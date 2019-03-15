@@ -43,11 +43,11 @@ To run the example
 
     For Linux:
 
-        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml
 
     For Windows:
 
-        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full-camel.xml
 
 4. Copy the security key stores from `src/main/resources/keys` to `${JBOSS_HOME}/standalone/configuration`
 
@@ -95,14 +95,5 @@ endpoint passes the object array to a `cxf:bean` web service producer. The web s
 
 ## Undeploy
 
-1. To undeploy the example run `mvn clean -Pdeploy`.
+To undeploy the example run `mvn clean -Pdeploy`.
 
-2. Unconfigure the example tls security configuration:
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-tls-security.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-tls-security.cli

@@ -33,16 +33,16 @@ To run the example.
 
     For Linux:
 
-        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml
 
     For Windows:
 
-        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full-camel.xml
 
-4. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`. Note that the resource adapter needs to get
-   configured which is done via CLI script `configure-resource-adapter.cli` invoked by Maven in the next step.
+4. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`.
 
-5. Build and deploy the project `mvn install -Pdeploy`
+5. Build and deploy the project `mvn install -Pdeploy`. Note that the resource adapter needs to get configured
+   which is done via CLI script `configure-resource-adapter.cli` invoked by Maven in the next step
 
 6. Browse to http://localhost:8080/example-camel-activemq/orders
 
@@ -71,14 +71,5 @@ All processed orders will have been output to:
 Undeploy
 --------
 
-1. To undeploy the example run `mvn clean -Pdeploy`.
+To undeploy the example run `mvn clean -Pdeploy`.
 
-2. Remove the ActiveMQ resource adapter:
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-resource-adapter.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-resource-adapter.cli

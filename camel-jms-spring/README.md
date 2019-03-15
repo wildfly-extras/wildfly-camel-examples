@@ -32,11 +32,11 @@ To run the example.
 
     For Linux:
 
-        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml
 
     For Windows:
 
-        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full-camel.xml
 
 3. Build and deploy the project `mvn install -Pdeploy`. Note that this Maven command also invokes the CLI script
    `configure-jms-queues.cli` that creates the JMS queue.
@@ -69,14 +69,4 @@ All processed orders will have been output to:
 Undeploy
 --------
 
-1. To undeploy the example run `mvn clean -Pdeploy`.
-
-2. Remove JMS queues:
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-jms-queues.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-jms-queues.cli
+To undeploy the example run `mvn clean -Pdeploy`.

@@ -69,11 +69,11 @@ To run the example.
 
     For Linux:
 
-        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml
 
     For Windows:
 
-        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full-camel.xml
 
 3. Build and deploy the project `mvn install -Pdeploy`
 
@@ -102,14 +102,4 @@ The pop3 endpoint checks for email from the local Greenmail mail server every 30
 Undeploy
 --------
 
-1. To undeploy the example run `mvn clean -Pdeploy`.
-
-2. Remove Greenmail socket bindings and mail session:
-
-    For Linux:
-
-        ${JBOSS_HOME}/bin/jboss-cli.sh --connect --file=remove-mail.cli
-
-    For Windows:
-
-        %JBOSS_HOME%\bin\jboss-cli.bat --connect --file=remove-mail.cli
+To undeploy the example run `mvn clean -Pdeploy`.

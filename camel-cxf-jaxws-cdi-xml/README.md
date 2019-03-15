@@ -22,11 +22,11 @@ To run the example.
 
     For Linux:
 
-        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
+        ${JBOSS_HOME}/bin/standalone.sh -c standalone-full-camel.xml
 
     For Windows:
 
-        %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
+        %JBOSS_HOME%\bin\standalone.bat -c standalone-full-camel.xml
 
 2. Build and deploy the project `mvn install -Pdeploy`
 

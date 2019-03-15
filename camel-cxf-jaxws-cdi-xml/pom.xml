@@ -124,5 +124,19 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>java11-plus</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <!-- dependencies removed from jdk 11 -->
+            <dependencies>
+                <dependency>
+                    <groupId>javax.jws</groupId>
+                    <artifactId>jsr181-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 </project>
