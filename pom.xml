@@ -48,10 +48,10 @@
 
         <!-- WildFly versions -->
         <!-- http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven/org/jboss/eap/wildfly-dist -->
-        <version.wildfly>7.2.0.GA-redhat-00005</version.wildfly>
+        <version.wildfly>7.2.1.GA-redhat-00003</version.wildfly>
 
         <!-- Fuse version -->
-        <version.fuse>7.3.0.fuse-730051</version.fuse>
+        <version.fuse>7.4.0.fuse-740001</version.fuse>
 
         <!-- Plugin versions -->
         <version-download-maven-plugin>1.3.0</version-download-maven-plugin>
