@@ -35,9 +35,8 @@
     <packaging>war</packaging>
 
     <properties>
+        <swagger.ui.dir>${project.build.directory}/dependency/META-INF/resources/webjars/swagger-ui/${swagger.ui.version}</swagger.ui.dir>
         <swagger.ui.version>2.2.10</swagger.ui.version>
-        <swagger.url>https://github.com/swagger-api/swagger-ui/archive</swagger.url>
-        <swagger.md5>8a23bfc5c76c18e8ea3f55811db66411</swagger.md5>
     </properties>
 
     <dependencies>
@@ -76,20 +75,23 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>download-swagger-ui</id>
-                        <phase>process-resources</phase>
+                        <id>unpack-swagger-ui</id>
+                        <phase>generate-resources</phase>
                         <goals>
-                            <goal>wget</goal>
+                            <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <url>${swagger.url}/v${swagger.ui.version}.zip</url>
-                            <md5>${swagger.md5}</md5>
-                            <unpack>true</unpack>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.webjars</groupId>
+                                    <artifactId>swagger-ui</artifactId>
+                                    <version>${swagger.ui.version}</version>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -106,11 +108,11 @@
                         <configuration>
                             <target>
                                 <replaceregexp match="http://petstore.swagger.io/v2/swagger.json" replace="http://localhost:8080/rest/api/swagger" byline="true">
-                                    <fileset dir="${project.build.directory}/swagger-ui-${swagger.ui.version}/dist">
+                                    <fileset dir="${swagger.ui.dir}">
                                         <include name="*.html" />
                                         <include name="*.js" />
                                     </fileset>
-                                    <fileset dir="${project.build.directory}/swagger-ui-${swagger.ui.version}/dist/lang">
+                                    <fileset dir="${swagger.ui.dir}/lang">
                                         <include name="*.js" />
                                     </fileset>
                                 </replaceregexp>
@@ -133,7 +135,10 @@
                             <outputDirectory>${project.build.directory}/${project.artifactId}</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.build.directory}/swagger-ui-${swagger.ui.version}/dist</directory>
+                                    <directory>${swagger.ui.dir}</directory>
+                                    <excludes>
+                                        <excludes>**/*.gz</excludes>
+                                    </excludes>
                                 </resource>
                             </resources>
                         </configuration>
