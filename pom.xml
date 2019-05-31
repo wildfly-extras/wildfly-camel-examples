@@ -29,6 +29,14 @@
     <artifactId>example-camel</artifactId>
     <packaging>pom</packaging>
 
+	<!--
+		This version follows the WildFly-Camel version
+	
+		WFC-5.3.0 => 5.3.x
+		WFC-5.4.0 => 5.4.x
+		WFC-6.0.0 => 6.0.x
+		...
+	-->
     <version>5.3.0.fuse-SNAPSHOT</version>
 
     <description>WildFly Camel Examples</description>
