@@ -47,7 +47,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>10.2.0</version.wildfly.camel>
+        <version.wildfly.camel>10.3.0</version.wildfly.camel>
         <version.wildfly>16.0.0.Final</version.wildfly>
 
         <!-- Plugin versions -->
