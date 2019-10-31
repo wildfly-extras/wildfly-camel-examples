@@ -56,10 +56,10 @@
 
         <!-- WildFly versions -->
         <!-- http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven/org/jboss/eap/wildfly-dist -->
-        <version.wildfly>7.2.3.GA-redhat-00003</version.wildfly>
+        <version.wildfly>7.2.5.GA-redhat-00001</version.wildfly>
 
         <!-- Fuse version -->
-        <version.fuse>7.5.0.fuse-750005</version.fuse>
+        <version.fuse>7.6.0.fuse-760004</version.fuse>
 
         <!-- Plugin versions -->
         <version-editorconfig-maven-plugin>0.0.5</version-editorconfig-maven-plugin>
@@ -190,34 +190,6 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <!-- Contributors to Examples should activate this profile -->
-            <id>style</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.ec4j.maven</groupId>
-                        <artifactId>editorconfig-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>check</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                                <configuration>
-                                    <excludes>
-                                    </excludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <!-- Licenses -->
     <licenses>
         <license>
@@ -317,4 +289,65 @@
         <module>distro</module>
     </modules>
 
+	<profiles>
+		<profile>
+			<!-- Contributors to Examples should activate this profile -->
+			<id>style</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.ec4j.maven</groupId>
+						<artifactId>editorconfig-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>check</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+								<configuration>
+									<excludes>
+									</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>fuse-mirror</id>
+			<activation>
+				<property>
+					<name>fuseMirror</name>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>fuse-mirror</id>
+					<url>http://10.0.144.111:8081/repository/maven-public</url>
+					<releases>
+						<enabled>true</enabled>
+						<checksumPolicy>fail</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>fuse-mirror</id>
+					<url>http://10.0.144.111:8081/repository/maven-public</url>
+					<releases>
+						<enabled>true</enabled>
+						<checksumPolicy>fail</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
 </project>
