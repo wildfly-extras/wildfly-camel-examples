@@ -23,12 +23,10 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.wildfly.camel.examples.jms.transacted.model.Order;
 
 @ApplicationScoped
-@ContextName("camel-jms-tx-context")
 public class JmsRouteBuilder extends RouteBuilder {
 
     @Override
@@ -41,13 +39,11 @@ public class JmsRouteBuilder extends RouteBuilder {
 
         /**
          * Configure a simple dead letter strategy. Whenever an IllegalStateException
-         * is encountered this takes care of rolling back the JMS and JPA transactions. The
-         * problem message is sent to the WildFly dead letter JMS queue (DLQ).
+         * is encountered this takes care of rolling back the JMS and JPA transactions.
          */
         onException(IllegalStateException.class)
             .maximumRedeliveries(1)
             .handled(true)
-            .to("jms:queue:DLQ")
             .markRollbackOnly();
 
         /**

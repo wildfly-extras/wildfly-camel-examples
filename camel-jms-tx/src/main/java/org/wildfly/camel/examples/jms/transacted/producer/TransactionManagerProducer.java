@@ -19,8 +19,8 @@ public class TransactionManagerProducer {
     @Resource(mappedName = "java:/TransactionManager")
     private TransactionManager transactionManager;
 
-    @Resource private
-    UserTransaction userTransaction;
+    @Resource
+    private UserTransaction userTransaction;
 
     @Produces
     @Named("transactionManager")

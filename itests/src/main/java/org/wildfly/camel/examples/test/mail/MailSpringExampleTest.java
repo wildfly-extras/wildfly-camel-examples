@@ -27,11 +27,9 @@ import org.jboss.as.arquillian.api.ServerSetup;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
-import org.wildfly.extension.camel.CamelAware;
 
 @RunWith(Arquillian.class)
 @ServerSetup({ AbstractMailExampleTest.MailSessionSetupTask.class })
-@CamelAware
 public class MailSpringExampleTest extends AbstractMailExampleTest {
 
     private static final String CONTEXT_PATH = "example-camel-mail-spring";

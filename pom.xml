@@ -29,7 +29,7 @@
     <artifactId>example-camel</artifactId>
     <packaging>pom</packaging>
 
-    <version>10.4.0-SNAPSHOT</version>
+    <version>11.0.0-SNAPSHOT</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -47,8 +47,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>10.3.0</version.wildfly.camel>
-        <version.wildfly>16.0.0.Final</version.wildfly>
+        <version.wildfly.camel>11.0.0</version.wildfly.camel>
+        <version.wildfly>18.0.1.Final</version.wildfly>
 
         <!-- Plugin versions -->
         <version-editorconfig-maven-plugin>0.0.5</version-editorconfig-maven-plugin>

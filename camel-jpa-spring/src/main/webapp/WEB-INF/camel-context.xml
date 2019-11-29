@@ -88,7 +88,7 @@
         <!-- A second route polls the database for new orders and processes them -->
         <route id="jpaToJpaRoute">
             <from id="jpaConsumer" uri="jpa:org.wildfly.camel.examples.jpa.model.Order?consumeDelete=false
-                &amp;consumer.transacted=true&amp;joinTransaction=true&amp;consumer.namedQuery=pendingOrders" />
+                &amp;transacted=true&amp;joinTransaction=true&amp;namedQuery=pendingOrders" />
             <process id="processor" ref="orderProcessedProcessor" />
             <to id="jpaProducer2" uri="jpa:org.wildfly.camel.examples.jpa.model.Order" />
             <log id="logProcessed" message="Processed order #id ${body.id} with ${body.amount} copies of the «${body.description}» book" />

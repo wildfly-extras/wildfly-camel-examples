@@ -22,11 +22,9 @@ package org.wildfly.camel.examples.jpa;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 import org.wildfly.camel.examples.jpa.model.Order;
 
 @ApplicationScoped
-@ContextName("camel-jpa-context")
 public class JPARouteBuilder extends RouteBuilder {
 
     @Override
@@ -38,7 +36,7 @@ public class JPARouteBuilder extends RouteBuilder {
             .log("Inserted new order ${body.id}");
 
         // A second route polls the database for new orders and processes them
-        fromF("jpa:%s?consumeDelete=false&consumer.transacted=true&joinTransaction=true&consumer.namedQuery=pendingOrders", Order.class.getName())
+        fromF("jpa:%s?consumeDelete=false&transacted=true&joinTransaction=true&namedQuery=pendingOrders", Order.class.getName())
             .process(exchange -> {
                 Order order = exchange.getIn().getBody(Order.class);
                 order.setStatus("PROCESSED");

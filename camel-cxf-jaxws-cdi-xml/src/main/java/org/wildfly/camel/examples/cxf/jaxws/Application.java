@@ -25,7 +25,6 @@ import javax.inject.Named;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
-import org.apache.camel.cdi.ContextName;
 import org.apache.camel.cdi.ImportResource;
 import org.apache.camel.component.cxf.CxfEndpoint;
 
@@ -43,7 +42,6 @@ public class Application {
     private static final String CXF_ENDPOINT_URI = "cxf:http://localhost:8080/webservices/greeting-cdi-xml";
 
     @Inject
-    @ContextName("cxfws-cdi-xml-camel-context")
     CamelContext context;
 
     @Named("greetingsProcessor")

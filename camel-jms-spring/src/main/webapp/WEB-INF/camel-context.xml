@@ -46,7 +46,7 @@
         <route id="timerToFileRoute">
             <from id="routeTimer" uri="timer:order?period=5000&amp;delay=0"/>
             <bean id="orderGenerator" method="generateOrder" ref="orderGenerator"/>
-            <setHeader headerName="Exchange.FILE_NAME" id="route-header-file-name">
+            <setHeader name="Exchange.FILE_NAME" id="route-header-file-name">
                 <method method="generateFileName" ref="orderGenerator"/>
             </setHeader>
             <to id="fileProducer" uri="file://{{jboss.server.data.dir}}/orders"/>

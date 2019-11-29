@@ -45,10 +45,10 @@
         -->
         <route id="directToCxfrsBeanRoute">
             <from id="directConsumer" uri="direct:start" />
-            <setHeader id="setHeaderOperationName" headerName="operationName">
+            <setHeader id="setHeaderOperationName" name="operationName">
                 <simple>greet</simple>
             </setHeader>
-            <setHeader id="setHeaderCamelCxfRsUsingHttpAPI" headerName="CamelCxfRsUsingHttpAPI">
+            <setHeader id="setHeaderCamelCxfRsUsingHttpAPI" name="CamelCxfRsUsingHttpAPI">
                 <constant>false</constant>
             </setHeader>
             <to id="cxfrsProducer" uri="cxfrs:bean:cxfProducer" />

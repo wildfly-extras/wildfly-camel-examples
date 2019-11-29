@@ -38,7 +38,7 @@
         </route>
 
         <route id="pop3ToLogRoute">
-            <from id="pop3Consumer" uri="pop3://user2@localhost:10110?consumer.delay=30000&amp;session=#mailSession" />
+            <from id="pop3Consumer" uri="pop3://user2@localhost:10110?delay=30000&amp;session=#mailSession" />
             <to id="logMails" uri="log:emails?showAll=true&amp;multiline=true" />
         </route>
     </camelContext>

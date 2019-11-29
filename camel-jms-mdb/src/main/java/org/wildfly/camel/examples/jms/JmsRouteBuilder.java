@@ -28,11 +28,9 @@ import javax.jms.ConnectionFactory;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 import org.apache.camel.component.jms.JmsComponent;
 
 @ApplicationScoped
-@ContextName("camel-jms-mdb-context")
 public class JmsRouteBuilder extends RouteBuilder {
 
     @Resource(mappedName = "java:jboss/DefaultJMSConnectionFactory")

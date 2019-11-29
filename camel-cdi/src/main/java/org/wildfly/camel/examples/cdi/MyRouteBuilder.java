@@ -38,10 +38,8 @@ package org.wildfly.camel.examples.cdi;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 
 @ApplicationScoped
-@ContextName("camel-cdi-context")
 public class MyRouteBuilder extends RouteBuilder {
 
     @Override

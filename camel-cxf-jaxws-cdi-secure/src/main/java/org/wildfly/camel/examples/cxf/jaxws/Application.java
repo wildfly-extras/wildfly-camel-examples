@@ -27,13 +27,12 @@ import javax.net.ssl.SSLSession;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
-import org.apache.camel.cdi.ContextName;
 import org.apache.camel.component.cxf.CxfEndpoint;
-import org.apache.camel.util.jsse.KeyManagersParameters;
-import org.apache.camel.util.jsse.KeyStoreParameters;
-import org.apache.camel.util.jsse.SSLContextClientParameters;
-import org.apache.camel.util.jsse.SSLContextParameters;
-import org.apache.camel.util.jsse.TrustManagersParameters;
+import org.apache.camel.support.jsse.KeyManagersParameters;
+import org.apache.camel.support.jsse.KeyStoreParameters;
+import org.apache.camel.support.jsse.SSLContextClientParameters;
+import org.apache.camel.support.jsse.SSLContextParameters;
+import org.apache.camel.support.jsse.TrustManagersParameters;
 
 @Named("cxf_cdi_security_app")
 public class Application {
@@ -46,7 +45,6 @@ public class Application {
     private static final String CXF_ENDPOINT_URI = "cxf:https://localhost:8443/webservices/greeting-secure-cdi";
 
     @Inject
-    @ContextName("cxfws-secure-cdi-camel-context")
     CamelContext camelContext;
 
     @Named("cxfConsumerEndpoint")

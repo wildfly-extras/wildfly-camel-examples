@@ -26,14 +26,12 @@ import com.fasterxml.jackson.core.JsonParseException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
 import org.wildfly.camel.examples.rest.model.Customer;
 import org.wildfly.camel.examples.rest.service.CustomerService;
 
 @ApplicationScoped
-@ContextName("camel-rest-context")
 public class RestRouteBuilder extends RouteBuilder {
 
     public void configure() throws Exception {

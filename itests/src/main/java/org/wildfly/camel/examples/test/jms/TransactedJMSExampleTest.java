@@ -33,7 +33,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.camel.examples.test.common.FileCopyTestSupport;
-import org.wildfly.camel.examples.test.common.ServerLogReader;
 import org.wildfly.camel.test.common.http.HttpRequest;
 
 @RunAsClient
@@ -51,9 +50,6 @@ public class TransactedJMSExampleTest extends FileCopyTestSupport {
 
     @Test
     public void testFileToJmsRoute() throws Exception {
-        boolean logMessagePresent = ServerLogReader.awaitLogMessage(".*camel-jms-tx-context.*Rollback.*Invalid quantity$", 10000);
-        Assert.assertTrue("Gave up waiting for transaction to rollback", logMessagePresent);
-
         // Make sure the database persist was definitely rolled back
         HttpRequest.HttpResponse result = HttpRequest.get("http://localhost:8080/" + getContextPath() + "/orders").getResponse();
         String body = result.getBody();

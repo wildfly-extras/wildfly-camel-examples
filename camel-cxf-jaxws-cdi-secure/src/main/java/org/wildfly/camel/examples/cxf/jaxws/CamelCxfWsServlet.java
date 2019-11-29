@@ -30,14 +30,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.cdi.ContextName;
 
 @SuppressWarnings("serial")
 @WebServlet(name = "HttpServiceServlet", urlPatterns = { "/cxf/*" }, loadOnStartup = 1)
 public class CamelCxfWsServlet extends HttpServlet {
 
     @Inject
-    @ContextName("cxfws-secure-cdi-camel-context")
     private CamelContext camelContext;
 
     @Override

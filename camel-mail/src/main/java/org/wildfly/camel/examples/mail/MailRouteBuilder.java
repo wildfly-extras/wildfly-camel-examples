@@ -22,10 +22,8 @@ package org.wildfly.camel.examples.mail;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 
 @ApplicationScoped
-@ContextName("camel-mail-context")
 public class MailRouteBuilder extends RouteBuilder {
 
     @Override
@@ -33,6 +31,6 @@ public class MailRouteBuilder extends RouteBuilder {
         // Configure routes and endpoints to send and receive email over SMTP and POP3
         from("direct:sendmail").to("smtp://localhost:10025?session=#mailSession");
 
-        from("pop3://user2@localhost:10110?consumer.delay=30000&session=#mailSession").to("log:emails?showAll=true&multiline=true");
+        from("pop3://user2@localhost:10110?delay=30000&session=#mailSession").to("log:emails?showAll=true&multiline=true");
     }
 }

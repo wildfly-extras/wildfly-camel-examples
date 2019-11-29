@@ -22,12 +22,10 @@ package org.wildfly.camel.examples.jpa;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.wildfly.camel.examples.jpa.model.Order;
 
 @ApplicationScoped
-@ContextName("camel-jpa-context")
 public class RestAPIRouteBuilder extends RouteBuilder {
 
     public void configure() throws Exception {

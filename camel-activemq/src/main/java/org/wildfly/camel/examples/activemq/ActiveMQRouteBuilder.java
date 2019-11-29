@@ -23,14 +23,14 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
+import org.apache.camel.impl.engine.ExplicitCamelContextNameStrategy;
 
 @ApplicationScoped
-@ContextName("camel-activemq-context")
 public class ActiveMQRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        getContext().setNameStrategy(new ExplicitCamelContextNameStrategy("camel-activemq-context"));
 
         /**
          * This route generates a random order every 5 seconds

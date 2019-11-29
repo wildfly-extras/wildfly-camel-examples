@@ -25,10 +25,9 @@ import javax.jms.ConnectionFactory;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.cdi.ContextName;
+import org.apache.camel.impl.engine.ExplicitCamelContextNameStrategy;
 
 @ApplicationScoped
-@ContextName("camel-jms-context")
 public class JmsRouteBuilder extends RouteBuilder {
 
     @Resource(mappedName = "java:jboss/DefaultJMSConnectionFactory")
@@ -36,6 +35,7 @@ public class JmsRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        getContext().setNameStrategy(new ExplicitCamelContextNameStrategy("camel-jms-context"));
 
         /**
          * This route generates a random order every 5 seconds
