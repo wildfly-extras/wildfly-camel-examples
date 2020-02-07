@@ -223,21 +223,21 @@
     <repositories>
         <repository>
             <id>central</id>
-            <url>http://repo.maven.apache.org/maven2</url>
+            <url>https://repo.maven.apache.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
             <id>jboss-public</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public</url>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
             <id>redhat-ga-repository</id>
-            <url>http://maven.repository.redhat.com/ga</url>
+            <url>https://maven.repository.redhat.com/ga</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
