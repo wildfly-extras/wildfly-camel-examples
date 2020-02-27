@@ -18,8 +18,6 @@
   limitations under the License.
   #L%
   -->
-
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -37,7 +35,7 @@
 		WFC-6.0.0 => 6.0.x
 		...
 	-->
-    <version>5.4.0.fuse-760019</version>
+    <version>5.4.0.fuse-760019-redhat-00001</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -59,7 +57,7 @@
         <version.wildfly>7.2.5.GA-redhat-00001</version.wildfly>
 
         <!-- Fuse version -->
-        <version.fuse>7.6.0.fuse-760025</version.fuse>
+        <version.fuse>7.6.0.fuse-760025-redhat-00001</version.fuse>
 
         <!-- Plugin versions -->
         <version-editorconfig-maven-plugin>0.0.5</version-editorconfig-maven-plugin>
@@ -187,6 +185,20 @@
                 </executions>
                 <inherited>true</inherited>
             </plugin>
+            <plugin>
+        <groupId>org.commonjava.maven.plugins</groupId>
+        <artifactId>project-sources-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>project-sources-archive</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>archive</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
         </plugins>
     </build>
 
@@ -220,50 +232,6 @@
     </distributionManagement>
 
     <!-- Repositories -->
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>http://repo.maven.apache.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-public</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>redhat-ga-repository</id>
-            <url>http://maven.repository.redhat.com/ga</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>fuse-ea</id>
-            <url>https://repository.jboss.org/nexus/content/groups/ea</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>eap72-brew</id>
-            <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>fuse62-brew</id>
-            <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-fuse-6.2-build/latest/maven</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <!-- Modules -->
     <modules>
@@ -306,8 +274,7 @@
 									<goal>check</goal>
 								</goals>
 								<configuration>
-									<excludes>
-									</excludes>
+									<excludes></excludes>
 								</configuration>
 							</execution>
 						</executions>
@@ -351,3 +318,7 @@
 		</profile>
 	</profiles>
 </project>
+<!--
+Modified by POM Manipulation Extension for Maven 3.8.1 ( SHA: 24b97b2e ) 
+-->
+
