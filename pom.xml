@@ -315,39 +315,5 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>fuse-mirror</id>
-			<activation>
-				<property>
-					<name>fuseMirror</name>
-				</property>
-			</activation>
-			<repositories>
-				<repository>
-					<id>fuse-mirror</id>
-					<url>http://10.0.144.111:8081/repository/maven-public</url>
-					<releases>
-						<enabled>true</enabled>
-						<checksumPolicy>fail</checksumPolicy>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>fuse-mirror</id>
-					<url>http://10.0.144.111:8081/repository/maven-public</url>
-					<releases>
-						<enabled>true</enabled>
-						<checksumPolicy>fail</checksumPolicy>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
 	</profiles>
 </project>
