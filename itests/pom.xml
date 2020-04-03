@@ -33,7 +33,7 @@
 
     <!-- Properties -->
     <properties>
-        <jboss.home>${project.build.directory}/jboss-eap-7.2</jboss.home>
+        <jboss.home>${project.build.directory}/${jboss.server.name}</jboss.home>
         <jvmArgs>-Xmx1G -XX:MaxPermSize=512m -Djava.net.preferIPv4Stack=true</jvmArgs>
         <jvmDebugArgs>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</jvmDebugArgs>
         <server.config>standalone-full.xml</server.config>
@@ -242,6 +242,22 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.wildfly.build</groupId>
+                <artifactId>wildfly-server-provisioning-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <config-file>src/main/resources/server-provisioning.xml</config-file>
+                            <server-name>${jboss.server.name}</server-name>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
@@ -255,25 +271,6 @@
                             <includeTypes>rar,war</includeTypes>
                             <stripVersion>true</stripVersion>
                             <outputDirectory>${project.build.directory}/examples</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-wildfly</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.jboss.eap</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
-                                    <version>${version.wildfly}</version>
-                                    <type>tar.gz</type>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                    <overWrite>false</overWrite>
-                                </artifactItem>
-                            </artifactItems>
                         </configuration>
                     </execution>
                     <execution>
