@@ -37,7 +37,7 @@
 		WFC-6.0.0 => 6.0.x
 		...
 	-->
-    <version>5.4.0.fuse-SNAPSHOT</version>
+    <version>5.4.0.fuse-770001</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -59,7 +59,7 @@
         <version.wildfly>7.2.5.GA-redhat-00002</version.wildfly>
 
         <!-- Fuse version -->
-        <version.fuse>7.6.0.fuse-760027</version.fuse>
+        <version.fuse>7.7.0.fuse-770001</version.fuse>
 
         <!-- Plugin versions -->
         <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
