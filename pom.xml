@@ -37,7 +37,7 @@
 		WFC-6.0.0 => 6.0.x
 		...
 	-->
-    <version>5.4.0.fuse-SNAPSHOT</version>
+    <version>5.5.0.fuse-SNAPSHOT</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -54,15 +54,24 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- WildFly versions -->
-        <!-- http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.2-maven-build/latest/maven/org/jboss/eap/wildfly-feature-pack -->
-        <version.wildfly>7.2.5.GA-redhat-00002</version.wildfly>
+        <!--
+        	EAP version
+
+            http://download-node-02.eng.bos.redhat.com/released/JBoss-middleware/eap7
+        	https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
+        -->
+        <version.wildfly>7.2.7.GA-redhat-00004</version.wildfly>
 
         <!-- Fuse version -->
-        <version.fuse>7.6.0.fuse-760027</version.fuse>
+        <version.fuse>7.7.0-SNAPSHOT</version.fuse>
 
+        <!-- Wildfly-Camel version -->
+        <!-- [ENTESB-13630] Remove direct dependency on wildfly-camel in its examples -->
+        <version.wildfly.camel>5.5.0.fuse-SNAPSHOT</version.wildfly.camel>
+        
         <!-- Plugin versions -->
         <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
+        <version-galleon-maven-plugin>2.0.1.Final</version-galleon-maven-plugin>
         <version-maven-antrun-plugin>1.8</version-maven-antrun-plugin>
         <version-maven-assembly-plugin>2.4</version-maven-assembly-plugin>
         <version-maven-compiler-plugin>3.1</version-maven-compiler-plugin>
@@ -72,8 +81,8 @@
         <version-maven-source-plugin>2.3</version-maven-source-plugin>
         <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
         <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
+        <version-wildfly-galleon-plugin>2.0.3.Final</version-wildfly-galleon-plugin>
         <version-wildfly-maven-plugin>2.0.1.Final</version-wildfly-maven-plugin>
-        <version-wildfly-build-tools>1.2.10.Final</version-wildfly-build-tools>
 
         <!-- EAP server name -->
         <jboss.server.name>jboss-eap-7.2</jboss.server.name>
@@ -160,17 +169,22 @@
                     <version>${version-exec-maven-plugin}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.jboss.galleon</groupId>
+                    <artifactId>galleon-maven-plugin</artifactId>
+                    <version>${version-galleon-maven-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.wildfly.galleon-plugins</groupId>
+                    <artifactId>wildfly-galleon-maven-plugin</artifactId>
+                    <version>${version-wildfly-galleon-plugin}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version-wildfly-maven-plugin}</version>
                     <configuration>
                         <version>${version.wildfly}</version>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.wildfly.build</groupId>
-                    <artifactId>wildfly-server-provisioning-maven-plugin</artifactId>
-                    <version>${version-wildfly-build-tools}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -225,12 +239,36 @@
     <!-- Repositories -->
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>redhat-ga</id>
             <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jboss-public-repository</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
             </releases>
             <snapshots>
                 <enabled>false</enabled>
@@ -239,8 +277,32 @@
         <!--
             For stuff that is not yet released ...
             mvn clean install -s configuration/settings.xml -Pfuse-mirror  
+            http://10.0.144.111:8081/repository/maven-public/
         -->
     </repositories>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <id>redhat-ga</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <!-- For updated wildfly-galleon-maven-plugin not referenced by EAP -->
+        <pluginRepository>
+            <id>jboss-releases</id>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <!-- Modules -->
     <modules>
