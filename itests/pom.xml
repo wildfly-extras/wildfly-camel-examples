@@ -222,7 +222,6 @@
                                 <feature-pack>
                                     <groupId>org.wildfly.camel</groupId>
                                     <artifactId>wildfly-camel-galleon-pack</artifactId>
-                                    <version>${version.wildfly.camel}</version>
                                     <inherit-configs>true</inherit-configs>
                                 </feature-pack>
                             </feature-packs>
