@@ -320,6 +320,7 @@
         <module>camel-mail</module>
         <module>camel-mail-spring</module>
         <module>camel-rest-swagger</module>
+        <module>camel-soap-rest-bridge</module>
         <module>itests</module>
         <module>distro</module>
     </modules>
