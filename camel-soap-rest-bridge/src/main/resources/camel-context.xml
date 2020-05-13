@@ -109,7 +109,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd         http
     <jaxws:endpoint xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/" 
         id="transportSTS" 
         implementor="#transportSTSProviderBean" 
-        address="/UT" 
+        address="http://localhost:8080/bridge/cxf/UT" 
         wsdlLocation="/wsdl/ws-trust-1.4-service.wsdl" 
         serviceName="ns1:SecurityTokenService" 
         endpointName="ns1:UT_Port">

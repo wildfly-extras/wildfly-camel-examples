@@ -15,26 +15,6 @@
     <artifactId>example-camel-soap-rest-bridge</artifactId>
     <packaging>war</packaging>
     
-    <properties>
-        <cxf.version>3.2.7.fuse-sb2-760024-redhat-00001</cxf.version>
-        <fuse.bom.version>7.6.0.fuse-sb2-760028-redhat-00001</fuse.bom.version>
-        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
-        <keycloak.version>9.0.3.redhat-00002</keycloak.version>
-    </properties>
-    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.redhat-fuse</groupId>
-                <artifactId>fuse-springboot-bom</artifactId>
-                <version>${fuse.bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     
     <dependencies>
         <dependency>
@@ -80,6 +60,11 @@
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -91,7 +76,6 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-admin-client</artifactId>
-            <version>${keycloak.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -103,7 +87,7 @@
             <artifactId>resteasy-jackson2-provider</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -132,64 +116,11 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-undertow</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
+        </dependency-->
 
     </dependencies>
-    <repositories>
-        <repository>
-            <id>red-hat-ga-repository</id>
-            <url>https://maven.repository.redhat.com/ga</url>
-        </repository>
-        <repository>
-            <id>red-hat-early-access-repository</id>
-            <url>https://maven.repository.redhat.com/earlyaccess/all</url>
-        </repository>
-        <repository>
-            <id>jboss-early-access-repository</id>
-            <url>https://repository.jboss.org/nexus/content/groups/ea</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>red-hat-ga-repository</id>
-            <url>https://maven.repository.redhat.com/ga</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>red-hat-early-access-repository</id>
-            <url>https://maven.repository.redhat.com/earlyaccess/all</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>jboss-early-access-repository</id>
-            <url>https://repository.jboss.org/nexus/content/groups/ea</url>
-        </pluginRepository>
-    </pluginRepositories>
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*Test.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>

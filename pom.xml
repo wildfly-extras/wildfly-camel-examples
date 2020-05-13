@@ -79,6 +79,7 @@
         <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
         <version-wildfly-galleon-plugin>2.0.3.Final</version-wildfly-galleon-plugin>
         <version-wildfly-maven-plugin>2.0.1.Final</version-wildfly-maven-plugin>
+        <version-cxf-plugin>3.2.11.redhat-00001</version-cxf-plugin>
 
         <!-- EAP server name -->
         <jboss.server.name>jboss-eap-7.2</jboss.server.name>
@@ -181,6 +182,11 @@
                     <configuration>
                         <version>${version.wildfly}</version>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${version-cxf-plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

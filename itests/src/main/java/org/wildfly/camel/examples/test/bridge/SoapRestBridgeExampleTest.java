@@ -1,19 +1,25 @@
 /*
- *  Copyright 2005-2018 Red Hat, Inc.
+ * #%L
+ * Wildfly Camel :: Testsuite
+ * %%
+ * Copyright (C) 2013 - 2014 RedHat
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  Red Hat licenses this file to you under the Apache License, version
- *  2.0 (the "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- *  implied.  See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
  */
-package io.fabric8.quickstarts.camel.bridge;
+package org.wildfly.camel.examples.test.bridge;
+
+import java.io.File;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +42,6 @@ import javax.xml.ws.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.ibm.wdata.WeatherPortImpl;
 import com.ibm.wdata.WeatherPortType;
 import com.ibm.wdata.WeatherRequest;
 import com.ibm.wdata.WeatherResponse;
@@ -69,14 +74,28 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.util.BasicAuthHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.bridge.SLF4JBridgeHandler;
+
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class IntegrationTest {
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 
-    public static Logger LOG = LoggerFactory.getLogger(IntegrationTest.class);
+import org.junit.runner.RunWith;
+import org.wildfly.camel.test.common.http.HttpRequest;
+import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
+
+
+@RunAsClient
+@RunWith(Arquillian.class)
+
+
+public class SoapRestBridgeExampleTest {
+    public static Logger LOG = LoggerFactory.getLogger(SoapRestBridgeExampleTest.class);
     static String WEATHER_HOST = System.getProperty("weather.service.host", "localhost");
     static String JAXWS_URI_STS = "http://" + WEATHER_HOST + ":8283/WeatherService";
    
@@ -89,6 +108,11 @@ public class IntegrationTest {
     CloseableHttpClient httpClient;
     SSLContext sslContext;
 
+    @Deployment
+    public static WebArchive createDeployment() {
+        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/examples/example-camel-soap-rest-bridge.war"));
+    }
+    
     @BeforeClass
     public static void beforeClass() {
         Object implementor = new WeatherPortImpl();
@@ -100,23 +124,14 @@ public class IntegrationTest {
         Map<String, Object> inProps = new HashMap<>();
         inProps.put("action", "Timestamp SAMLTokenSigned");
         inProps.put("signatureVerificationPropFile", "/ws-security/bob.properties");
-        impl.getProperties().put("ws-security.saml2.validator", "io.fabric8.quickstarts.camel.bridge.security.Saml2Validator");
+        impl.getProperties().put("ws-security.saml2.validator", "org.wildfly.camel.examples.test.bridge.Saml2Validator");
 
         impl.getInInterceptors().add(new WSS4JInInterceptor(inProps));
         impl.getInInterceptors().add(new LoggingInInterceptor());
         impl.getOutInterceptors().add(new LoggingOutInterceptor());
     }
 
-    @BeforeClass
-    public static void initLogging() {
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
-    }
-
-    @AfterClass
-    public static void cleanupLogging() {
-        SLF4JBridgeHandler.uninstall();
-    }
+  
 
     
 
@@ -280,5 +295,5 @@ public class IntegrationTest {
             response.close();
         }
         return accessToken;
-    }    
+    }
 }
