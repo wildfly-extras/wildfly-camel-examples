@@ -181,6 +181,12 @@
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-soap-rest-bridge</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
@@ -316,6 +322,27 @@
                     <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>src/main/resources/wsdl/weatherprovider.wsdl</wsdl>
+                                    <faultSerialVersionUID>1</faultSerialVersionUID>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

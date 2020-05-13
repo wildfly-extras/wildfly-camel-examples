@@ -30,10 +30,6 @@
     <param-value>classpath:camel-context.xml</param-value>
   </context-param>
 
-  <!-- the listener that kick-starts Spring -->
-  <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
 
   <!-- Camel servlet -->
   <servlet>
@@ -48,17 +44,5 @@
     <url-pattern>/camelcxf/*</url-pattern>
   </servlet-mapping>
 
-  <!-- Cxf servlet -->
-  <servlet>
-    <servlet-name>CxfServlet</servlet-name>
-    <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <!-- Cxf servlet mapping -->
-  <servlet-mapping>
-    <servlet-name>CxfServlet</servlet-name>
-    <url-pattern>/cxf/*</url-pattern>
-  </servlet-mapping>
 
 </web-app>
