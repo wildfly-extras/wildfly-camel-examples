@@ -87,38 +87,8 @@
             <artifactId>resteasy-jackson2-provider</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-to-slf4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-undertow</artifactId>
-            <scope>test</scope>
-        </dependency-->
-
     </dependencies>
+    
     <build>
         <plugins>
             <plugin>
@@ -146,38 +116,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <skip>${deploy.skip}</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>wildfly-deploy</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy-only</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>wildfly-undeploy</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>undeploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-    <!-- Profiles -->
-    <profiles>
-        <profile>
-            <id>deploy</id>
-            <properties>
-                <deploy.skip>false</deploy.skip>
-            </properties>
-        </profile>
-    </profiles>
+    
 </project>

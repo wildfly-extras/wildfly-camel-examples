@@ -105,6 +105,11 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${version-cxf-plugin}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>${version-maven-antrun-plugin}</version>
@@ -182,11 +187,6 @@
                     <configuration>
                         <version>${version.wildfly}</version>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-codegen-plugin</artifactId>
-                    <version>${version-cxf-plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -331,4 +331,45 @@
         <module>distro</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <!-- 
+                Enable this profile when you have dependencies in staging repos 
+            -->
+            <id>fuse-mirror</id>
+            <activation>
+                <property>
+                    <name>env.FUSE_MIRROR</name>
+                </property>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>fuse-mirror</id>
+                    <url>http://10.0.144.111:8081/repository/maven-public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>ignore</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>fuse-mirror</id>
+                    <url>http://10.0.144.111:8081/repository/maven-public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>ignore</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
 </project>
