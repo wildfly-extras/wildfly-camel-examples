@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>5.5.0.fuse-770003</version>
+        <version>5.5.0.fuse-770003-redhat-00001</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Testsuite</name>
@@ -175,15 +175,11 @@
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.camel.example</groupId>
-            <artifactId>example-camel-rest-swagger</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
-        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
+            <type>jar</type>
         </dependency>
+        
     </dependencies>
 
     <build>
@@ -227,7 +223,7 @@
                             </feature-packs>
                             <plugin-options>
                                 <jboss-fork-embedded>false</jboss-fork-embedded>
-                                <jboss-maven-dist/>
+                                <jboss-maven-dist></jboss-maven-dist>
                             </plugin-options>
                         </configuration>
                     </execution>
@@ -246,17 +242,17 @@
                             <target>
                                 <copy todir="${project.build.outputDirectory}">
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxrs-secure">
-                                        <include name="*.cli" />
+                                        <include name="*.cli"></include>
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure">
-                                        <include name="*.cli" />
+                                        <include name="*.cli"></include>
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure/src/main/resources">
-                                        <include name="cli/**"/>
-                                        <include name="keys/**"/>
+                                        <include name="cli/**"></include>
+                                        <include name="keys/**"></include>
                                     </fileset>
                                     <fileset dir="${project.basedir}/../camel-cxf-jaxws-secure">
-                                        <include name="*.cli" />
+                                        <include name="*.cli"></include>
                                     </fileset>
                                 </copy>
                             </target>
