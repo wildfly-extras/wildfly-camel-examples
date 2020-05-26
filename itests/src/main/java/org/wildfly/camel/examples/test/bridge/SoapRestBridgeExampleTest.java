@@ -92,16 +92,13 @@ import org.wildfly.camel.test.common.http.HttpRequest.HttpResponse;
 
 @RunAsClient
 @RunWith(Arquillian.class)
-
-
 public class SoapRestBridgeExampleTest {
     public static Logger LOG = LoggerFactory.getLogger(SoapRestBridgeExampleTest.class);
     static String WEATHER_HOST = System.getProperty("weather.service.host", "localhost");
     static String JAXWS_URI_STS = "http://" + WEATHER_HOST + ":8283/WeatherService";
    
     static QName SERVICE_QNAME = new QName("http://ibm.com/wdata", "weatherService");
-    static String CAMEL_ROUTE_HOST = System
-        .getProperty("camel.route.host", "http://localhost:8080");
+    static String CAMEL_ROUTE_HOST = System.getProperty("camel.route.host", "http://localhost:8080");
     static String JAXRS_URL = CAMEL_ROUTE_HOST + "/bridge/camelcxf/jaxrs";
     static String SSO_URL = System.getProperty("sso.server", "http://localhost:8180");
     
@@ -117,8 +114,6 @@ public class SoapRestBridgeExampleTest {
     public static void beforeClass() {
         Object implementor = new WeatherPortImpl();
 
-      
-
         EndpointImpl impl = (EndpointImpl)Endpoint.publish(JAXWS_URI_STS, implementor);
 
         Map<String, Object> inProps = new HashMap<>();
@@ -131,15 +126,7 @@ public class SoapRestBridgeExampleTest {
         impl.getOutInterceptors().add(new LoggingOutInterceptor());
     }
 
-  
-
-    
-
-    
-    
-
     @Test
-
     public void testRestClientWithSTS() throws Exception {
 
         String accessToken = fetchAccessToken();
@@ -163,7 +150,6 @@ public class SoapRestBridgeExampleTest {
     }
     
     @Test
-
     public void testRestClientWithIncorrectToken() throws Exception {
 
         String accessToken = fetchAccessToken();
@@ -184,11 +170,9 @@ public class SoapRestBridgeExampleTest {
         } catch (javax.ws.rs.NotAuthorizedException ex) {
             assertTrue(ex.getMessage().contains("HTTP 401 Unauthorized"));
         }
-        
     }
 
     @Test
-
     public void testRestClientWithSTSInvalidZipCode() throws Exception {
 
         String accessToken = fetchAccessToken();
@@ -230,10 +214,7 @@ public class SoapRestBridgeExampleTest {
             }
 
         }
-
     }
-    
-   
     
     @Test
     public void testJavaClient() throws Exception {
@@ -257,8 +238,6 @@ public class SoapRestBridgeExampleTest {
                                 ex.getMessage());
         }
     }
-
-    
 
     private String fetchAccessToken()
         throws UnsupportedEncodingException, IOException, ClientProtocolException {
