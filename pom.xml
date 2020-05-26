@@ -65,7 +65,11 @@
         <!-- Fuse version -->
         <version.fuse>7.7.0-SNAPSHOT</version.fuse>
 
+        <!-- Other versions -->
+        <version.keycloak.adapter>10.0.1</version.keycloak.adapter>
+        
         <!-- Plugin versions -->
+        <version-cxf-plugin>3.2.11.redhat-00001</version-cxf-plugin>
         <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
         <version-galleon-maven-plugin>2.0.2.Final</version-galleon-maven-plugin>
         <version-maven-antrun-plugin>1.8</version-maven-antrun-plugin>
@@ -79,7 +83,6 @@
         <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
         <version-wildfly-galleon-plugin>2.0.3.Final</version-wildfly-galleon-plugin>
         <version-wildfly-maven-plugin>2.0.1.Final</version-wildfly-maven-plugin>
-        <version-cxf-plugin>3.2.11.redhat-00001</version-cxf-plugin>
 
         <!-- EAP server name -->
         <jboss.server.name>jboss-eap-7.2</jboss.server.name>
@@ -96,6 +99,21 @@
                 <version>${version.fuse}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-admin-client</artifactId>
+                <version>${version.keycloak.adapter}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${version.wildfly.cxf}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http-undertow</artifactId>
+                <version>${version.wildfly.cxf}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

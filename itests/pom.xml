@@ -279,11 +279,30 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <includeGroupIds>org.apache.activemq,org.wildfly.camel,com.icegreen</includeGroupIds>
                             <includeTypes>rar,war</includeTypes>
                             <stripVersion>true</stripVersion>
                             <outputDirectory>${project.build.directory}/examples</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-keycloak</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.keycloak</groupId>
+                                    <artifactId>keycloak-wildfly-adapter-dist</artifactId>
+                                    <version>${version.keycloak.adapter}</version>
+                                    <type>zip</type>
+                                    <outputDirectory>${jboss.home}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -304,6 +323,17 @@
                                 <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
                             </environmentVariables>
                             <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.wildfly.extras.config --configs camel --enable</commandlineArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-keycloak</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <executable>${jboss.home}/bin/jboss-cli.sh</executable>
+                            <commandlineArgs>--file=${jboss.home}/bin/adapter-elytron-install-offline.cli</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>
