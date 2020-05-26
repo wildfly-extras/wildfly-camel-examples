@@ -357,7 +357,10 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <executable>${jboss.home}/bin/jboss-cli.sh</executable>
-                            <commandlineArgs>--file=${jboss.home}/bin/adapter-elytron-install-offline.cli</commandlineArgs>
+                            <arguments>
+                                <argument>--file=${jboss.home}/bin/adapter-elytron-install-offline.cli</argument>
+                                <argument>-Dserver.config=standalone-full.xml</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

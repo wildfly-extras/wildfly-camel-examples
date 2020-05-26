@@ -67,6 +67,7 @@
 
         <!-- Other versions -->
         <version.keycloak.adapter>10.0.1</version.keycloak.adapter>
+        <version.wildfly.cxf>3.2.11.redhat-00001</version.wildfly.cxf>
         
         <!-- Plugin versions -->
         <version-cxf-plugin>3.2.11.redhat-00001</version-cxf-plugin>
