@@ -34,6 +34,7 @@
     <!-- Properties -->
     <properties>
         <jboss.home>${project.build.directory}/${jboss.server.name}</jboss.home>
+        <keycloak.home>${project.build.directory}/keycloak</keycloak.home>
         <jvmArgs>-Xmx1G -Djava.net.preferIPv4Stack=true</jvmArgs>
         <jvmDebugArgs>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</jvmDebugArgs>
         <server.config>standalone-full.xml</server.config>
@@ -292,6 +293,36 @@
                             </target>
                         </configuration>
                     </execution>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <id>start-keycloak-auth-server</id>
+                        <configuration>
+                            <target>
+                                <exec executable="${keycloak.home}/keycloak-${version.keycloak}/bin/standalone.sh" spawn="true">
+                                    <arg value="-Dkeycloak.migration.action=import"/>
+                                    <arg value="-Dkeycloak.migration.provider=singleFile"/>
+                                    <arg value="-Dkeycloak.migration.file=../camel-soap-rest-bridge/src/main/resources/keycloak-config/realm-export-new.json"/>
+                                    <arg value="-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"/>
+                                    <arg value="-Djboss.socket.binding.port-offset=100"/>
+                                </exec>  
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <id>stop-keycloak-auth-server</id>
+                        <configuration>
+                            <target>
+                                <exec executable="src/main/resources/kill-auth-server.sh"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -322,9 +353,27 @@
                                 <artifactItem>
                                     <groupId>org.keycloak</groupId>
                                     <artifactId>keycloak-wildfly-adapter-dist</artifactId>
-                                    <version>${version.keycloak.adapter}</version>
+                                    <version>${version.keycloak}</version>
                                     <type>zip</type>
                                     <outputDirectory>${jboss.home}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-keycloak-server</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.keycloak</groupId>
+                                    <artifactId>keycloak-server-dist</artifactId>
+                                    <version>${version.keycloak}</version>
+                                    <type>zip</type>
+                                    <outputDirectory>${keycloak.home}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
