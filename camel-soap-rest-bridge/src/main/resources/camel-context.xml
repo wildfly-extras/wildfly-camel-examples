@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:sec="http://cxf.apache.org/configuration/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd 
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd         http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
+
+
+    <bean id="getBodyProcessor" class="io.fabric8.quickstarts.camel.bridge.processor.GetBodyProcessor" />
+
+    
+    <cxf:cxfEndpoint xmlns:ns1="http://ibm.com/wdata" address="http://localhost:8283/WeatherService" wsdlURL="/wsdl/weatherprovider.wsdl" endpointName="ns1:WeatherPort" id="sts">
+        <cxf:properties>
+            <entry key="schema-validation-enabled" value="true"/>
+        </cxf:properties>
+        <cxf:outInterceptors>
+            <ref bean="wss4jOutInterceptor-sts-saml"/>
+            <ref bean="loggingOutInterceptor"/>
+        </cxf:outInterceptors>
+    </cxf:cxfEndpoint>
+     
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <dataFormats>
+            <xmljson id="xmljson"/>
+        </dataFormats>
+        
+        <restConfiguration component="servlet" host="localhost" port="8080" bindingMode="auto" contextPath="/camelcxf">
+            <apiProperty key="api.version" value="1.0.0"/>
+            <apiProperty key="api.title" value="Camel Soap REST Bridge API"/>
+        </restConfiguration>
+        <rest id="id-d01f38ae-72ce-41de-877d-6f50f0a9b0ad" path="/jaxrs">
+
+          <post id="id-140a15b5-e0f0-498b-9592-9efd399f17bf" uri="/request/" 
+            type="com.ibm.wdata.WeatherRequest"
+            outType="com.ibm.wdata.WeatherResponse" 
+            consumes="application/json"
+            produces="application/json"
+            >
+            <to uri="direct:weatherRequest"/>
+          </post>
+        </rest>
+
+        <route id="weatherRequest">
+            <from uri="direct:weatherRequest" />
+            <process ref="getBodyProcessor"/> 
+            <log id="logOtherwise" message="=====will tigger sts" />
+            <to uri="cxf:bean:sts?serviceClass=com.ibm.wdata.WeatherPortType&amp;defaultOperationName=weatherRequest"/>
+            <setHeader headerName="Content-Type">
+                <constant>application/json</constant>
+            </setHeader>
+            <setBody>
+                <simple>${body[0]}</simple>
+            </setBody>
+        </route>
+        
+    </camelContext>
+    <bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor" id="wss4jOutInterceptor-sts-saml">
+        <constructor-arg>
+            <map>
+                <entry key="action" value="Timestamp SAMLTokenUnsigned"/>
+                <entry key="user" value="alice"/>
+                <entry key="signaturePropFile" value="/ws-security/alice.properties"/>
+                <entry key="passwordCallbackClass" value="io.fabric8.quickstarts.camel.bridge.security.KeystorePasswordCallback"/>
+                <entry key="samlCallbackRef" value-ref="stsSamlCallbackHandler"/>
+            </map>
+        </constructor-arg>
+    </bean>
+    <bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+
+    <bean id="stsSamlCallbackHandler" class="io.fabric8.quickstarts.camel.bridge.security.StsSamlCallbackHandler"/>
+    
+    <bean id="transportSTSProviderBean" class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
+        <property name="issueOperation" ref="transportIssueDelegate"/>
+    </bean>
+    
+    <bean id="transportIssueDelegate" class="org.apache.cxf.sts.operation.TokenIssueOperation">
+        <property name="tokenProviders" ref="transportSamlTokenProvider"/>
+        <property name="stsProperties" ref="transportSTSProperties"/>
+        <property name="claimsManager" ref="claimsManager" />
+    </bean>
+    
+    <bean id="transportSamlTokenProvider" class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
+    </bean>
+    
+    <bean id="claimsManager" class="org.apache.cxf.sts.claims.ClaimsManager">
+        <property name="claimHandlers" ref="rolesClaimsHandler" />
+    </bean>
+    
+    <bean id="rolesClaimsHandler"
+        class="io.fabric8.quickstarts.camel.bridge.security.KeycloakRolesClaimsHandler">
+        <property name="address" value="http://localhost:8180/auth"/>
+        <property name="realm" value="camel-soap-rest-bridge"/>
+        <property name="adminUser" value="admin"/>
+        <property name="adminPassword" value="passw0rd"/>
+    </bean>
+
+    <bean id="transportSTSProperties" class="org.apache.cxf.sts.StaticSTSProperties">
+        <property name="signaturePropertiesFile" value="/ws-security/alice.properties"/>
+        <property name="signatureUsername" value="alice"/>
+        <property name="callbackHandlerClass" value="io.fabric8.quickstarts.camel.bridge.security.KeystorePasswordCallback"/>
+        <property name="issuer" value="keycloak"/>
+    </bean>
+    
+    <bean id="utValidator" class="io.fabric8.quickstarts.camel.bridge.security.KeycloakUTValidator">
+        <property name="address" value="http://localhost:8180/auth"/>
+        <property name="realm" value="camel-soap-rest-bridge"/>
+    </bean>
+    
+    <jaxws:endpoint xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/" 
+        id="transportSTS" 
+        implementor="#transportSTSProviderBean" 
+        address="http://localhost:8080/bridge/cxf/UT" 
+        wsdlLocation="/wsdl/ws-trust-1.4-service.wsdl" 
+        serviceName="ns1:SecurityTokenService" 
+        endpointName="ns1:UT_Port">
+        <jaxws:properties>
+            <entry key="ws-security.ut.validator" value-ref="utValidator" />
+        </jaxws:properties>
+    </jaxws:endpoint>
+</beans>

@@ -34,6 +34,7 @@
     <!-- Properties -->
     <properties>
         <jboss.home>${project.build.directory}/${jboss.server.name}</jboss.home>
+        <keycloak.home>${project.build.directory}/keycloak-${version.keycloak}</keycloak.home>
         <jvmArgs>-Xmx1G -Djava.net.preferIPv4Stack=true</jvmArgs>
         <jvmDebugArgs>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</jvmDebugArgs>
         <server.config>standalone-full.xml</server.config>
@@ -66,6 +67,10 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-rar</artifactId>
             <type>rar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-undertow</artifactId>
         </dependency>
         <dependency>
             <groupId>com.icegreen</groupId>
@@ -181,6 +186,36 @@
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>org.wildfly.camel.example</groupId>
+            <artifactId>example-camel-soap-rest-bridge</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-admin-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
@@ -205,66 +240,6 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.jboss.galleon</groupId>
-                <artifactId>galleon-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>provision</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <install-dir>${jboss.home}</install-dir>
-                            <record-state>false</record-state>
-                            <log-time>true</log-time>
-                            <offline>false</offline>
-                            <feature-packs>
-                                <feature-pack>
-                                    <groupId>org.wildfly.camel</groupId>
-                                    <artifactId>wildfly-camel-galleon-pack</artifactId>
-                                    <inherit-configs>true</inherit-configs>
-                                </feature-pack>
-                            </feature-packs>
-                            <plugin-options>
-                                <jboss-fork-embedded>false</jboss-fork-embedded>
-                                <jboss-maven-dist/>
-                            </plugin-options>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <target>
-                                <copy todir="${project.build.outputDirectory}">
-                                    <fileset dir="${project.basedir}/../camel-cxf-jaxrs-secure">
-                                        <include name="*.cli" />
-                                    </fileset>
-                                    <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure">
-                                        <include name="*.cli" />
-                                    </fileset>
-                                    <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure/src/main/resources">
-                                        <include name="cli/**"/>
-                                        <include name="keys/**"/>
-                                    </fileset>
-                                    <fileset dir="${project.basedir}/../camel-cxf-jaxws-secure">
-                                        <include name="*.cli" />
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
@@ -273,31 +248,12 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <includeGroupIds>org.apache.activemq,org.wildfly.camel,com.icegreen</includeGroupIds>
                             <includeTypes>rar,war</includeTypes>
                             <stripVersion>true</stripVersion>
                             <outputDirectory>${project.build.directory}/examples</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>run-fuseconfig</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <executable>java</executable>
-                            <environmentVariables>
-                                <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
-                            </environmentVariables>
-                            <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.wildfly.extras.config --configs camel --enable</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>
@@ -315,8 +271,247 @@
                     <testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
                     <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>src/main/resources/wsdl/weatherprovider.wsdl</wsdl>
+                                    <faultSerialVersionUID>1</faultSerialVersionUID>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+    
+        <!--
+            Provision Keycloak Server 
+        -->
+        <profile>
+            <id>installKeycloak</id>
+            <activation>
+                <property>
+                    <name>!skipKeycloakInstall</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Keycloak.UnpackKeycloakServer</id>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.keycloak</groupId>
+                                            <artifactId>keycloak-server-dist</artifactId>
+                                            <version>${version.keycloak}</version>
+                                            <type>zip</type>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Keycloak.StartAuthServer</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <target>
+                                        <exec executable="${keycloak.home}/bin/standalone.sh" spawn="true">
+                                            <arg value="-Dkeycloak.migration.action=import"/>
+                                            <arg value="-Dkeycloak.migration.provider=singleFile"/>
+                                            <arg value="-Dkeycloak.migration.file=../camel-soap-rest-bridge/src/main/resources/keycloak-config/realm-export-new.json"/>
+                                            <arg value="-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"/>
+                                            <arg value="-Djboss.socket.binding.port-offset=100"/>
+                                        </exec>  
+                                    </target>
+                                 </configuration>
+                            </execution>
+                            <execution>
+                                <id>Keycloak.StopAuthServer</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <target>
+                                        <exec executable="src/main/resources/keycloak/kill-auth-server.sh" spawn="true">
+                                        </exec>  
+                                    </target>
+                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+            Provision EAP + Camel Subsystem 
+        -->
+        <profile>
+            <id>installServer</id>
+            <activation>
+                <property>
+                    <name>!skipServerInstall</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.galleon</groupId>
+                        <artifactId>galleon-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Server.InstallServer</id>
+                                <goals>
+                                    <goal>provision</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <install-dir>${jboss.home}</install-dir>
+                                    <record-state>false</record-state>
+                                    <log-time>true</log-time>
+                                    <offline>false</offline>
+                                    <feature-packs>
+                                        <feature-pack>
+                                            <groupId>org.wildfly.camel</groupId>
+                                            <artifactId>wildfly-camel-galleon-pack</artifactId>
+                                            <inherit-configs>true</inherit-configs>
+                                        </feature-pack>
+                                    </feature-packs>
+                                    <plugin-options>
+                                        <jboss-fork-embedded>false</jboss-fork-embedded>
+                                        <jboss-maven-dist/>
+                                    </plugin-options>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Server.UnpackKeycloakAdapter</id>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.keycloak</groupId>
+                                            <artifactId>keycloak-wildfly-adapter-dist</artifactId>
+                                            <version>${version.keycloak}</version>
+                                            <type>zip</type>
+                                            <outputDirectory>${jboss.home}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Server.FuseConfig</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <environmentVariables>
+                                        <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
+                                    </environmentVariables>
+                                    <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.wildfly.extras.config --configs camel --enable</commandlineArgs>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>Server.InstallKeycloak</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <executable>${jboss.home}/bin/jboss-cli.sh</executable>
+                                    <arguments>
+                                        <argument>--file=${jboss.home}/bin/adapter-elytron-install-offline.cli</argument>
+                                        <argument>-Dserver.config=standalone-full.xml</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Server.InstallScripts</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <target>
+                                        <copy todir="${project.build.outputDirectory}">
+                                            <fileset dir="${project.basedir}/../camel-cxf-jaxrs-secure">
+                                                <include name="*.cli" />
+                                            </fileset>
+                                            <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure">
+                                                <include name="*.cli" />
+                                            </fileset>
+                                            <fileset dir="${project.basedir}/../camel-cxf-jaxws-cdi-secure/src/main/resources">
+                                                <include name="cli/**"/>
+                                                <include name="keys/**"/>
+                                            </fileset>
+                                            <fileset dir="${project.basedir}/../camel-cxf-jaxws-secure">
+                                                <include name="*.cli" />
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+    </profiles>
 </project>

@@ -1,0 +1,10 @@
+{
+  "realm" : "camel-soap-rest-bridge",
+  "resource" : "camel-bridge",
+  "auth-server-url" : "http://localhost:8180/auth",
+  "ssl-required" : "external",
+  "disable-trust-manager": true,
+  "use-resource-role-mappings": true,
+  "principal-attribute": "preferred_username",
+  "confidential-port": 0
+}

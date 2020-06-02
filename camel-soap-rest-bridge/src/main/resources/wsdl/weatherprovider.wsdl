@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ibm.com/wdata" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wdata="http://ibm.com/wdata" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+			<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ibm.com/wdata">
+                        <xs:simpleType name="zipType">
+                            <xs:restriction base="xs:string">
+                                <xs:pattern  value="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+			<xs:element name="WeatherRequest" type="wdata:WeatherRequest"/>
+			<xs:complexType name="WeatherRequest">
+				<xs:sequence>
+					<xs:element name="zipcode" type="wdata:zipType"/>
+                                        <xs:any namespace="##other" processContents="lax" minOccurs="0"/>
+                                </xs:sequence>
+                                <xs:anyAttribute namespace="##other" processContents="lax"/>
+			</xs:complexType>
+			<xs:element name="WeatherResponse" type="wdata:WeatherResponse"/>
+			<xs:complexType name="WeatherResponse">
+				<xs:sequence>
+					<xs:element name="zip" type="xs:string"/>
+					<xs:element name="temperature">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="([0-9])*"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+					<xs:element name="humidity" type="xs:string"/>
+					<xs:element name="city" type="xs:string"/>
+					<xs:element name="state" type="xs:string"/>
+				</xs:sequence>
+                                <xs:anyAttribute namespace="##other" processContents="lax"/>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="WeatherResponse">
+		<wsdl:part element="wdata:WeatherResponse" name="weatherResponse"/>
+	</wsdl:message>
+	<wsdl:message name="WeatherRequest">
+		<wsdl:part element="wdata:WeatherRequest" name="weatherRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="WeatherPortType">
+		<wsdl:operation name="weatherRequest">
+			<wsdl:input message="wdata:WeatherRequest"/>
+			<wsdl:output message="wdata:WeatherResponse"/>
+			<!-- <wsdl:fault message="wdata:WeatherRequestError"/>  -->
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="WeatherBinding" type="wdata:WeatherPortType">
+		<wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="weatherRequest">
+			<wsdlsoap:operation soapAction=""/>
+			<wsdl:input>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="weatherService">
+		<wsdl:port binding="wdata:WeatherBinding" name="WeatherPort">
+			<wsdlsoap:address location="https://api.us.apiconnect.ibmcloud.com/apiconnected-getstarted/sb/wdata/current"/>
+		</wsdl:port> 
+	</wsdl:service>
+</wsdl:definitions>
