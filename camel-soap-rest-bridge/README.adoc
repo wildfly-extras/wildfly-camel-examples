@@ -16,7 +16,7 @@ Prerequisites
 * An application server with Red Hat Fuse and RH SSO EAP adapter installed
     - The way to install RH SSO EAP adapter is in JBOSS_HOME folder
     1. unzip rh-sso-7.4.0-eap7-adapter.zip
-    2. ./bin/jboss-cli.sh --file=bin/adapter-elytron-install-offline.cli
+    2. ./bin/jboss-cli.sh --file=bin/adapter-elytron-install-offline.cli -Dserver.config=standalone-full.xml
 * RH SSO server installed
 
 Running the example
@@ -61,12 +61,14 @@ Test
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ mvn clean  test -Dtest=IntegrationTest
+$ cd ../itests
+$ mvn clean install -Dtest=SoapRestBridgeExampleTest
 ----
 
 . Insight of the test
-1. This test will start a backend SOAP service, which is protected by WS-Security Timestamp and Signed SAML2 token.
-2. This test contains 4 test cases, demonstrates 4 different scenarios
+1. This is a end to end integration test which starts EAP application server with Red Hat Fuse and RH SSO EAP adapter installed, also starts RH SSO server with predefined configuration and deploys the example war(all steps mentioned above). To avoid conflicts, ensure don't start EAP and RH SSO server on the host running this integration test
+2. This test will start a backend SOAP service, which is protected by WS-Security Timestamp and Signed SAML2 token.
+3. This test contains 4 test cases, demonstrates 4 different scenarios
    
    - testRestClientWithSTS: this testcase is the most normal one which tests the whole flow of the quickstart. It contains several steps
        * Test client fetch an access token from the RH SSO. Here we use the https://tools.ietf.org/html/rfc6749#section-4.3["Resource Owner Password Credentials"] OAuth2 flow, which is no UI interaction involved and suitable for Java code based client/server request/response invocation.
