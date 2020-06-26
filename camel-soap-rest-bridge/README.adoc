@@ -61,7 +61,7 @@ Test
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ git co git@github.com:wildfly-extras/wildfly-camel-examples.git
+$ git clone https://github.com/wildfly-extras/wildfly-camel-examples.git
 $ cd wildfly-camel-examples
 $ git co ${release-tag}
 $ cd itests
