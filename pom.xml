@@ -47,8 +47,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- WildFly-Camel versions -->
-        <version.wildfly.camel>11.1.0</version.wildfly.camel>
-        <version.wildfly>18.0.1.Final</version.wildfly>
+        <version.wildfly.camel>12.0.0</version.wildfly.camel>
+        <version.wildfly>20.0.0.Final</version.wildfly>
 
         <!-- Plugin versions -->
         <version-editorconfig-maven-plugin>0.0.5</version-editorconfig-maven-plugin>
