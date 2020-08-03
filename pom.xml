@@ -51,7 +51,6 @@
         <version.wildfly>20.0.0.Final</version.wildfly>
 
         <!-- Plugin versions -->
-        <version-editorconfig-maven-plugin>0.0.5</version-editorconfig-maven-plugin>
         <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
         <version-maven-antrun-plugin>1.8</version-maven-antrun-plugin>
         <version-maven-assembly-plugin>2.4</version-maven-assembly-plugin>
@@ -147,11 +146,6 @@
                     <version>${version-exec-maven-plugin}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.ec4j.maven</groupId>
-                    <artifactId>editorconfig-maven-plugin</artifactId>
-                    <version>${version-editorconfig-maven-plugin}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version-wildfly-maven-plugin}</version>
@@ -179,34 +173,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- Contributors to Examples should activate this profile -->
-            <id>style</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.ec4j.maven</groupId>
-                        <artifactId>editorconfig-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>check</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                                <configuration>
-                                    <excludes>
-                                    </excludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <!-- Licenses -->
     <licenses>
