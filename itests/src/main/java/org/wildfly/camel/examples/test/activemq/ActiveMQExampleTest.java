@@ -34,6 +34,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
 import org.wildfly.camel.examples.test.jms.AbstractJMSExampleTest;
 import org.wildfly.camel.test.common.utils.DMRUtils;
+import org.wildfly.camel.test.common.utils.WildFlyCli;
 
 @RunAsClient
 @RunWith(Arquillian.class)
@@ -56,6 +57,7 @@ public class ActiveMQExampleTest extends AbstractJMSExampleTest {
                 .addStep("subsystem=resource-adapters/resource-adapter=amq-ra.rar/admin-objects=OrdersQueue/config-properties=PhysicalName", "add(value=OrdersQueue)")
                 .build();
             managementClient.getControllerClient().execute(batchNode);
+            new WildFlyCli().run("reload").assertSuccess();
         }
 
         @Override
