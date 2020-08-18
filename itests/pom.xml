@@ -271,7 +271,6 @@
                     <testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
                     <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
@@ -408,7 +407,7 @@
                                         <feature-pack>
                                             <groupId>org.wildfly.camel</groupId>
                                             <artifactId>wildfly-camel-galleon-pack</artifactId>
-					    <version>${version.wildfly.camel}</version>
+                                            <version>${version.wildfly.camel}</version>
                                             <inherit-configs>true</inherit-configs>
                                         </feature-pack>
                                     </feature-packs>
