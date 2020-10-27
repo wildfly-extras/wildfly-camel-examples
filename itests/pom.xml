@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.wildfly.camel.example</groupId>
         <artifactId>example-camel</artifactId>
-        <version>5.6.0.fuse-SNAPSHOT</version>
+        <version>5.6.0.fuse-780021</version>
     </parent>
 
     <name>Wildfly Camel :: Example :: Testsuite</name>
