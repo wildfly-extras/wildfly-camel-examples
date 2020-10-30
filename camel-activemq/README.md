@@ -39,10 +39,10 @@ To run the example.
 
         %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-4. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`. Note that the resource adapter needs to get
+4. Deploy the ActiveMQ resource adapter `mvn install -s configuration/settings.xml -Pdeploy-rar`. Note that the resource adapter needs to get
    configured which is done via CLI script `configure-resource-adapter.cli` invoked by Maven in the next step.
 
-5. Build and deploy the project `mvn install -Pdeploy`
+5. Build and deploy the project `mvn install -s configuration/settings.xml -Pdeploy`
 
 6. Browse to http://localhost:8080/example-camel-activemq/orders
 
