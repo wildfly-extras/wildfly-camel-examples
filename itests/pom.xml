@@ -219,6 +219,12 @@
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.wildfly.camel</groupId>
+            <artifactId>wildfly-camel-config</artifactId>
+            <scope>test</scope>
+            <version>${version.wildfly.camel}</version>
+        </dependency>
     </dependencies>
 
     <build>
