@@ -37,7 +37,7 @@
 		WFC-6.0.0 => 6.0.x
 		...
 	-->
-    <version>5.7.0.fuse-790008</version>
+    <version>5.7.0.fuse-790008-redhat-00001</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -61,10 +61,10 @@
         	https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
         -->
         <version.wildfly>7.3.2.GA-redhat-00002</version.wildfly>
-        <version.wildfly.camel>5.7.0.fuse-790008</version.wildfly.camel>
+        <version.wildfly.camel>5.7.0.fuse-790008-redhat-00001</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.9.0.fuse-sb2-790009</version.fuse>
+        <version.fuse>7.9.0.fuse-sb2-790009-redhat-00001</version.fuse>
 
         <!-- Other versions -->
         <version.keycloak>10.0.1</version.keycloak>
@@ -255,42 +255,9 @@
 
     <!-- Repositories -->
     <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>redhat-ga</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-public-repository</id>
-            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+        
+        
+        
         <!--
             For stuff that is not yet released ...
             mvn clean install -s configuration/settings.xml -Pfuse-mirror  
@@ -299,26 +266,9 @@
     </repositories>
     
     <pluginRepositories>
-        <pluginRepository>
-            <id>redhat-ga</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
+        
         <!-- For updated wildfly-galleon-maven-plugin not referenced by EAP -->
-        <pluginRepository>
-            <id>jboss-releases</id>
-            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
+        
     </pluginRepositories>
 
     <!-- Modules -->
@@ -386,3 +336,6 @@
         </profile>
     </profiles>
 </project>
+<!--
+Modified by POM Manipulation Extension for Maven 4.1 ( SHA: 2574c551 )
+-->
