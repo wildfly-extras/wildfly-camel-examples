@@ -60,15 +60,15 @@
             http://download-node-02.eng.bos.redhat.com/released/JBoss-middleware/eap7
         	https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
         -->
-        <version.wildfly>7.3.2.GA-redhat-00002</version.wildfly>
-        <version.wildfly.camel>5.6.0.fuse-790001</version.wildfly.camel>
+        <version.wildfly>7.3.4.GA-redhat-00003</version.wildfly>
+        <version.wildfly.camel>5.7.0.fuse-790008</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.9.0.fuse-sb2-790001</version.fuse>
+        <version.fuse>7.9.0.fuse-sb2-790009</version.fuse>
 
         <!-- Other versions -->
         <version.keycloak>10.0.1</version.keycloak>
-        <version.wildfly.cxf>3.3.5.redhat-00001</version.wildfly.cxf>
+        <version.wildfly.cxf>3.3.7.redhat-00001</version.wildfly.cxf>
         
         <!-- Plugin versions -->
         <version-cxf-plugin>${version.wildfly.cxf}</version-cxf-plugin>
