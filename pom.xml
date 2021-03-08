@@ -58,13 +58,14 @@
         	EAP version
 
             http://download-node-02.eng.bos.redhat.com/released/JBoss-middleware/eap7
-        	https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
+            https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
+            https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
-        <version.wildfly>7.3.4.GA-redhat-00003</version.wildfly>
-        <version.wildfly.camel>5.7.0.fuse-790008</version.wildfly.camel>
+        <version.wildfly>7.3.5.GA-redhat-00001</version.wildfly>
+        <version.wildfly.camel>5.7.0.fuse-790022</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.9.0.fuse-sb2-790009</version.fuse>
+        <version.fuse>7.9.0.fuse-sb2-790033</version.fuse>
 
         <!-- Other versions -->
         <version.keycloak>10.0.1</version.keycloak>
@@ -341,7 +342,6 @@
         <module>camel-mail</module>
         <module>camel-mail-spring</module>
         <module>camel-rest-swagger</module>
-        <module>camel-soap-rest-bridge</module>
         <module>itests</module>
         <module>distro</module>
     </modules>

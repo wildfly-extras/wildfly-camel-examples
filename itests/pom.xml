@@ -186,12 +186,6 @@
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.camel.example</groupId>
-            <artifactId>example-camel-soap-rest-bridge</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
         </dependency>
@@ -305,83 +299,6 @@
     
     <profiles>
     
-        <!--
-            Provision Keycloak Server 
-        -->
-        <profile>
-            <id>installKeycloak</id>
-            <activation>
-                <property>
-                    <name>!skipKeycloakInstall</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>Keycloak.UnpackKeycloakServer</id>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.keycloak</groupId>
-                                            <artifactId>keycloak-server-dist</artifactId>
-                                            <version>${version.keycloak}</version>
-                                            <type>zip</type>
-                                            <outputDirectory>${project.build.directory}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>Keycloak.StartAuthServer</id>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <target>
-                                        <exec executable="${keycloak.home}/bin/standalone.sh" spawn="true">
-                                            <arg value="-Dkeycloak.migration.action=import"/>
-                                            <arg value="-Dkeycloak.migration.provider=singleFile"/>
-                                            <arg value="-Dkeycloak.migration.file=../camel-soap-rest-bridge/src/main/resources/keycloak-config/realm-export-new.json"/>
-                                            <arg value="-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"/>
-                                            <arg value="-Djboss.socket.binding.port-offset=100"/>
-                                        </exec>  
-                                    </target>
-                                 </configuration>
-                            </execution>
-                            <execution>
-                                <id>Keycloak.StopAuthServer</id>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <phase>post-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <exec executable="src/main/resources/keycloak/kill-auth-server.sh" spawn="true">
-                                        </exec>  
-                                    </target>
-                                 </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <!--
             Provision EAP + Camel Subsystem 
         -->
