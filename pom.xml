@@ -61,8 +61,8 @@
             https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
             https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
-        <version.wildfly>7.3.5.GA-redhat-00001</version.wildfly>
-        <version.wildfly.camel>5.7.0.fuse-790022</version.wildfly.camel>
+        <version.wildfly>7.4.0.CD21-redhat-00001</version.wildfly>
+        <version.wildfly.camel>5.7.0.fuse-790024</version.wildfly.camel>
 
         <!-- Fuse version -->
         <version.fuse>7.9.0.fuse-sb2-790033</version.fuse>
@@ -73,22 +73,22 @@
         
         <!-- Plugin versions -->
         <version-cxf-plugin>${version.wildfly.cxf}</version-cxf-plugin>
-        <version-exec-maven-plugin>1.4.0</version-exec-maven-plugin>
-        <version-galleon-maven-plugin>4.2.4.Final</version-galleon-maven-plugin>
-        <version-maven-antrun-plugin>1.8</version-maven-antrun-plugin>
-        <version-maven-assembly-plugin>2.4</version-maven-assembly-plugin>
-        <version-maven-compiler-plugin>3.1</version-maven-compiler-plugin>
-        <version-maven-dependency-plugin>2.10</version-maven-dependency-plugin>
-        <version-maven-release-plugin>2.5</version-maven-release-plugin>
-        <version-maven-resources-plugin>2.7</version-maven-resources-plugin>
-        <version-maven-source-plugin>2.3</version-maven-source-plugin>
-        <version-maven-surefire-plugin>2.18.1</version-maven-surefire-plugin>
+        <version-exec-maven-plugin>1.6.0</version-exec-maven-plugin>
+        <version-galleon-maven-plugin>4.2.6.Final</version-galleon-maven-plugin>
+        <version-maven-antrun-plugin>3.0.0</version-maven-antrun-plugin>
+        <version-maven-assembly-plugin>3.3.0</version-maven-assembly-plugin>
+        <version-maven-compiler-plugin>3.8.1</version-maven-compiler-plugin>
+        <version-maven-dependency-plugin>3.1.2</version-maven-dependency-plugin>
+        <version-maven-release-plugin>3.0.0-M1</version-maven-release-plugin>
+        <version-maven-resources-plugin>3.2.0</version-maven-resources-plugin>
+        <version-maven-source-plugin>3.2.0</version-maven-source-plugin>
+        <version-maven-surefire-plugin>3.0.0-M5</version-maven-surefire-plugin>
         <version-maven-war-plugin>3.0.0</version-maven-war-plugin>
-        <version-wildfly-galleon-plugin>4.2.4.Final</version-wildfly-galleon-plugin>
-        <version-wildfly-maven-plugin>2.0.1.Final</version-wildfly-maven-plugin>
+        <version-wildfly-galleon-plugin>4.2.8.Final</version-wildfly-galleon-plugin>
+        <version-wildfly-maven-plugin>2.0.2.Final</version-wildfly-maven-plugin>
 
         <!-- EAP server name -->
-        <jboss.server.name>jboss-eap-7.3</jboss.server.name>
+        <jboss.server.name>jboss-eap-7.4</jboss.server.name>
         
         <deploy.skip>true</deploy.skip>
     </properties>
