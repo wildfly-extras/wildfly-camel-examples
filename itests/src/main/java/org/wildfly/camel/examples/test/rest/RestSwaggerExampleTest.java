@@ -30,7 +30,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.camel.test.common.http.HttpRequest;
@@ -39,7 +38,6 @@ import org.wildfly.camel.test.common.utils.TestUtils;
 
 @RunAsClient
 @RunWith(Arquillian.class)
-@Ignore ("[ENTESB-16463] Jackson2 version incompatible with 7.4.0.GA")
 public class RestSwaggerExampleTest {
 
     @Deployment
