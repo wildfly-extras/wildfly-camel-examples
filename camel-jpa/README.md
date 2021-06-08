@@ -26,7 +26,7 @@ To run the example.
 
         %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 
-2. Build and deploy the project `mvn install -Pdeploy`
+2. Build and deploy the project `mvn install -s configuration/settings.xml -Pdeploy`
 
 Testing Camel JPA
 -----------------
