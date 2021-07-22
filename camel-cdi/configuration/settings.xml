@@ -82,61 +82,6 @@
         </repository>
  
         
-        <repository>
-          <id>jboss.brew</id>
-          <name>JBoss Brew Repository</name>
-          <url>http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-common-build/latest/maven/</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </repository>
- 
-        
-        <repository>
-          <id>fis.brew</id>
-          <name>FIS Brew Repository</name>
-          <url>http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-fis-2.0-maven-build/latest/maven/</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </repository>
- 
-        
-        <repository>
-          <id>eap.brew</id>
-          <name>EAP Brew Repository</name>
-          <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.1-rhel-7-maven-build/latest/maven/</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </repository>
- 
-        
-        <repository>
-          <id>amq.brew</id>
-          <name>AMQ Brew Repository</name>
-          <url>http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-amq-7-build/latest/maven</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </repository>
- 
       </repositories>
 
       <pluginRepositories>
@@ -195,63 +140,6 @@
             <updatePolicy>never</updatePolicy>
           </releases>
         </pluginRepository>
- 
-        
-        <pluginRepository>
-          <id>jboss.brew</id>
-          <name>JBoss Brew Repository</name>
-          <url>http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-common-build/latest/maven/</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </pluginRepository>
- 
-        
-        <pluginRepository>
-          <id>fis.brew</id>
-          <name>FIS Brew Repository</name>
-          <url>http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-fis-2.0-maven-build/latest/maven/</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </pluginRepository>
- 
-        
-        <pluginRepository>
-          <id>eap.brew</id>
-          <name>EAP Brew Repository</name>
-          <url>http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.1-rhel-7-maven-build/latest/maven/</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </pluginRepository>
- 
-        
-        <pluginRepository>
-          <id>amq.brew</id>
-          <name>AMQ Brew Repository</name>
-          <url>http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-amq-7-build/latest/maven</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-        </pluginRepository>
- 
       </pluginRepositories>
     </profile>
   </profiles>
