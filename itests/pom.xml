@@ -273,34 +273,13 @@
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-codegen-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-sources</id>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <wsdlOptions>
-                                <wsdlOption>
-                                    <wsdl>src/main/resources/wsdl/weatherprovider.wsdl</wsdl>
-                                    <faultSerialVersionUID>1</faultSerialVersionUID>
-                                </wsdlOption>
-                            </wsdlOptions>
-                        </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
-    
+
         <!--
-            Provision EAP + Camel Subsystem 
+            Provision EAP + Camel Subsystem
         -->
         <profile>
             <id>installServer</id>
@@ -435,6 +414,6 @@
                 </plugins>
             </build>
         </profile>
-        
+
     </profiles>
 </project>

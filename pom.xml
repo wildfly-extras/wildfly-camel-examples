@@ -31,7 +31,7 @@
 
 	<!--
 		This version follows the WildFly-Camel version
-	
+
 		WFC-5.3.0 => 5.3.x
 		WFC-5.4.0 => 5.4.x
 		WFC-6.0.0 => 6.0.x
@@ -62,15 +62,15 @@
             https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
         <version.wildfly>7.4.0.CD21-redhat-00001</version.wildfly>
-        <version.wildfly.camel>5.7.0.fuse-790024</version.wildfly.camel>
+        <version.wildfly.camel>5.7.0.fuse-7_10_0-00001</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.9.0.fuse-sb2-790033</version.fuse>
+        <version.fuse>7.10.0.fuse-sb2-7_10_0-00001</version.fuse>
 
         <!-- Other versions -->
         <version.keycloak>10.0.1</version.keycloak>
         <version.wildfly.cxf>3.3.7.redhat-00001</version.wildfly.cxf>
-        
+
         <!-- Plugin versions -->
         <version-cxf-plugin>${version.wildfly.cxf}</version-cxf-plugin>
         <version-exec-maven-plugin>1.6.0</version-exec-maven-plugin>
@@ -89,7 +89,7 @@
 
         <!-- EAP server name -->
         <jboss.server.name>jboss-eap-7.4</jboss.server.name>
-        
+
         <deploy.skip>true</deploy.skip>
     </properties>
 
@@ -294,11 +294,11 @@
         </repository>
         <!--
             For stuff that is not yet released ...
-            mvn clean install -s configuration/settings.xml -Pfuse-mirror  
+            mvn clean install -s configuration/settings.xml -Pfuse-mirror
             http://10.0.144.111:8081/repository/maven-public/
         -->
     </repositories>
-    
+
     <pluginRepositories>
         <pluginRepository>
             <id>redhat-ga</id>
