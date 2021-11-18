@@ -61,11 +61,11 @@
             https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
             https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
-        <version.wildfly>7.4.1.GA-redhat-00003</version.wildfly>
-        <version.wildfly.camel>5.8.0.fuse-7_10_0-00005</version.wildfly.camel>
+        <version.wildfly>7.4.2.GA-redhat-00002</version.wildfly>
+        <version.wildfly.camel>5.8.0.fuse-7_10_0-00008</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.10.0.fuse-sb2-7_10_0-00008</version.fuse>
+        <version.fuse>7.10.0.fuse-sb2-7_10_0-00012</version.fuse>
 
         <!-- Other versions -->
         <version.keycloak>10.0.1</version.keycloak>
