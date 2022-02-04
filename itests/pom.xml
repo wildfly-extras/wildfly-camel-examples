@@ -56,10 +56,6 @@
             <artifactId>arquillian-junit-container</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.wildfly.arquillian</groupId>
             <artifactId>wildfly-arquillian-container-managed</artifactId>
         </dependency>
@@ -67,10 +63,6 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-rar</artifactId>
             <type>rar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-undertow</artifactId>
         </dependency>
         <dependency>
             <groupId>com.icegreen</groupId>
@@ -206,10 +198,6 @@
             <artifactId>jackson-jaxrs-json-provider</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-admin-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
@@ -322,30 +310,6 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>Server.UnpackKeycloakAdapter</id>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.keycloak</groupId>
-                                            <artifactId>keycloak-wildfly-adapter-dist</artifactId>
-                                            <version>${version.keycloak}</version>
-                                            <type>zip</type>
-                                            <outputDirectory>${jboss.home}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <executions>
@@ -361,20 +325,6 @@
                                         <JBOSS_HOME>${jboss.home}</JBOSS_HOME>
                                     </environmentVariables>
                                     <commandlineArgs>-jar ${jboss.home}/jboss-modules.jar -mp ${jboss.home}/modules org.wildfly.extras.config --configs camel --enable</commandlineArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>Server.InstallKeycloak</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <executable>${jboss.home}/bin/jboss-cli.sh</executable>
-                                    <arguments>
-                                        <argument>--file=${jboss.home}/bin/adapter-elytron-install-offline.cli</argument>
-                                        <argument>-Dserver.config=standalone-full.xml</argument>
-                                    </arguments>
                                 </configuration>
                             </execution>
                         </executions>
