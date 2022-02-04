@@ -37,7 +37,7 @@
 		WFC-6.0.0 => 6.0.x
 		...
 	-->
-    <version>5.9.0.fuse-SNAPSHOT</version>
+    <version>5.9.0.fuse-7_11_0-00003</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -62,10 +62,10 @@
             https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
         <version.wildfly>7.4.2.GA-redhat-00002</version.wildfly>
-        <version.wildfly.camel>5.9.0.fuse-7_11_0-00002</version.wildfly.camel>
+        <version.wildfly.camel>5.9.0.fuse-7_11_0-00003</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.11.0.fuse-sb2-7_11_0-00003</version.fuse>
+        <version.fuse>7.11.0.fuse-sb2-7_11_0-00004</version.fuse>
 
         <!-- Other versions -->
         <version.keycloak>10.0.1</version.keycloak>
