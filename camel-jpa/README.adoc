@@ -27,7 +27,7 @@ For Windows:
 ....
  %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 ....
-. Build and deploy the project `mvn install -Pdeploy`
+. Build and deploy the project `mvn install -s configuration/settings.xml -Pdeploy`
 
 == Testing Camel JPA
 
