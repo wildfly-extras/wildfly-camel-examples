@@ -27,7 +27,7 @@ $\{JBOSS_HOME}/bin/standalone.sh -c standalone-full.xml
 ....
 +
 %JBOSS_HOME%.bat -c standalone-full.xml
-. Build and deploy the project `mvn install -Pdeploy`
+. Build and deploy the project `mvn install -s configuration/settings.xml -Pdeploy`
 . Browse to http://localhost:8080/example-camel-cxf-jaxrs/
 
 You should see a page titled `Send A Greeting'. This UI enables us to interact with the test `greeting' REST service which will have also been started.
