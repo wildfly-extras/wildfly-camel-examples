@@ -42,9 +42,9 @@ For Windows:
 ....
  %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml
 ....
-. Deploy the ActiveMQ resource adapter `mvn install -Pdeploy-rar`. Note that the resource adapter needs to get
+. Deploy the ActiveMQ resource adapter `mvn install -s configuration/settings.xml -Pdeploy-rar`. Note that the resource adapter needs to get
 configured which is done via CLI script `configure-resource-adapter.cli` invoked by Maven in the next step.
-. Build and deploy the project `mvn install -Pdeploy`
+. Build and deploy the project `mvn install -s configuration/settings.xml -Pdeploy`
 . Browse to http://localhost:8080/example-camel-activemq/orders
 
 You should see a page titled `Orders Received'. As we send orders to the example application, a list of orders per country will be listed on this page.
