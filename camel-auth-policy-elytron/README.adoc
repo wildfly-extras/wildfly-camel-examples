@@ -1,0 +1,74 @@
+== Camel Authorization Policy Example (Elytron)
+
+This example demonstrates using Camel authorization policy with Red Hat Fuse on EAP, which is using Elytron security.
+The route in this example is restricted only to EAP users that have user role _admin_.
+
+In this example, a Camel route starts virtual server cleanup, but only if the user has role _admin_. If the user has
+such role assigned on the server, it will log a message "Cleanup initialized". If not, it will throw an exception.
+
+== Prerequisites
+
+* Maven
+* EAP server with Elytron security enabled and Red Hat Fuse installed
+* User with user role _admin_
+
+== Running the example
+
+To run the example.
+
+[arabic]
+. Set the `JBOSS_HOME` environment variable to point at the root directory of your application server installation:
++
+For Linux:
++
+....
+ export JBOSS_HOME=...
+....
++
+For Windows:
++
+....
+ set JBOSS_HOME=...
+....
+. Use the add-user script to create a new server application user and group
++
+For Linux:
++
+....
+ ${JBOSS_HOME}/bin/add-user.sh -a -u testUser -p testPassword1+ -g admin
+....
++
+For Windows:
++
+....
+ %JBOSS_HOME%\bin\add-user.bat -a -u testUser -p testPassword1+ -g admin
+....
+. Start the application server in standalone mode:
++
+For Linux:
++
+....
+ ${JBOSS_HOME}/bin/standalone.sh
+....
++
+For Windows:
++
+....
+ %JBOSS_HOME%\bin\standalone.bat
+....
+. Build and deploy the project `mvn install -Pdeploy`.
+. Browse to http://localhost:8080/example-camel-auth-policy-elytron
+
+From the main page, press the `Start' button and check the server console window for the message.
+
+If you want to try with a different user, just log in as user that doesn't have the role _admin_. You won't be able to
+start the route.
+
+Also, you can run the route as a specific user (instead of the currently logged one). To do that, just uncomment a piece
+of code in the CleanupServlet and replace the username and password values with what you want. Remember that the user
+still have to exist on the server and has a role _admin_.
+
+== Undeploy
+
+[arabic]
+. To undeploy the example run `mvn clean -Pdeploy`.
