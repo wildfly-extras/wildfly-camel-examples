@@ -1,0 +1,8 @@
+batch
+
+/subsystem=undertow/application-security-domain=example-security-domain:remove()
+/subsystem=elytron/http-authentication-factory=example-http-auth:remove()
+
+run-batch
+
+reload

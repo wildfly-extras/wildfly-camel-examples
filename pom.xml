@@ -284,6 +284,8 @@
     <!-- Modules -->
     <modules>
         <module>camel-activemq</module>
+        <module>camel-auth-policy-elytron</module>
+        <module>camel-auth-policy-legacy</module>
         <module>camel-cdi</module>
         <module>camel-cxf-jaxrs</module>
         <module>camel-cxf-jaxrs-secure</module>
