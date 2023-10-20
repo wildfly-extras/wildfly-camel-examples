@@ -61,11 +61,11 @@
             https://maven.repository.redhat.com/ga/org/jboss/eap/jboss-eap-parent
             https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
-        <version.wildfly>7.4.10.GA-redhat-00002</version.wildfly>
-        <version.wildfly.camel>5.10.0.fuse-7_12_0-00017-redhat-00001</version.wildfly.camel>
+        <version.wildfly>7.4.13.GA-redhat-00001</version.wildfly>
+        <version.wildfly.camel>5.10.0.fuse-7_12_1-00006</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.12.0.fuse-7_12_0-00016-redhat-00001</version.fuse>
+        <version.fuse>7.12.1.fuse-7_12_1-00005</version.fuse>
 
         <!-- Plugin versions -->
         <version-exec-maven-plugin>1.6.0</version-exec-maven-plugin>
@@ -249,53 +249,32 @@
             </snapshots>
         </repository>
         <repository>
-            <id>redhat-ga</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
+            <!--
+                > keytool -printcert -rfc -sslserver fuse-build-repository.fusesource-jenkins.hosted.psi.rdu2.redhat.com > fuse-build-repository.pem
+                > keytool -importcert -alias fuse-build-repository -file fuse-build-repository.pem -storepass changeit -keystore $JAVA_HOME/lib/security/cacerts
+            -->
+            <id>fuse-build-repository</id>
+            <url>https://fuse-build-repository.fusesource-jenkins.hosted.psi.rdu2.redhat.com/repository/maven-public</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
+                <checksumPolicy>ignore</checksumPolicy>
             </releases>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>jboss-public-repository</id>
-            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <!--
-            For stuff that is not yet released ...
-            mvn clean install -s configuration/settings.xml -Pfuse-mirror
-            http://10.0.144.111:8081/repository/maven-public/
-        -->
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>redhat-ga</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
+            <id>fuse-build-repository</id>
+            <url>https://fuse-build-repository.fusesource-jenkins.hosted.psi.rdu2.redhat.com/repository/maven-public</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
+                <checksumPolicy>ignore</checksumPolicy>
             </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <!-- For updated wildfly-galleon-maven-plugin not referenced by EAP -->
-        <pluginRepository>
-            <id>jboss-releases</id>
-            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -326,43 +305,4 @@
         <module>distro</module>
     </modules>
 
-    <profiles>
-        <profile>
-            <!-- Enable this profile when you have dependencies in staging repos -->
-            <id>fuse-mirror</id>
-            <activation>
-                <property>
-                    <name>env.FUSE_MIRROR</name>
-                </property>
-            </activation>
-            <repositories>
-                <repository>
-                    <id>fuse-mirror</id>
-                    <url>http://10.0.144.111:8081/repository/maven-public/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                        <checksumPolicy>ignore</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>fuse-mirror</id>
-                    <url>http://10.0.144.111:8081/repository/maven-public/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                        <checksumPolicy>ignore</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-    </profiles>
 </project>
