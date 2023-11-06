@@ -37,7 +37,7 @@
 		WFC-6.0.0 => 6.0.x
 		...
 	-->
-    <version>5.10.0.fuse-7_12_1-00009</version>
+    <version>5.10.0.fuse-7_12_1-00009-redhat-00001</version>
 
     <description>WildFly Camel Examples</description>
     <url>https://github.com/wildfly-extras/wildfly-camel-examples</url>
@@ -62,10 +62,10 @@
             https://download.eng.bos.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/org/jboss/eap/jboss-eap-parent
         -->
         <version.wildfly>7.4.13.GA-redhat-00002</version.wildfly>
-        <version.wildfly.camel>5.10.0.fuse-7_12_1-00009</version.wildfly.camel>
+        <version.wildfly.camel>5.10.0.fuse-7_12_1-00009-redhat-00001</version.wildfly.camel>
 
         <!-- Fuse version -->
-        <version.fuse>7.12.1.fuse-7_12_1-00009</version.fuse>
+        <version.fuse>7.12.1.fuse-7_12_1-00009-redhat-00001</version.fuse>
 
         <!-- Plugin versions -->
         <version-exec-maven-plugin>1.6.0</version-exec-maven-plugin>
@@ -236,49 +236,12 @@
 
     <!-- Repositories -->
     <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <!--
-                > keytool -printcert -rfc -sslserver fuse-build-repository.fusesource-jenkins.hosted.psi.rdu2.redhat.com > fuse-build-repository.pem
-                > keytool -importcert -alias fuse-build-repository -file fuse-build-repository.pem -storepass changeit -keystore $JAVA_HOME/lib/security/cacerts
-            -->
-            <id>fuse-build-repository</id>
-            <url>https://fuse-build-repository.fusesource-jenkins.hosted.psi.rdu2.redhat.com/repository/maven-public</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+        
+        
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>fuse-build-repository</id>
-            <url>https://fuse-build-repository.fusesource-jenkins.hosted.psi.rdu2.redhat.com/repository/maven-public</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
+        
     </pluginRepositories>
 
     <!-- Modules -->
@@ -306,3 +269,6 @@
     </modules>
 
 </project>
+<!--
+Modified by POM Manipulation Extension for Maven 4.16 ( SHA: 352ae4a7 )
+-->
